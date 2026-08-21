@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2Pacalypse Now — review</title>
+<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#0a0810;
+  --haze:#17102b;
+  --line:#2c2150;
+  --violet:#7c3aed;
+  --violet-deep:#a56dff;
+  --outline:#9d4edd;
+  --ink:#f1ebff;
+  --muted:#a394c4;
+  --wrap:1400px;
+  --r:10px;
+}
+:root[data-theme="light"]{
+  --paper:#faf8fc;
+  --haze:#f1ecf9;
+  --line:#ddd3ef;
+  --violet-deep:#6d28d9;
+  --ink:#1e1730;
+  --muted:#6b6478;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.bg-glow{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;pointer-events:none;filter:blur(50px);animation:bg-drift 22s linear infinite;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,rgba(124,58,237,.38),transparent 40%),radial-gradient(circle at 85% 10%,rgba(217,70,239,.26),transparent 38%),radial-gradient(circle at 60% 95%,rgba(34,211,238,.18),transparent 42%)}
+#vanta-bg{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;filter:blur(48px);opacity:.75}
+:root[data-theme="light"] .bg-glow{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,rgba(124,58,237,.16),transparent 40%),radial-gradient(circle at 85% 10%,rgba(217,70,239,.12),transparent 38%),radial-gradient(circle at 60% 95%,rgba(34,211,238,.12),transparent 42%)}
+@keyframes bg-drift{
+  0%     {transform:translate(16%,0%)}
+  8.33%  {transform:translate(13.86%,6.5%)}
+  16.67% {transform:translate(8%,11.26%)}
+  25%    {transform:translate(0%,13%)}
+  33.33% {transform:translate(-8%,11.26%)}
+  41.67% {transform:translate(-13.86%,6.5%)}
+  50%    {transform:translate(-16%,0%)}
+  58.33% {transform:translate(-13.86%,-6.5%)}
+  66.67% {transform:translate(-8%,-11.26%)}
+  75%    {transform:translate(0%,-13%)}
+  83.33% {transform:translate(8%,-11.26%)}
+  91.67% {transform:translate(13.86%,-6.5%)}
+  100%   {transform:translate(16%,0%)}
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* masthead */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(10,8,16,.88);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid var(--line)}
+:root[data-theme="light"] .masthead{background:rgba(250,248,252,.88)}
+.masthead-inner{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;height:60px}
+.wordmark{justify-self:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.03em;font-variation-settings:"wdth" 78;color:var(--violet-deep)}
+.mast-tools{justify-self:end;display:flex;align-items:center;gap:24px}
+.theme-toggle-left{justify-self:start}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--muted)}
+.back:hover{color:var(--ink)}
+.back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.icon-btn{width:34px;height:34px;display:grid;place-items:center;background:none;border:1px solid var(--line);border-radius:50%;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
+.icon-btn:hover{background:var(--haze);border-color:var(--violet);transform:scale(1.18) rotate(-4deg)}
+.icon-btn:active{transform:scale(.85)}
+.icon-btn svg{transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
+.icon-btn:hover svg{transform:scale(1.25)}
+.icon-btn svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:1.6}
+
+/* album header */
+.head{border-bottom:1px solid var(--line);background:var(--haze)}
+.head-inner{display:grid;grid-template-columns:220px 1fr;gap:36px;padding:44px 0 40px;align-items:start}
+.cover{aspect-ratio:1;border:2px solid var(--outline);border-radius:var(--r);background:transparent}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;border-radius:calc(var(--r) - 2px)}
+.eyebrow{font-family:"Newsreader",serif;font-style:italic;font-size:16px;color:var(--violet-deep);margin:0 0 8px}
+.album-title{font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:800;font-size:clamp(34px,5.4vw,56px);line-height:.98;letter-spacing:-.03em;margin:0 0 10px}
+.artist{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin:0 0 6px}
+.facts{font-size:14px;color:var(--muted);margin:0 0 22px}
+.facts a.genre-link{color:var(--violet-deep);border-bottom:1px solid transparent;transition:border-color .18s ease,color .18s ease}
+.facts a.genre-link:hover{border-bottom-color:var(--violet-deep);color:#c79bff}
+:root[data-theme="light"] .facts a.genre-link:hover{color:#9333ea}
+.scoreline{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap;padding-top:6px;border-top:1px solid var(--line)}
+.bigscore{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:52px;line-height:1;color:var(--ink)}
+.bigscore small{font-size:22px;color:var(--muted);font-weight:500}
+.avg{font-size:14px;color:var(--muted);line-height:1.4}
+.avg b{display:block;font-family:"Newsreader",serif;font-weight:600;font-size:26px;color:var(--violet-deep)}
+
+/* section frame */
+.section{padding:44px 0}
+.section + .section{padding-top:8px}
+.eyebrow-h{font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 22px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+/* about */
+.about-body{font-family:"Newsreader",serif;font-size:18px;line-height:1.7;color:var(--ink);max-width:66ch;margin:0 0 26px}
+.about-body p{margin:0 0 16px}
+.about-body p:last-child{margin-bottom:0}
+.quickfacts{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.qf{background:var(--haze);padding:14px 18px}
+.qf .k{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--violet-deep);margin-bottom:5px}
+.qf .v{font-size:14.5px;color:var(--ink);line-height:1.45}
+
+/* tracks */
+.track{padding:18px 0;border-top:1px solid var(--line)}
+.track:first-child{border-top:0}
+.track-head{display:flex;align-items:baseline;gap:14px}
+.track-num{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);min-width:24px;text-align:right}
+.track-title{flex:1;font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 86;font-weight:700;font-size:18px;letter-spacing:-.01em}
+.track-score{font-family:"Newsreader",serif;font-weight:600;font-size:19px;color:var(--violet-deep);font-variant-numeric:tabular-nums;white-space:nowrap}
+.track-score small{color:var(--muted);font-size:14px;font-weight:400}
+.track-meter{height:3px;background:var(--line);border-radius:2px;margin:10px 0 0 38px;overflow:hidden}
+.track-meter b{display:block;height:100%;background:var(--violet);border-radius:2px}
+.track-note{margin:10px 0 0 38px;color:var(--muted);font-size:14.5px;line-height:1.55}
+
+/* over-10 treatment */
+.over-pill{display:inline-flex;align-items:center;gap:4px;margin-left:10px;font-family:"Bricolage Grotesque",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a0e2e;background:#c79bff;padding:2px 9px;border-radius:999px;vertical-align:3px}
+.track.over .track-title{color:#d9bbff}
+.track.over .track-score{color:#d9bbff}
+.track.over .track-meter{background:transparent}
+.track.over .track-meter b{background:linear-gradient(90deg,var(--violet) 0%,#c79bff 100%);box-shadow:0 0 10px rgba(199,155,255,.65)}
+:root[data-theme="light"] .track.over .track-title,
+:root[data-theme="light"] .track.over .track-score{color:#8b2fc9}
+.s-star{color:#c79bff}
+:root[data-theme="light"] .s-star{color:#9333ea}
+
+/* tally */
+.method{font-size:13.5px;color:var(--muted);margin:0 0 18px;font-style:italic;font-family:"Newsreader",serif}
+.tally{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tally-row{display:flex;justify-content:space-between;gap:20px;padding:16px 20px;border-top:1px solid var(--line);font-size:15px}
+.tally-row:first-child{border-top:0}
+.tally-row .k{color:var(--muted)}
+.tally-row .v{text-align:right}
+.tally-row.final{background:rgba(124,58,237,.14)}
+.tally-row.final .k{color:var(--ink);font-weight:600}
+.tally-row.final .v{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;color:var(--violet-deep)}
+
+/* best & worst */
+.bw{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.bw-card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:var(--haze)}
+.bw-card h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;margin:0 0 14px;color:var(--violet-deep)}
+.bw-card ol{margin:0;padding:0;list-style:none;counter-reset:bw}
+.bw-card li{counter-increment:bw;display:flex;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:15px}
+.bw-card li:first-child{border-top:0}
+.bw-card li::before{content:counter(bw);font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;min-width:14px}
+.bw-card li .t{flex:1}
+.bw-card li .s{font-family:"Newsreader",serif;font-weight:600;color:var(--violet-deep);font-variant-numeric:tabular-nums}
+
+/* final words */
+.final-words{font-family:"Newsreader",serif;font-size:19px;line-height:1.7;color:var(--ink);max-width:64ch}
+
+footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;font-size:13px;color:var(--muted);margin-top:auto}
+.foot-inner{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot-link{color:var(--violet-deep);font-weight:600}
+.foot-link:hover{text-decoration:underline}
+.foot-home{color:inherit;text-decoration:none}
+.foot-home:hover{color:var(--violet-deep)}
+
+@media (max-width:720px){
+  .head-inner{grid-template-columns:1fr;gap:24px}
+  .cover{max-width:200px}
+  .bw{grid-template-columns:1fr}
+  .quickfacts{grid-template-columns:1fr}
+  .wrap{padding:0 16px}
+}
+
+/* unscored interlude tracks */
+.track.na .track-title{color:var(--muted);font-weight:400}
+.track.na .track-score{color:var(--muted);font-size:14px;font-style:italic}
+.bonus-tag{display:inline-block;margin-left:9px;font-family:"Instrument Sans",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1a0e2e;background:#9d4edd;padding:2px 9px;border-radius:999px;vertical-align:2px}
+.na-tag{display:inline-block;margin-left:9px;font-family:"Instrument Sans",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:2px 8px;border-radius:999px;vertical-align:2px}
+
+/* empty / error state */
+.notfound{padding:80px 0;text-align:center}
+.notfound h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:32px;margin:0 0 10px}
+.notfound p{color:var(--muted);margin:0 0 20px}
+.notfound a{color:var(--violet-deep);font-weight:600}
+
+/* ---------- motion ---------- */
+/* Page-to-page navigation (cross-document View Transitions). Supported in
+   Chromium and Safari 18.2+; other browsers just navigate with no animation
+   and no error - this is progressive enhancement, not a requirement. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:page-out .18s ease both}
+::view-transition-new(root){animation:page-in .26s ease both}
+@keyframes page-out{to{opacity:0}}
+@keyframes page-in{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div id="vanta-bg" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <button class="icon-btn theme-toggle-left" aria-label="Switch to light theme" data-theme-toggle>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+    <a href="reviews.html" class="wordmark">Ridez</a>
+    <div class="mast-tools">
+      <a href="reviews.html" class="back">
+        <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>All reviews
+      </a>
+      <button class="icon-btn" aria-label="Search" data-search-toggle>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </button>
+      <a class="icon-btn" href="subscribe.html" aria-label="Sign up for new review emails">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
+      </a>
+      <a class="icon-btn" href="stats.html" aria-label="Stats">
+        <svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div id="page"></div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <a href="../MainPortfolioPage/index.html" class="foot-home">Portfolio</a>
+    <a href="https://www.albumoftheyear.org/user/ridez/" target="_blank" rel="noopener" class="foot-link">AlbumOfTheYear account</a>
+  </div>
+</footer>
+
+<script src="data/reviews-data.js"></script>
+<script src="data/about-data.js"></script>
+<script src="js/search.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script>
+
+// Covers are optional. Try .jpg, then a few other extensions, then give up and
+// leave the outlined placeholder box showing.
+function coverFallback(img){
+  const left = (img.dataset.tries || "").split(",").filter(Boolean);
+  if (!left.length) { img.remove(); return; }
+  const next = left.shift();
+  img.dataset.tries = left.join(",");
+  img.src = img.src.replace(/\.[a-z0-9]+$/i, "." + next);
+}
+
+const esc = s => String(s == null ? "" : s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+function trackHTML(t, i){
+  if (t.score === null || t.score === undefined) {
+    return `<article class="track na">
+      <div class="track-head">
+        <span class="track-num">${i+1}</span>
+        <span class="track-title">${esc(t.title)}<span class="na-tag">not scored</span>${
+          t.bonus ? `<span class="bonus-tag">+${t.bonus} bonus</span>` : ""}</span>
+        <span class="track-score">${t.bonus ? `+${t.bonus}` : "&mdash;"}</span>
+      </div>
+      <p class="track-note">${esc(t.note)}</p>
+    </article>`;
+  }
+  const over = t.score > 10;
+  const pct  = Math.min(t.score / 10 * 100, 100);
+  return `<article class="track${over ? " over" : ""}">
+    <div class="track-head">
+      <span class="track-num">${i+1}</span>
+      <span class="track-title">${esc(t.title)}${over ? `<span class="over-pill">&#9733; over 10</span>` : ""}${
+        t.bonus ? `<span class="bonus-tag">+${t.bonus} bonus</span>` : ""}</span>
+      <span class="track-score">${over ? `<span class="s-star">&#9733;</span> ` : ""}${t.score}<small> / 10</small></span>
+    </div>
+    <div class="track-meter"><b style="width:${pct}%"></b></div>
+    <p class="track-note">${esc(t.note)}</p>
+  </article>`;
+}
+
+function bwList(items){
+  if (!items || !items.length) return "";
+  return `<ol>` + items.map(e => {
+    const over = e.score > 10;
+    return `<li><span class="t">${esc(e.title)}</span><span class="s">${
+      over ? `<span class="s-star">&#9733;</span> ` : ""}${e.score} / 10</span></li>`;
+  }).join("") + `</ol>`;
+}
+
+function render(r){
+  const adj = r.adjustment;
+  const adjText = `${adj >= 0 ? "+" : ""}${adj.toFixed(2)}%` +
+    (r.adjustmentNote ? ` &mdash; ${esc(r.adjustmentNote)}` : "");
+
+  // About text lives in about-data.js, which parse_reviews.py never touches,
+  // so re-running the parser can't wipe it.
+  const extra = (typeof ABOUT !== "undefined" && ABOUT[r.slug]) || {};
+  const aboutParas = (extra.about || r.about || []).map(p => `<p>${esc(p)}</p>`).join("");
+  const facts = extra.facts || r.facts || {};
+  const factKeys = Object.keys(facts);
+  // 4 facts -> 2x2, 3 -> one row of 3, 2 -> one row of 2, 1 -> full width
+  const cols = factKeys.length === 4 ? 2 : factKeys.length;
+  const factsHTML = factKeys.length
+    ? `<div class="quickfacts" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">`
+      + factKeys.map(k =>
+        `<div class="qf"><div class="k">${esc(k)}</div><div class="v">${esc(facts[k])}</div></div>`
+      ).join("") + `</div>`
+    : "";
+  const aboutSection = (aboutParas || factsHTML)
+    ? `<section class="section">
+         <h2 class="eyebrow-h">About</h2>
+         ${aboutParas ? `<div class="about-body">${aboutParas}</div>` : ""}
+         ${factsHTML}
+       </section>`
+    : "";
+
+  const bwSection = (r.best && r.best.length) || (r.worst && r.worst.length)
+    ? `<section class="section">
+         <h2 class="eyebrow-h">Best &amp; worst</h2>
+         <div class="bw">
+           <div class="bw-card"><h3>Best tracks</h3>${bwList(r.best)}</div>
+           <div class="bw-card"><h3>Worst tracks</h3>${bwList(r.worst)}</div>
+         </div>
+       </section>`
+    : "";
+
+  const bonus = r.bonusPoints || 0;
+  const bonusNote = bonus
+    ? ` Bonus points (+${bonus}) are added to the raw total without raising the potential total.`
+    : "";
+  const notScored = r.listedTracks - r.scoredTracks;
+  const scoredNote = notScored > 0
+    ? ` ${notScored} unscored ${notScored === 1 ? "track is" : "tracks are"} excluded from the total.`
+    : "";
+
+  document.title = `${r.title} \u2014 review`;
+
+  return `
+  <section class="head">
+    <div class="wrap head-inner">
+      <div class="cover"><img src="covers/${encodeURIComponent(r.slug)}.jpg"
+        alt="${esc(r.title)} cover art" data-tries="png,jpeg,webp"
+        onerror="coverFallback(this)"></div>
+      <div>
+        <p class="eyebrow">Album review</p>
+        <h1 class="album-title">${esc(r.title)}</h1>
+        <p class="artist">${esc(r.artist)}</p>
+        <p class="facts">${esc(r.year)} &nbsp;&bull;&nbsp; <a class="genre-link" href="reviews.html?genre=${
+          encodeURIComponent(r.tab)}" title="See all ${esc(r.tab)} reviews">${esc(r.genre)}</a> &nbsp;&bull;&nbsp; ${r.listedTracks} tracks</p>
+        <div class="scoreline">
+          <div class="bigscore">${r.finalScore}<small> / 10</small></div>
+          <div class="avg">Track average<b>${r.percent}%</b>${r.rawPoints} / ${r.potentialPoints} pts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    ${aboutSection}
+
+    <section class="section">
+      <h2 class="eyebrow-h">Track by track</h2>
+      <div>${r.tracks.map(trackHTML).join("")}</div>
+    </section>
+
+    <section class="section">
+      <h2 class="eyebrow-h">The tally</h2>
+      <p class="method">Method: every track scored out of 10, summed, then divided by the potential total (${r.scoredTracks} &times; 10 = ${r.potentialPoints}).${scoredNote}${bonusNote}</p>
+      <div class="tally">
+        <div class="tally-row"><span class="k">Songs rating (raw)</span><span class="v">${r.rawPoints} / ${r.potentialPoints}${bonus ? ` (incl. +${bonus} bonus)` : ""} &nbsp;&middot;&nbsp; ${r.percent}%</span></div>
+        <div class="tally-row"><span class="k">Adjustment / bonus</span><span class="v">${adjText}</span></div>
+        <div class="tally-row final"><span class="k">Official album rating</span><span class="v">${r.finalScore} / 10</span></div>
+      </div>
+    </section>
+
+    ${bwSection}
+
+    ${r.finalWords ? `<section class="section">
+      <h2 class="eyebrow-h">Final words</h2>
+      <p class="final-words">${esc(r.finalWords)}</p>
+    </section>` : ""}
+  </main>`;
+}
+
+(function(){
+  const slug = new URLSearchParams(location.search).get("album");
+  const list = (typeof REVIEWS !== "undefined") ? REVIEWS : [];
+  const r = list.find(x => x.slug === slug) || (!slug ? list[0] : null);
+
+  document.getElementById("page").innerHTML = r ? render(r) : `
+    <div class="wrap notfound">
+      <h1>Review not found</h1>
+      <p>No review matches &ldquo;${esc(slug)}&rdquo;.</p>
+      <a href="reviews.html">&larr; Back to all reviews</a>
+    </div>`;
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+<script>
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && window.VANTA) {
+    var vantaDark  = { color1: 0x4a00a7, color2: 0x250055 };
+    var vantaLight = { color1: 0xf7f3e8, color2: 0xfdfcf7 };
+    var vantaIsLight = () => document.documentElement.getAttribute("data-theme") === "light";
+
+    var vantaEffect = VANTA.CELLS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      size: 1.5,
+      speed: 1,
+      ...(vantaIsLight() ? vantaLight : vantaDark)
+    });
+
+    new MutationObserver(() => {
+      vantaEffect.setOptions(vantaIsLight() ? vantaLight : vantaDark);
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+</script>
+</body>
+</html>

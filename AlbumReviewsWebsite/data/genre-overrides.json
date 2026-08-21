@@ -1,0 +1,19 @@
+{
+  "_comment": [
+    "Per-album genre tabs, for when the automatic mapping gets it wrong.",
+    "Keyed by slug. The list replaces the auto-detected tabs entirely, and the",
+    "first entry is the primary genre - the one a review page's genre link",
+    "points to. parse_reviews.py reads this file and never writes to it, so",
+    "edits here survive re-running the parser.",
+    "Valid tabs: Rock, Alternative, Hip-hop, Electronic, Pop, R&B, Jazz,",
+    "Metal, Folk, Country, Experimental.",
+    "Lines starting with _ are ignored."
+  ],
+
+  "goodbye-good-riddance": ["Hip-hop"],
+  "crybaby": ["Hip-hop"],
+  "sing-me-a-lullaby-my-sweet-temptation": ["Hip-hop"],
+  "eternal-atake": ["Hip-hop"],
+  "swagger": ["Rock", "Folk"],
+  "who-really-cares": ["Electronic", "Pop"]
+}

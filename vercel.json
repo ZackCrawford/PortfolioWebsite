@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/MainPortfolioPage/index.html" },
+    { "source": "/albums", "destination": "/AlbumReviewsWebsite/reviews.html" },
+    { "source": "/albums/(.*)", "destination": "/AlbumReviewsWebsite/$1" },
+    { "source": "/picoctf", "destination": "/picoCTFSolvesWebsite/index.html" },
+    { "source": "/picoctf/(.*)", "destination": "/picoCTFSolvesWebsite/$1" }
+  ]
+}

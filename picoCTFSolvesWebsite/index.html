@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>picoCTF Solves</title>
+<meta name="description" content="Zack Crawford's picoCTF challenge write-ups, browsable by category and difficulty.">
+<style>
+:root{
+  --bg:#0a0c10;
+  --surface:#12161d;
+  --surface-2:#181d26;
+  --border:#242b35;
+  --border-hover:#39424f;
+  --text:#e6e9ee;
+  --muted:#7d8590;
+  --accent:#39d98a;
+  --accent-ink:#04140c;
+  --accent-wash:#39d98a1a;
+  --easy:#3fb950;
+  --medium:#d29922;
+  --hard:#f85149;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  --wrap:1760px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--mono);font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 56px}
+@media (max-width:900px){.wrap{padding:0 24px}}
+
+header{
+  padding:56px 0 48px;
+}
+.back{color:var(--muted);text-decoration:none;font-size:13px;display:inline-block;margin-bottom:28px}
+.back:hover{color:var(--accent)}
+.hero{text-align:center;max-width:640px;margin:0 auto}
+.eyebrow{
+  text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:600;
+  color:var(--accent);margin:0 0 14px;
+}
+h1{font-size:2.4rem;margin:0 0 12px;font-weight:600;letter-spacing:-.01em}
+.subtitle{color:var(--muted);margin:0 auto;font-size:.96rem;max-width:460px}
+
+.search-wrap{position:relative;width:380px;max-width:100%;margin:26px auto 0}
+.search-wrap svg{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--muted);pointer-events:none;
+}
+#search{
+  width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:var(--mono);font-size:.9rem;text-align:left;
+  padding:11px 14px 11px 38px;outline:none;
+}
+#search::placeholder{color:var(--muted)}
+#search:focus{border-color:var(--accent)}
+
+main{padding:44px 0 80px}
+
+/* category showcase grid */
+.category-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;margin-bottom:44px;padding-top:32px;
+}
+.category-tile{
+  text-align:left;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:20px 22px;font-family:var(--mono);color:var(--text);
+  transition:border-color .15s,transform .15s,background .15s;
+}
+.category-tile:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.category-tile.active{border-color:var(--accent);background:var(--accent-wash)}
+.category-tile .name{font-size:1.05rem;font-weight:700;margin:0 0 5px}
+.category-tile .desc{color:var(--muted);font-size:.82rem;margin:0 0 16px;line-height:1.5;min-height:2.2em}
+.tile-stats{display:flex;align-items:center;gap:12px}
+.tile-total{font-size:.78rem;color:var(--muted)}
+.tile-diffs{display:flex;gap:10px;margin-left:auto}
+.tile-diff{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;color:var(--muted)}
+.dot{width:7px;height:7px;border-radius:50%;flex:none}
+
+/* selected category panel */
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.panel-title{font-size:1.3rem;font-weight:700;margin:0}
+.panel-desc{color:var(--muted);font-size:.88rem;margin:4px 0 0}
+.panel-count{color:var(--muted);font-size:.85rem}
+
+.tier-block{margin-bottom:30px}
+.tier-block:last-child{margin-bottom:0}
+.tier-block-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.tier-block-head .label{font-weight:700;font-size:.92rem}
+.tier-block-head .count{color:var(--muted);font-size:.82rem}
+.empty-note{color:var(--muted);font-size:.86rem;font-style:italic}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.solve-card{
+  display:block;text-decoration:none;color:var(--text);
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:18px 20px;transition:border-color .15s,transform .15s,background .15s;
+}
+.solve-card:hover{border-color:var(--border-hover);background:var(--surface-2);transform:translateY(-2px)}
+.solve-card .title{font-size:.98rem;font-weight:600;margin:0 0 10px}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  padding:3px 9px;border-radius:999px;background:var(--surface-2);
+}
+
+/* search results mode */
+.results-head{margin-bottom:20px;color:var(--muted);font-size:.88rem}
+.results-head b{color:var(--text)}
+.result-meta{color:var(--muted);font-size:.78rem;margin-top:2px}
+.no-results{color:var(--muted);text-align:center;padding:60px 0}
+
+footer{padding:24px 0 40px;color:var(--muted);font-size:.8rem;text-align:center}
+
+[hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="back" href="../MainPortfolioPage/index.html">&larr; back to portfolio</a>
+    <div class="hero">
+      <p class="eyebrow">Write-ups &amp; Walkthroughs</p>
+      <h1>picoCTF Solves</h1>
+      <p class="subtitle">Write-ups from picoCTF, organized by category and difficulty.</p>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="search" type="text" placeholder="Search challenges or categories" autocomplete="off">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="browse-mode">
+    <div class="category-grid" id="category-grid"></div>
+    <div class="panel-head">
+      <div>
+        <p class="panel-title" id="panel-title"></p>
+        <p class="panel-desc" id="panel-desc"></p>
+      </div>
+      <span class="panel-count" id="panel-count"></span>
+    </div>
+    <div id="panel-body"></div>
+  </div>
+
+  <div id="search-mode" hidden>
+    <p class="results-head" id="results-head"></p>
+    <div class="card-grid" id="results-grid"></div>
+  </div>
+</main>
+
+<footer>&copy; 2026 Zack Crawford</footer>
+
+<script src="data/picoctf-data.js"></script>
+<script src="js/render.js"></script>
+<script>
+const grouped = groupSolves(SOLVES);
+let activeCategory = CATEGORY_ORDER.find((c) => grouped.get(c)) || CATEGORY_ORDER[0];
+
+const categoryGrid = document.getElementById("category-grid");
+const panelTitle = document.getElementById("panel-title");
+const panelDesc = document.getElementById("panel-desc");
+const panelCount = document.getElementById("panel-count");
+const panelBody = document.getElementById("panel-body");
+const browseMode = document.getElementById("browse-mode");
+const searchMode = document.getElementById("search-mode");
+const resultsHead = document.getElementById("results-head");
+const resultsGrid = document.getElementById("results-grid");
+const searchInput = document.getElementById("search");
+
+function difficultyPill(difficulty) {
+  const meta = DIFFICULTY_META[difficulty] || { color: "var(--muted)" };
+  return `<span class="pill" style="color:${meta.color}">${difficultyDot(difficulty)}${difficulty}</span>`;
+}
+
+function solveCard(solve, showCategory) {
+  return `
+    <a class="solve-card" href="solve.html?slug=${encodeURIComponent(solve.slug)}">
+      <p class="title">${escapeHtml(solve.title)}</p>
+      ${difficultyPill(solve.difficulty)}
+      ${showCategory ? `<p class="result-meta">${escapeHtml(solve.category)}</p>` : ""}
+    </a>
+  `;
+}
+
+function buildCategoryGrid() {
+  categoryGrid.innerHTML = "";
+  for (const [category, byDiff] of grouped) {
+    const total = DIFFICULTY_ORDER.reduce((n, d) => n + byDiff.get(d).length, 0);
+
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "category-tile" + (category === activeCategory ? " active" : "");
+    tile.dataset.category = category;
+    tile.innerHTML = `
+      <p class="name">${escapeHtml(category)}</p>
+      <p class="desc">${escapeHtml(CATEGORY_DESCRIPTIONS[category] || "")}</p>
+      <div class="tile-stats">
+        <span class="tile-total">${total} solve${total === 1 ? "" : "s"}</span>
+        <span class="tile-diffs">
+          ${DIFFICULTY_ORDER.map((d) => `<span class="tile-diff">${difficultyDot(d)}${byDiff.get(d).length}</span>`).join("")}
+        </span>
+      </div>
+    `;
+    tile.addEventListener("click", () => {
+      activeCategory = category;
+      renderPanel();
+      for (const t of categoryGrid.children) t.classList.toggle("active", t.dataset.category === category);
+    });
+    categoryGrid.appendChild(tile);
+  }
+}
+
+function renderPanel() {
+  const byDiff = grouped.get(activeCategory);
+  const total = DIFFICULTY_ORDER.reduce((n, d) => n + byDiff.get(d).length, 0);
+
+  panelTitle.textContent = activeCategory;
+  panelDesc.textContent = CATEGORY_DESCRIPTIONS[activeCategory] || "";
+  panelCount.textContent = `${total} solve${total === 1 ? "" : "s"}`;
+
+  panelBody.innerHTML = DIFFICULTY_ORDER.map((difficulty) => {
+    const items = byDiff.get(difficulty);
+    const body = items.length
+      ? `<div class="card-grid">${items.map((s) => solveCard(s, false)).join("")}</div>`
+      : `<p class="empty-note">No ${difficulty.toLowerCase()} challenges yet.</p>`;
+    return `
+      <div class="tier-block">
+        <div class="tier-block-head">
+          ${difficultyDot(difficulty)}
+          <span class="label">${difficulty}</span>
+          <span class="count">(${items.length})</span>
+        </div>
+        ${body}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderSearch(query) {
+  const q = query.toLowerCase();
+  const matches = SOLVES.filter(
+    (s) => s.title.toLowerCase().includes(q) || s.category.toLowerCase().includes(q)
+  );
+
+  resultsHead.innerHTML = `<b>${matches.length}</b> result${matches.length === 1 ? "" : "s"} for &ldquo;${escapeHtml(query)}&rdquo;`;
+  resultsGrid.innerHTML = matches.length
+    ? matches.map((s) => solveCard(s, true)).join("")
+    : `<p class="no-results">No challenges match that search.</p>`;
+}
+
+searchInput.addEventListener("input", () => {
+  const q = searchInput.value.trim();
+  if (q) {
+    browseMode.hidden = true;
+    searchMode.hidden = false;
+    renderSearch(q);
+  } else {
+    browseMode.hidden = false;
+    searchMode.hidden = true;
+  }
+});
+
+buildCategoryGrid();
+renderPanel();
+</script>
+</body>
+</html>

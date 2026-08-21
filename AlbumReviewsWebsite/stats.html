@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stats — Album reviews</title>
+<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="feed.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#0a0810;
+  --haze:#17102b;
+  --line:#2c2150;
+  --violet:#7c3aed;
+  --violet-deep:#a56dff;
+  --ink:#f1ebff;
+  --muted:#a394c4;
+
+  --wrap:1680px;
+  --r:10px;
+}
+:root[data-theme="light"]{
+  --paper:#faf8fc;
+  --haze:#f1ecf9;
+  --line:#ddd3ef;
+  --violet-deep:#6d28d9;
+  --ink:#1e1730;
+  --muted:#6b6478;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;display:flex;flex-direction:column;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.bg-glow{
+  position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;pointer-events:none;
+  filter:blur(50px);animation:bg-drift 22s linear infinite;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 20% 15%,rgba(124,58,237,.38),transparent 40%),
+    radial-gradient(circle at 85% 10%,rgba(217,70,239,.26),transparent 38%),
+    radial-gradient(circle at 60% 95%,rgba(34,211,238,.18),transparent 42%);
+}
+:root[data-theme="light"] .bg-glow{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 20% 15%,rgba(124,58,237,.16),transparent 40%),
+    radial-gradient(circle at 85% 10%,rgba(217,70,239,.12),transparent 38%),
+    radial-gradient(circle at 60% 95%,rgba(34,211,238,.12),transparent 42%);
+}
+@keyframes bg-drift{
+  0%     {transform:translate(16%,0%)}
+  8.33%  {transform:translate(13.86%,6.5%)}
+  16.67% {transform:translate(8%,11.26%)}
+  25%    {transform:translate(0%,13%)}
+  33.33% {transform:translate(-8%,11.26%)}
+  41.67% {transform:translate(-13.86%,6.5%)}
+  50%    {transform:translate(-16%,0%)}
+  58.33% {transform:translate(-13.86%,-6.5%)}
+  66.67% {transform:translate(-8%,-11.26%)}
+  75%    {transform:translate(0%,-13%)}
+  83.33% {transform:translate(8%,-11.26%)}
+  91.67% {transform:translate(13.86%,-6.5%)}
+  100%   {transform:translate(16%,0%)}
+}
+#vanta-bg{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;filter:blur(24px)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.wrap-dash{width:88%;max-width:2400px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- masthead ---------- */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(10,8,16,.88);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%)}
+:root[data-theme="light"] .masthead{background:rgba(250,248,252,.88)}
+.masthead-inner{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;height:60px}
+.wordmark{justify-self:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.03em;font-variation-settings:"wdth" 78;color:var(--violet-deep)}
+.mast-tools{justify-self:end;display:flex;align-items:center;gap:18px}
+.theme-toggle-left{justify-self:start}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--muted)}
+.back:hover{color:var(--ink)}
+.back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.icon-btn{width:34px;height:34px;display:grid;place-items:center;background:none;border:1px solid var(--line);border-radius:50%;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
+.icon-btn:hover{background:var(--haze);border-color:var(--violet);transform:scale(1.18) rotate(-4deg)}
+.icon-btn:active{transform:scale(.85)}
+.icon-btn svg{transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
+.icon-btn:hover svg{transform:scale(1.25)}
+.icon-btn svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:1.6}
+
+/* ---------- title band ---------- */
+.arch{
+  position:sticky;top:60px;z-index:10;height:268px;
+  background:rgba(10,8,16,.88);
+  backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+  clip-path:url(#archClip);
+  filter:drop-shadow(0 20px 40px rgba(0,0,0,.35));
+}
+:root[data-theme="light"] .arch{background:rgba(250,248,252,.88)}
+.band{position:relative;z-index:11;margin-top:-268px}
+.band-inner{padding:69px 0 65px;text-align:center}
+.eyebrow{font-family:"Newsreader",serif;font-style:italic;font-size:17px;color:var(--violet);margin:0 0 6px}
+.band h1{
+  font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 80;font-weight:800;
+  font-size:clamp(34px,5.6vw,54px);line-height:1;letter-spacing:-.035em;margin:0 0 12px;
+}
+.band p{max-width:46ch;margin:0 auto;color:var(--muted);font-size:15px}
+
+/* ---------- stat tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:20px}
+.tile{
+  background:rgba(23,16,43,.4);
+  backdrop-filter:blur(34px) saturate(160%);-webkit-backdrop-filter:blur(34px) saturate(160%);
+  border:1px solid rgba(241,235,255,.08);border-radius:var(--r);padding:26px 24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 30px rgba(0,0,0,.25);
+}
+:root[data-theme="light"] .tile{
+  background:rgba(241,236,249,.45);border-color:rgba(30,23,48,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 8px 24px rgba(30,23,48,.08);
+}
+.tile-label{display:block;font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin-bottom:8px}
+.tile-value{display:block;font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:800;font-size:38px;line-height:1.05;letter-spacing:-.02em}
+.tile-sub{display:block;font-family:"Newsreader",serif;font-style:italic;color:var(--muted);font-size:14px;margin-top:4px}
+
+/* ---------- chart cards ---------- */
+.dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:28px;padding:84px 0 40px;align-items:stretch}
+.chart-card{
+  background:rgba(23,16,43,.4);
+  backdrop-filter:blur(34px) saturate(160%);-webkit-backdrop-filter:blur(34px) saturate(160%);
+  border:1px solid rgba(241,235,255,.08);border-radius:var(--r);padding:28px 30px 24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 30px rgba(0,0,0,.25);
+}
+:root[data-theme="light"] .chart-card{
+  background:rgba(241,236,249,.45);border-color:rgba(30,23,48,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 8px 24px rgba(30,23,48,.08);
+}
+.chart-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.chart-head h2{
+  font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:700;
+  font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin:0;
+}
+.chart-nav{display:flex;align-items:center;gap:12px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.35);border-radius:999px;padding:6px 12px}
+:root[data-theme="light"] .chart-nav{background:rgba(124,58,237,.1)}
+.chart-arrow{background:none;border:none;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;color:var(--violet-deep);transition:background .16s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
+.chart-arrow:hover{background:rgba(124,58,237,.28)}
+.chart-arrow:active{transform:scale(.85)}
+.chart-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.3}
+.chart-dots{display:flex;gap:8px}
+.chart-dot{width:9px;height:9px;border-radius:50%;background:rgba(124,58,237,.32);border:none;cursor:pointer;padding:0;transition:background .16s ease,transform .16s ease}
+.chart-dot:hover{background:rgba(124,58,237,.6)}
+.chart-dot.active{background:var(--violet);transform:scale(1.4)}
+.table-toggle{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:12.5px;color:var(--muted);cursor:pointer;transition:border-color .16s ease,color .16s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
+.table-toggle:hover{border-color:var(--violet);color:var(--ink)}
+.table-toggle:active{transform:scale(.95)}
+.chart-panel .table-toggle{display:inline-block;margin-bottom:16px}
+
+/* vertical bars (score distribution, decades) */
+.vbars{display:flex;align-items:flex-end;gap:14px;height:230px;padding:0 4px}
+.vbar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.vbar-value{font-size:12.5px;color:var(--muted);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.vbar-track{width:100%;max-width:36px;height:100%;display:flex;align-items:flex-end;flex:1}
+.vbar{width:100%;border-radius:4px 4px 0 0;transition:filter .12s ease;cursor:pointer;border:none;padding:0;display:block}
+.vbar:hover,.vbar:focus-visible{filter:brightness(1.15)}
+.vbar-label{margin-top:10px;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.25}
+.vbar-fallback{background:var(--violet)}
+
+/* horizontal bars (genres) */
+.hbars{display:flex;flex-direction:column;gap:2px}
+.hbar-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;padding:3px 0}
+.hbar-label{font-size:13.5px;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbar-track{height:20px;background:transparent;display:flex;align-items:center}
+.hbar{height:20px;max-height:24px;border-radius:0 4px 4px 0;background:var(--violet);border:none;padding:0;cursor:pointer;transition:filter .12s ease;min-width:3px}
+.hbar:hover,.hbar:focus-visible{filter:brightness(1.15)}
+.hbar-value{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:18px}
+
+/* shared tooltip */
+.chart-tip{
+  position:fixed;z-index:80;pointer-events:none;
+  background:var(--paper);border:1px solid var(--violet);border-radius:6px;
+  padding:6px 10px;font-size:12.5px;white-space:nowrap;
+  transform:translate(-50%,-100%);margin-top:-8px;
+  opacity:0;transition:opacity .1s ease;
+}
+.chart-tip.show{opacity:1}
+.chart-tip b{color:var(--ink);font-variant-numeric:tabular-nums}
+.chart-tip span{color:var(--muted)}
+
+/* data table fallback */
+.data-table{width:100%;border-collapse:collapse;font-size:13.5px;display:none}
+.data-table.show{display:table}
+.data-table th,.data-table td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+.data-table th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+.data-table td:last-child,.data-table th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;font-size:13px;color:var(--muted);margin-top:auto}
+.foot-inner{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.foot-link{color:var(--violet-deep);font-weight:600}
+.foot-link:hover{text-decoration:underline}
+.foot-home{color:inherit;text-decoration:none}
+.foot-home:hover{color:var(--violet-deep)}
+
+@media (max-width:720px){
+  .wrap{padding:0 16px}
+  .wrap-dash{padding:0 16px}
+  .dash-grid{grid-template-columns:1fr}
+  .hbar-row{grid-template-columns:80px 1fr auto}
+}
+
+/* ---------- motion ---------- */
+/* Page-to-page navigation (cross-document View Transitions). Supported in
+   Chromium and Safari 18.2+; other browsers just navigate with no animation
+   and no error - this is progressive enhancement, not a requirement. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:page-out .18s ease both}
+::view-transition-new(root){animation:page-in .26s ease both}
+@keyframes page-out{to{opacity:0}}
+@keyframes page-in{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="archClip" clipPathUnits="objectBoundingBox">
+      <path d="M0,0 L1,0 L1,1 C1,0.236 0.62,0.096 0.5,0.096 C0.38,0.096 0,0.236 0,1 Z" />
+    </clipPath>
+  </defs>
+</svg>
+<div class="bg-glow" aria-hidden="true"></div>
+<div id="vanta-bg" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <button class="icon-btn theme-toggle-left" aria-label="Switch to light theme" data-theme-toggle>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+    </button>
+    <a href="reviews.html" class="wordmark">Ridez</a>
+    <div class="mast-tools">
+      <a href="reviews.html" class="back">
+        <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>Front page
+      </a>
+      <a class="icon-btn" href="subscribe.html" aria-label="Sign up for new review emails">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
+      </a>
+      <button class="icon-btn" aria-label="Search" data-search-toggle>
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="arch" aria-hidden="true"></div>
+<div class="band">
+  <div class="wrap band-inner">
+    <p class="eyebrow">The numbers behind the reviews</p>
+    <h1>Stats</h1>
+    <p>Everything below is computed live from the review data - nothing here is hand-maintained.</p>
+  </div>
+</div>
+
+<div class="wrap-dash">
+  <div class="dash-grid">
+    <div class="chart-card dash-chart">
+      <div class="chart-head">
+        <h2 id="chart-title">Score distribution</h2>
+        <div class="chart-nav">
+          <button class="chart-arrow" id="chart-prev" aria-label="Previous chart">
+            <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="chart-dots" id="chart-dots">
+            <button class="chart-dot active" data-idx="0" aria-label="Show score distribution" title="Score distribution"></button>
+            <button class="chart-dot" data-idx="1" aria-label="Show genres" title="Genres"></button>
+            <button class="chart-dot" data-idx="2" aria-label="Show albums by decade" title="Albums by decade"></button>
+          </div>
+          <button class="chart-arrow" id="chart-next" aria-label="Next chart">
+            <svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chart-panel" data-panel="0">
+        <button class="table-toggle" data-table-for="score-table">View as table</button>
+        <div class="vbars" id="score-chart"></div>
+        <table class="data-table" id="score-table">
+          <thead><tr><th>Tier</th><th>Score range</th><th>Albums</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="chart-panel" data-panel="1" hidden>
+        <button class="table-toggle" data-table-for="genre-table">View as table</button>
+        <div class="hbars" id="genre-chart"></div>
+        <table class="data-table" id="genre-table">
+          <thead><tr><th>Genre</th><th></th><th>Albums</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="chart-panel" data-panel="2" hidden>
+        <button class="table-toggle" data-table-for="decade-table">View as table</button>
+        <div class="vbars" id="decade-chart"></div>
+        <table class="data-table" id="decade-table">
+          <thead><tr><th>Decade</th><th>Albums</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <section class="tiles" id="tiles" aria-label="Summary"></section>
+  </div>
+</div>
+
+<div class="chart-tip" id="chart-tip" role="status" aria-hidden="true"></div>
+
+<footer>
+  <div class="wrap foot-inner">
+    <a href="../MainPortfolioPage/index.html" class="foot-home">Portfolio</a>
+    <a href="https://www.albumoftheyear.org/user/ridez/" target="_blank" rel="noopener" class="foot-link">AlbumOfTheYear account</a>
+  </div>
+</footer>
+
+<script src="js/score.js"></script>
+<script src="data/reviews-data.js"></script>
+<script src="js/search.js" defer></script>
+<script src="js/theme.js" defer></script>
+<script>
+const esc = s => String(s == null ? "" : s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+const ALL = (typeof REVIEWS !== "undefined") ? REVIEWS : [];
+const tabsOf = r => r.tabs || (r.tab ? [r.tab] : []);
+
+// ---------- shared tooltip ----------
+const tip = document.getElementById("chart-tip");
+function showTip(el, label, value) {
+  var r = el.getBoundingClientRect();
+  tip.innerHTML = "<b>" + esc(value) + "</b> <span>" + esc(label) + "</span>";
+  tip.style.left = (r.left + r.width / 2) + "px";
+  tip.style.top = r.top + "px";
+  tip.classList.add("show");
+  tip.setAttribute("aria-hidden", "false");
+}
+function hideTip() {
+  tip.classList.remove("show");
+  tip.setAttribute("aria-hidden", "true");
+}
+function wireTip(el, label, value) {
+  el.addEventListener("mouseenter", () => showTip(el, label, value));
+  el.addEventListener("mouseleave", hideTip);
+  el.addEventListener("focus", () => showTip(el, label, value));
+  el.addEventListener("blur", hideTip);
+}
+
+// ---------- chart cycling ----------
+(function () {
+  var titles = ["Score distribution", "Genres", "Albums by decade"];
+  var panels = document.querySelectorAll(".chart-panel");
+  var dots = document.querySelectorAll(".chart-dot");
+  var titleEl = document.getElementById("chart-title");
+  var idx = 0;
+
+  function show(i) {
+    idx = (i + panels.length) % panels.length;
+    panels.forEach(p => { p.hidden = +p.dataset.panel !== idx; });
+    dots.forEach(d => d.classList.toggle("active", +d.dataset.idx === idx));
+    titleEl.textContent = titles[idx];
+  }
+
+  document.getElementById("chart-prev").addEventListener("click", () => show(idx - 1));
+  document.getElementById("chart-next").addEventListener("click", () => show(idx + 1));
+  dots.forEach(d => d.addEventListener("click", () => show(+d.dataset.idx)));
+})();
+
+// ---------- table toggle ----------
+document.querySelectorAll(".table-toggle").forEach(btn => {
+  btn.addEventListener("click", () => {
+    var table = document.getElementById(btn.dataset.tableFor);
+    var chart = table.previousElementSibling;
+    var showingTable = table.classList.toggle("show");
+    chart.style.display = showingTable ? "none" : "";
+    btn.textContent = showingTable ? "View as chart" : "View as table";
+  });
+});
+
+// ---------- stat tiles ----------
+(function () {
+  if (!ALL.length) return;
+  var total = ALL.length;
+  var avg = ALL.reduce((s, r) => s + r.finalScore, 0) / total;
+  var top = ALL.reduce((best, r) => (!best || r.finalScore > best.finalScore) ? r : best);
+
+  var genreCounts = {};
+  ALL.forEach(r => tabsOf(r).forEach(t => { genreCounts[t] = (genreCounts[t] || 0) + 1; }));
+  var topGenre = Object.keys(genreCounts).reduce((a, b) => genreCounts[a] >= genreCounts[b] ? a : b);
+
+  document.getElementById("tiles").innerHTML = `
+    <div class="tile"><span class="tile-label">Total reviews</span><span class="tile-value">${total}</span></div>
+    <div class="tile"><span class="tile-label">Average score</span><span class="tile-value">${avg.toFixed(1)}</span></div>
+    <div class="tile"><span class="tile-label">Highest rated</span><span class="tile-value">${top.finalScore.toFixed(1)}</span><span class="tile-sub">${esc(top.title)}</span></div>
+    <div class="tile"><span class="tile-label">Most common genre</span><span class="tile-value">${esc(topGenre)}</span></div>
+  `;
+})();
+
+// ---------- score distribution (reuses score.js's own tiers) ----------
+(function () {
+  var tiers = [
+    { key: "sc-low",   name: "Low",   range: "< 5.5",     test: v => v < 5.5 },
+    { key: "sc-mid",   name: "Mid",   range: "5.5–6.8",   test: v => v >= 5.5 && v < 6.8 },
+    { key: "sc-ok",    name: "OK",    range: "6.8–7.8",   test: v => v >= 6.8 && v < 7.8 },
+    { key: "sc-good",  name: "Good",  range: "7.8–8.8",   test: v => v >= 7.8 && v < 8.8 },
+    { key: "sc-great", name: "Great", range: "8.8–9.7",   test: v => v >= 8.8 && v < 9.7 },
+    { key: "sc-top",   name: "Top",   range: "9.7+",      test: v => v >= 9.7 },
+  ];
+  var counts = tiers.map(t => ALL.filter(r => t.test(r.finalScore)).length);
+  var max = Math.max(1, ...counts);
+
+  var chart = document.getElementById("score-chart");
+  chart.innerHTML = tiers.map((t, i) => `
+    <div class="vbar-col">
+      <span class="vbar-value">${counts[i]}</span>
+      <div class="vbar-track">
+        <button type="button" class="vbar sc-bar ${t.key}" style="height:${counts[i] ? Math.max(counts[i] / max * 100, 6) : 0}%"></button>
+      </div>
+      <span class="vbar-label">${t.name}</span>
+    </div>
+  `).join("");
+  chart.querySelectorAll(".vbar").forEach((el, i) => wireTip(el, tiers[i].range, counts[i] + " album" + (counts[i] === 1 ? "" : "s")));
+
+  document.querySelector("#score-table tbody").innerHTML = tiers.map((t, i) =>
+    `<tr><td>${t.name}</td><td>${t.range}</td><td>${counts[i]}</td></tr>`
+  ).join("");
+})();
+
+// ---------- genre breakdown ----------
+(function () {
+  var counts = {};
+  ALL.forEach(r => tabsOf(r).forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+  var entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  var max = Math.max(1, ...entries.map(e => e[1]));
+
+  var chart = document.getElementById("genre-chart");
+  chart.innerHTML = entries.map(([name, count]) => `
+    <div class="hbar-row">
+      <span class="hbar-label">${esc(name)}</span>
+      <div class="hbar-track"><button type="button" class="hbar" style="width:${Math.max(count / max * 100, 4)}%"></button></div>
+      <span class="hbar-value">${count}</span>
+    </div>
+  `).join("");
+  chart.querySelectorAll(".hbar").forEach((el, i) => wireTip(el, entries[i][0], entries[i][1] + " album" + (entries[i][1] === 1 ? "" : "s")));
+
+  document.querySelector("#genre-table tbody").innerHTML = entries.map(([name, count]) =>
+    `<tr><td>${esc(name)}</td><td></td><td>${count}</td></tr>`
+  ).join("");
+})();
+
+// ---------- albums by decade ----------
+(function () {
+  function decadeOf(r) {
+    var m = String(r.year || "").match(/\d{4}/);
+    return m ? Math.floor(+m[0] / 10) * 10 : null;
+  }
+  var counts = {};
+  ALL.forEach(r => { var d = decadeOf(r); if (d != null) counts[d] = (counts[d] || 0) + 1; });
+  var decades = Object.keys(counts).map(Number).sort((a, b) => a - b);
+  var max = Math.max(1, ...decades.map(d => counts[d]));
+
+  var chart = document.getElementById("decade-chart");
+  chart.innerHTML = decades.map(d => `
+    <div class="vbar-col">
+      <span class="vbar-value">${counts[d]}</span>
+      <div class="vbar-track">
+        <button type="button" class="vbar vbar-fallback" style="height:${Math.max(counts[d] / max * 100, 6)}%"></button>
+      </div>
+      <span class="vbar-label">${d}s</span>
+    </div>
+  `).join("");
+  chart.querySelectorAll(".vbar").forEach((el, i) => wireTip(el, decades[i] + "s", counts[decades[i]] + " album" + (counts[decades[i]] === 1 ? "" : "s")));
+
+  document.querySelector("#decade-table tbody").innerHTML = decades.map(d =>
+    `<tr><td>${d}s</td><td>${counts[d]}</td></tr>`
+  ).join("");
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+<script>
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && window.VANTA) {
+    var vantaDark  = { color1: 0x4a00a7, color2: 0x250055 };
+    var vantaLight = { color1: 0xf7f3e8, color2: 0xfdfcf7 };
+    var vantaIsLight = () => document.documentElement.getAttribute("data-theme") === "light";
+
+    var vantaEffect = VANTA.CELLS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      size: 1.5,
+      speed: 1,
+      ...(vantaIsLight() ? vantaLight : vantaDark)
+    });
+
+    new MutationObserver(() => {
+      vantaEffect.setOptions(vantaIsLight() ? vantaLight : vantaDark);
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>picoCTF Solves</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<style>
+:root{
+  --bg:#0a0c10;
+  --surface:#11151b;
+  --surface-2:#161b22;
+  --border:#242b35;
+  --text:#c9d1d9;
+  --muted:#7d8590;
+  --accent:#39d98a;
+  --accent-ink:#04140c;
+  --easy:#3fb950;
+  --medium:#d29922;
+  --hard:#f85149;
+  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+  --wrap:880px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--mono);font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+header{border-bottom:1px solid var(--border);padding:28px 0}
+.back{color:var(--muted);text-decoration:none;font-size:13px}
+.back:hover{color:var(--accent)}
+
+main{padding:32px 0 70px}
+
+h1#title{font-size:1.7rem;font-weight:600;margin:16px 0 16px}
+
+.stats{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;
+}
+.stat{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  padding:5px 10px;font-size:.82rem;color:var(--muted);
+}
+.stat .dot{width:7px;height:7px;border-radius:50%}
+.stat b{color:var(--text);font-weight:600}
+
+.callout{
+  background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
+  border-radius:6px;padding:16px 18px;margin-bottom:20px;font-size:.94rem;
+}
+.callout p{margin:0 0 10px}
+.callout p:last-child{margin-bottom:0}
+
+details.hints{
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  padding:12px 18px;margin-bottom:20px;
+}
+details.hints summary{cursor:pointer;font-weight:600;font-size:.88rem;color:var(--accent);user-select:none}
+details.hints ul{margin:12px 0 0;padding-left:20px;font-size:.9rem}
+details.hints li{margin-bottom:6px}
+
+.notes{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:6px;
+  padding:14px 18px;margin-bottom:20px;font-size:.88rem;color:var(--muted);
+}
+.notes h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;color:var(--muted)}
+
+.flag-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:26px;
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;
+}
+.flag-row button{
+  font-family:var(--mono);font-size:.82rem;font-weight:600;
+  background:var(--accent);color:var(--accent-ink);border:none;border-radius:5px;
+  padding:6px 12px;cursor:pointer;
+}
+.flag-value{font-size:.9rem;filter:blur(6px);transition:filter .15s;user-select:none}
+.flag-value.revealed{filter:none;user-select:text}
+
+.solution{font-size:.95rem}
+.solution h2,.solution h3{
+  border-top:1px solid var(--border);margin:28px 0 12px;padding-top:20px;
+  font-size:1.02rem;color:var(--text);
+}
+.solution h2:first-child,.solution h3:first-child{border-top:none;margin-top:0;padding-top:0}
+.solution p{margin:0 0 14px}
+.solution ul,.solution ol{margin:0 0 14px;padding-left:22px}
+.solution li{margin-bottom:5px}
+.solution blockquote{
+  margin:0 0 14px;padding:8px 14px;border-left:3px solid var(--border);
+  color:var(--muted);font-size:.9rem;
+}
+.solution code{
+  font-family:var(--mono);background:var(--surface-2);border-radius:4px;
+  padding:1px 5px;font-size:.86em;
+}
+.solution pre{
+  background:#0d1117;border:1px solid var(--border);border-radius:8px;
+  padding:14px 16px;overflow-x:auto;margin:0 0 16px;
+}
+.solution pre code{background:none;padding:0;font-size:.85rem;line-height:1.55}
+.solution hr{border:none;border-top:1px solid var(--border);margin:22px 0}
+.solution a{color:var(--accent);text-decoration:underline}
+
+.unwritten{color:var(--muted);font-style:italic;padding:20px 0}
+
+.references{margin-top:32px;border-top:1px solid var(--border);padding-top:20px}
+.references h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px}
+.references ul{margin:0;padding-left:20px}
+.references li{margin-bottom:6px;font-size:.88rem}
+.references a{color:var(--accent);text-decoration:none}
+.references a:hover{text-decoration:underline}
+
+.not-found{padding:60px 0;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; back to all solves</a>
+  </div>
+</header>
+
+<main class="wrap" id="content">
+  <p class="not-found">Loading&hellip;</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="data/picoctf-data.js"></script>
+<script src="js/render.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const slug = params.get("slug");
+const solve = SOLVES.find((s) => s.slug === slug);
+const content = document.getElementById("content");
+
+if (!solve) {
+  content.innerHTML = `<p class="not-found">No write-up found for "${escapeHtml(slug || "")}". <a href="index.html">Back to all solves</a>.</p>`;
+} else {
+  document.title = `${solve.title} - picoCTF Solves`;
+
+  const hintsHtml = solve.hints.length
+    ? `<details class="hints"><summary>Show hints (${solve.hints.length})</summary>
+        <ul>${solve.hints.map((h) => `<li>${escapeHtml(h)}</li>`).join("")}</ul>
+      </details>`
+    : "";
+
+  const notesHtml = solve.notes
+    ? `<div class="notes">${renderMarkdown(solve.notes)}</div>`
+    : "";
+
+  const flagHtml = solve.flag
+    ? `<div class="flag-row">
+        <button id="reveal-btn" type="button">Reveal flag</button>
+        <code class="flag-value" id="flag-value">${escapeHtml(solve.flag)}</code>
+      </div>`
+    : "";
+
+  const solutionHtml = solve.solutionMd.trim()
+    ? `<div class="solution">${renderMarkdown(solve.solutionMd)}</div>`
+    : `<p class="unwritten">Write-up not yet published for this challenge.</p>`;
+
+  const referencesHtml = solve.references.length
+    ? `<div class="references">
+        <h2>References</h2>
+        <ul>${solve.references.map((r) => `<li><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.text)}</a></li>`).join("")}</ul>
+      </div>`
+    : "";
+
+  content.innerHTML = `
+    <h1 id="title">${escapeHtml(solve.title)}</h1>
+    <div class="stats">
+      <span class="stat">${difficultyDot(solve.difficulty)}<b>${escapeHtml(solve.difficulty)}</b></span>
+      <span class="stat">category: <b>${escapeHtml(solve.category)}</b></span>
+      ${solve.event ? `<span class="stat">event: <b>${escapeHtml(solve.event)}</b></span>` : ""}
+      ${solve.author ? `<span class="stat">author: <b>${escapeHtml(solve.author)}</b></span>` : ""}
+    </div>
+    ${solve.description ? `<div class="callout">${renderMarkdown(solve.description)}</div>` : ""}
+    ${hintsHtml}
+    ${notesHtml}
+    ${flagHtml}
+    ${solutionHtml}
+    ${referencesHtml}
+  `;
+
+  const revealBtn = document.getElementById("reveal-btn");
+  if (revealBtn) {
+    revealBtn.addEventListener("click", () => {
+      const el = document.getElementById("flag-value");
+      const revealed = el.classList.toggle("revealed");
+      revealBtn.textContent = revealed ? "Hide flag" : "Reveal flag";
+    });
+  }
+}
+</script>
+</body>
+</html>

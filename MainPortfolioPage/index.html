@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zack Crawford - Cybersecurity</title>
+<meta name="description" content="Zack Crawford - Cybersecurity student, University of Cincinnati. Resume and projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f5f8;
+  --surface:#ffffff;
+  --line:#e3e6ec;
+  --ink:#171a21;
+  --muted:#5b6270;
+  --accent:#2856b8;
+  --accent-ink:#0e2a5c;
+  --hero-bg:#132a52;
+  --hero-ink:#f2f5fc;
+  --hero-muted:#aebde0;
+  --resume-bg:#f2f5fc;
+  --resume-ink:#0e2a5c;
+  --wrap:1280px;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 12px 28px -16px rgba(15,23,42,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1115;
+    --surface:#181b21;
+    --line:#2a2e37;
+    --ink:#eef0f3;
+    --muted:#9aa1ad;
+    --accent:#7ea6e0;
+    --accent-ink:#dbe6f8;
+    --hero-bg:#0a1730;
+    --hero-ink:#f2f5fc;
+    --hero-muted:#93a4c9;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 28px -16px rgba(0,0,0,.5);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  line-height:1.55;
+}
+a{color:inherit}
+.container{max-width:var(--wrap);margin:0 auto;padding:0 40px}
+@media (max-width:640px){.container{padding:0 20px}}
+
+/* Hero */
+.hero{
+  background:var(--hero-bg);
+  color:var(--hero-ink);
+  padding:72px 0 88px;
+}
+.hero-inner{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
+}
+.eyebrow{
+  text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:600;
+  color:var(--hero-muted);margin:0 0 14px;
+}
+h1{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:clamp(2.4rem,5vw,3.6rem);
+  font-weight:600;
+  margin:0 0 10px;
+  letter-spacing:-0.01em;
+}
+.tagline{font-size:1.1rem;color:var(--hero-muted);margin:0 0 26px;max-width:520px}
+.contact-row{display:flex;flex-wrap:wrap;gap:10px}
+.contact-row a{
+  width:42px;height:42px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--hero-ink);
+  transition:background .15s;
+}
+.contact-row a:hover{background:rgba(255,255,255,.16)}
+.contact-row svg{width:19px;height:19px;flex:none}
+
+.resume-btn{
+  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
+  padding:14px 24px;border-radius:10px;
+  background:var(--resume-bg);color:var(--resume-ink);
+  font-weight:700;font-size:.95rem;text-decoration:none;
+  box-shadow:0 10px 26px -10px rgba(0,0,0,.5);
+  transition:transform .15s;
+}
+.resume-btn:hover{transform:translateY(-2px)}
+.resume-btn svg{width:17px;height:17px}
+
+/* Layout */
+main{padding:56px 0 40px}
+
+h2{
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  font-weight:700;
+  margin:0 0 18px;
+}
+section{margin-bottom:44px}
+section:last-child{margin-bottom:0}
+
+.panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px 24px;
+  box-shadow:var(--shadow);
+}
+
+.skills-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:640px){.skills-cert-grid{grid-template-columns:1fr}}
+
+.skills-list{display:flex;flex-direction:column;gap:14px;font-size:.92rem}
+.skills-list .label{display:block;color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+
+.cert{font-size:.94rem}
+.cert .name{font-weight:600}
+.cert .date{color:var(--muted);font-size:.82rem;display:block;margin-top:2px}
+.cert p{margin:8px 0 0;color:var(--muted);font-size:.88rem}
+
+/* Projects */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.project-card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:24px;
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;
+  transition:transform .15s;
+}
+.project-card:hover{transform:translateY(-3px)}
+.project-card h3{margin:0 0 8px;font-size:1.08rem;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.project-card p{margin:0 0 18px;color:var(--muted);font-size:.92rem;flex:1;padding-right:36px}
+.project-card a.card-link{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;
+}
+.project-card a.card-link:hover{text-decoration:underline}
+.gh-link{
+  position:absolute;bottom:22px;right:22px;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:8px;flex:none;
+  border:1px solid var(--line);color:var(--muted);
+  transition:color .15s,border-color .15s;
+}
+.gh-link:hover{color:var(--accent);border-color:var(--accent)}
+.gh-link svg{width:15px;height:15px}
+.project-card.disabled{opacity:.65}
+.badge{
+  display:inline-block;font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+  padding:3px 9px;border-radius:999px;
+  background:var(--bg);color:var(--muted);border:1px solid var(--line);
+}
+
+/* Entries */
+.entry{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px 26px;
+  box-shadow:var(--shadow);
+  margin-bottom:16px;
+}
+.entry:last-child{margin-bottom:0}
+.entry-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;flex-wrap:wrap;
+}
+.entry-title{font-weight:700;font-size:1.05rem}
+.entry-sub{color:var(--muted);font-size:.92rem;margin-top:2px}
+.entry-date{color:var(--muted);font-size:.85rem;white-space:nowrap;font-weight:600}
+ul.bullets{margin:12px 0 0;padding-left:20px;font-size:.94rem}
+ul.bullets li{margin-bottom:6px}
+ul.bullets li:last-child{margin-bottom:0}
+
+footer{padding:36px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container hero-inner">
+    <div>
+      <p class="eyebrow">Cybersecurity - University of Cincinnati</p>
+      <h1>Zack Crawford</h1>
+      <p class="tagline">B.S. Cybersecurity, Class of 2027 · Cleveland, OH</p>
+      <div class="contact-row">
+        <a href="mailto:ZACrawfordx@gmail.com" aria-label="Email" title="ZACrawfordx@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/crawfordz/" target="_blank" rel="noopener" aria-label="LinkedIn" title="linkedin.com/in/crawfordz">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.87c0-1.64-.03-3.75-2.29-3.75-2.29 0-2.64 1.79-2.64 3.63V23h-4V8z"/></svg>
+        </a>
+        <a href="https://github.com/ZackCrawford" target="_blank" rel="noopener" aria-label="GitHub" title="github.com/ZackCrawford">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <a class="resume-btn" href="resume.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>
+      View Resume
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <a class="gh-link" href="https://github.com/ZackCrawford/Album-Reviews-Website" target="_blank" rel="noopener" aria-label="GitHub repository" title="github.com/ZackCrawford/Album-Reviews-Website">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+            </a>
+            <h3>Album Reviews Website</h3>
+            <p>Designed, built, and deployed a static, publicly hosted album-review platform with search and a custom Python pipeline for scoring, cover art, RSS, and email newsletters.</p>
+            <a class="card-link" href="../AlbumReviewsWebsite/reviews.html">View project →</a>
+          </div>
+          <div class="project-card">
+            <a class="gh-link" href="https://github.com/ZackCrawford/picoCTF-Solves" target="_blank" rel="noopener" aria-label="GitHub repository" title="github.com/ZackCrawford/picoCTF-Solves">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+            </a>
+            <h3>picoCTF Solves</h3>
+            <p>A documented repository of picoCTF challenge solutions, focused on explaining reasoning and methodology.</p>
+            <a class="card-link" href="../picoCTFSolvesWebsite/index.html">View project →</a>
+          </div>
+          <div class="project-card disabled">
+            <h3>Minecraft Mod</h3>
+            <p>Ongoing Minecraft mod project focused on immersive horror gameplay - custom entities, JSON/loot table work, modding. Not yet hosted online.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <h2>Experience</h2>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">LEMA Collective - Cybersecurity Intern</span>
+            <span class="entry-date">May 2026 – Aug. 2026</span>
+          </div>
+          <div class="entry-sub">Remote</div>
+          <ul class="bullets">
+            <li>Authored a nine-part executive briefing series on AI-era cybersecurity risk for a C-suite audience, translating technical incidents into business consequence and the decision each one forces.</li>
+            <li>Built role-specific analyses mapping a single breach to seven executive seats, tying each lesson to a documented consequence for that role.</li>
+            <li>Ran multiple editorial review cycles with the firm's founder, converting feedback into structural standards applied consistently across the series.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2>Education</h2>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">University of Cincinnati, CECH</span>
+            <span class="entry-date">Expected Dec. 2027</span>
+          </div>
+          <div class="entry-sub">B.S. Cybersecurity - GPA 3.93 - Cincinnati, OH</div>
+          <ul class="bullets">
+            <li>Relevant coursework: Computer and Network Forensics, Network Monitoring and IPS, System Analysis and Design, Special Topics in Cybersecurity</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">Cuyahoga County Community College, Western Campus</span>
+            <span class="entry-date">Dec. 2024</span>
+          </div>
+          <div class="entry-sub">Associate of Applied Business, Cybersecurity - GPA 3.3 - Parma, OH</div>
+          <ul class="bullets">
+            <li>Relevant coursework: OS Hardware for Cybersecurity, Advanced Network Security, Systems Defense, Network Security Fundamentals, Linux Administration</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-title">North Royalton High School</span>
+            <span class="entry-date">May 2024</span>
+          </div>
+          <div class="entry-sub">High School Diploma - GPA 3.5 - North Royalton, OH</div>
+          <ul class="bullets">
+            <li>President's Award, National Honors Diploma; AP Macroeconomics, AP U.S. Government</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2>Skills &amp; Certifications</h2>
+        <div class="skills-cert-grid">
+          <div class="panel">
+            <div class="skills-list">
+              <div>
+                <span class="label">Technical</span>
+                Python, Linux, SQL, Ethical Hacking, Incident Response, Network Security, Penetration Testing
+              </div>
+              <div>
+                <span class="label">Languages</span>
+                English (Native), French (Novice)
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="cert">
+              <span class="name">CompTIA Security+ SY0-701</span>
+              <span class="date">Aug. 2026</span>
+              <p>Threat identification, secure architecture, IAM, risk management, cryptography/PKI.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  </div>
+</main>
+
+<footer>© 2026 Zack Crawford</footer>
+
+</body>
+</html>
