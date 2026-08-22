@@ -1,9 +1,16 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/MainPortfolioPage/index.html" },
+    { "source": "/resume", "destination": "/MainPortfolioPage/resume.html" },
     { "source": "/albums", "destination": "/AlbumReviewsWebsite/reviews.html" },
+    { "source": "/albums/all", "destination": "/AlbumReviewsWebsite/all.html" },
+    { "source": "/albums/stats", "destination": "/AlbumReviewsWebsite/stats.html" },
+    { "source": "/albums/subscribe", "destination": "/AlbumReviewsWebsite/subscribe.html" },
+    { "source": "/albums/review", "destination": "/AlbumReviewsWebsite/review.html" },
     { "source": "/albums/(.*)", "destination": "/AlbumReviewsWebsite/$1" },
     { "source": "/picoctf", "destination": "/picoCTFSolvesWebsite/index.html" },
+    { "source": "/picoctf/solve", "destination": "/picoCTFSolvesWebsite/solve.html" },
     { "source": "/picoctf/(.*)", "destination": "/picoCTFSolvesWebsite/$1" }
   ]
 }

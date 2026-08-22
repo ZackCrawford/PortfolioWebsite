@@ -5,7 +5,7 @@
 <script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2Pacalypse Now — review</title>
-<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="/albums/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
@@ -204,18 +204,18 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
     <button class="icon-btn theme-toggle-left" aria-label="Switch to light theme" data-theme-toggle>
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
     </button>
-    <a href="reviews.html" class="wordmark">Ridez</a>
+    <a href="/albums" class="wordmark">Ridez</a>
     <div class="mast-tools">
-      <a href="reviews.html" class="back">
+      <a href="/albums" class="back">
         <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>All reviews
       </a>
       <button class="icon-btn" aria-label="Search" data-search-toggle>
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       </button>
-      <a class="icon-btn" href="subscribe.html" aria-label="Sign up for new review emails">
+      <a class="icon-btn" href="/albums/subscribe" aria-label="Sign up for new review emails">
         <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
       </a>
-      <a class="icon-btn" href="stats.html" aria-label="Stats">
+      <a class="icon-btn" href="/albums/stats" aria-label="Stats">
         <svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
       </a>
     </div>
@@ -226,15 +226,15 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 
 <footer>
   <div class="wrap foot-inner">
-    <a href="../MainPortfolioPage/index.html" class="foot-home">Portfolio</a>
+    <a href="/" class="foot-home">Portfolio</a>
     <a href="https://www.albumoftheyear.org/user/ridez/" target="_blank" rel="noopener" class="foot-link">AlbumOfTheYear account</a>
   </div>
 </footer>
 
-<script src="data/reviews-data.js"></script>
-<script src="data/about-data.js"></script>
-<script src="js/search.js" defer></script>
-<script src="js/theme.js" defer></script>
+<script src="/albums/data/reviews-data.js"></script>
+<script src="/albums/data/about-data.js"></script>
+<script src="/albums/js/search.js" defer></script>
+<script src="/albums/js/theme.js" defer></script>
 <script>
 
 // Covers are optional. Try .jpg, then a few other extensions, then give up and
@@ -336,7 +336,7 @@ function render(r){
   return `
   <section class="head">
     <div class="wrap head-inner">
-      <div class="cover"><img src="covers/${encodeURIComponent(r.slug)}.jpg"
+      <div class="cover"><img src="/albums/covers/${encodeURIComponent(r.slug)}.jpg"
         alt="${esc(r.title)} cover art" data-tries="png,jpeg,webp"
         onerror="coverFallback(this)"></div>
       <div>
@@ -389,7 +389,7 @@ function render(r){
     <div class="wrap notfound">
       <h1>Review not found</h1>
       <p>No review matches &ldquo;${esc(slug)}&rdquo;.</p>
-      <a href="reviews.html">&larr; Back to all reviews</a>
+      <a href="/albums">&larr; Back to all reviews</a>
     </div>`;
 })();
 </script>

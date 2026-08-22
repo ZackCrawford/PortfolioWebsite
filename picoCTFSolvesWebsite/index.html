@@ -125,7 +125,7 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:.8rem;text-align:center}
 
 <header>
   <div class="wrap">
-    <a class="back" href="../MainPortfolioPage/index.html">&larr; back to portfolio</a>
+    <a class="back" href="/">&larr; back to portfolio</a>
     <div class="hero">
       <p class="eyebrow">Write-ups &amp; Walkthroughs</p>
       <h1>picoCTF Solves</h1>
@@ -159,8 +159,8 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:.8rem;text-align:center}
 
 <footer>&copy; 2026 Zack Crawford</footer>
 
-<script src="data/picoctf-data.js"></script>
-<script src="js/render.js"></script>
+<script src="/picoctf/data/picoctf-data.js"></script>
+<script src="/picoctf/js/render.js"></script>
 <script>
 const grouped = groupSolves(SOLVES);
 let activeCategory = CATEGORY_ORDER.find((c) => grouped.get(c)) || CATEGORY_ORDER[0];
@@ -183,7 +183,7 @@ function difficultyPill(difficulty) {
 
 function solveCard(solve, showCategory) {
   return `
-    <a class="solve-card" href="solve.html?slug=${encodeURIComponent(solve.slug)}">
+    <a class="solve-card" href="/picoctf/solve?slug=${encodeURIComponent(solve.slug)}">
       <p class="title">${escapeHtml(solve.title)}</p>
       ${difficultyPill(solve.difficulty)}
       ${showCategory ? `<p class="result-meta">${escapeHtml(solve.category)}</p>` : ""}

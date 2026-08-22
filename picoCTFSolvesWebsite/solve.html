@@ -123,7 +123,7 @@ details.hints li{margin-bottom:6px}
 
 <header>
   <div class="wrap">
-    <a class="back" href="index.html">&larr; back to all solves</a>
+    <a class="back" href="/picoctf">&larr; back to all solves</a>
   </div>
 </header>
 
@@ -133,8 +133,8 @@ details.hints li{margin-bottom:6px}
 
 <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="data/picoctf-data.js"></script>
-<script src="js/render.js"></script>
+<script src="/picoctf/data/picoctf-data.js"></script>
+<script src="/picoctf/js/render.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
 const slug = params.get("slug");
@@ -142,7 +142,7 @@ const solve = SOLVES.find((s) => s.slug === slug);
 const content = document.getElementById("content");
 
 if (!solve) {
-  content.innerHTML = `<p class="not-found">No write-up found for "${escapeHtml(slug || "")}". <a href="index.html">Back to all solves</a>.</p>`;
+  content.innerHTML = `<p class="not-found">No write-up found for "${escapeHtml(slug || "")}". <a href="/picoctf">Back to all solves</a>.</p>`;
 } else {
   document.title = `${solve.title} - picoCTF Solves`;
 

@@ -5,7 +5,7 @@
 <script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Album reviews</title>
-<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="/albums/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
@@ -342,10 +342,10 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(
     </button>
     <a href="#" class="wordmark">Ridez</a>
     <div class="mast-tools">
-      <a class="icon-btn" href="subscribe.html" aria-label="Sign up for new review emails">
+      <a class="icon-btn" href="/albums/subscribe" aria-label="Sign up for new review emails">
         <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
       </a>
-      <a class="icon-btn" href="stats.html" aria-label="Stats">
+      <a class="icon-btn" href="/albums/stats" aria-label="Stats">
         <svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
       </a>
       <button class="icon-btn" aria-label="Search" data-search-toggle>
@@ -378,7 +378,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(
     <section class="section" aria-labelledby="latest-h">
       <div class="section-head" id="latest-head">
         <h2 id="latest-h">Latest reviews</h2>
-        <a class="count" id="count" href="all.html"></a>
+        <a class="count" id="count" href="/albums/all"></a>
       </div>
       <div class="grid-latest" id="latest"></div>
     </section>
@@ -398,16 +398,16 @@ footer{border-top:1px solid var(--line);padding:30px 0;font-size:13px;color:var(
 
 <footer>
   <div class="wrap foot-inner">
-    <a href="../MainPortfolioPage/index.html" class="foot-home">Portfolio</a>
+    <a href="/" class="foot-home">Portfolio</a>
     <a href="https://www.albumoftheyear.org/user/ridez/" target="_blank" rel="noopener" class="foot-link">AlbumOfTheYear account</a>
   </div>
 </footer>
 
-<script src="js/score.js"></script>
-<script src="data/queue.js"></script>
-<script src="data/reviews-data.js"></script>
-<script src="js/search.js" defer></script>
-<script src="js/theme.js" defer></script>
+<script src="/albums/js/score.js"></script>
+<script src="/albums/data/queue.js"></script>
+<script src="/albums/data/reviews-data.js"></script>
+<script src="/albums/js/search.js" defer></script>
+<script src="/albums/js/theme.js" defer></script>
 <script>
 const TABS = ["All","Rock","Alternative","Hip-hop","Electronic","Pop","R&B","Jazz","Metal","Folk","Country","Experimental"];
 const PER_PAGE = 8, FEATURED = 2;
@@ -473,9 +473,9 @@ function flagsFor(a){
 
 function cardHTML(a){
   const flags = flagsFor(a);
-  return `<a class="card" href="review.html?album=${encodeURIComponent(a.slug)}">
+  return `<a class="card" href="/albums/review?album=${encodeURIComponent(a.slug)}">
     <div class="cover">${flags.length ? `<div class="flags">${flags.map(f => `<span class="flag">${f}</span>`).join("")}</div>` : ""}<img
-      src="covers/${encodeURIComponent(a.slug)}.jpg" alt="" loading="lazy"
+      src="/albums/covers/${encodeURIComponent(a.slug)}.jpg" alt="" loading="lazy"
       data-tries="png,jpeg,webp" onerror="coverFallback(this)"></div>
     <div class="meter sc-bar ${window.scoreClass(a.finalScore)}"><b style="width:${Math.min(a.finalScore*10,100)}%"></b></div>
     <p class="genre">${esc(genreLabel(a))}</p>
