@@ -1,0 +1,36 @@
+# Zack Crawford
+
+> Cybersecurity student at the University of Cincinnati (B.S. Cybersecurity, expected Dec. 2027, GPA 3.93), based in Cleveland, OH. CompTIA Security+ certified. This site is his portfolio: projects, experience, and resume.
+
+## About
+
+- [Portfolio home](https://zackcrawford.com/): overview, projects, experience, education, and skills.
+- [Resume](https://zackcrawford.com/resume): full resume (PDF at https://zackcrawford.com/MainPortfolioPage/resume.pdf).
+
+## Experience
+
+- LEMA Collective, Cybersecurity Intern (May - Aug. 2026, remote): wrote a nine-part executive briefing series on AI-era cybersecurity risk for a C-suite audience, and mapped a single breach to the decisions it forces for seven executive roles.
+
+## Education and certification
+
+- University of Cincinnati, CECH: B.S. Cybersecurity, expected Dec. 2027.
+- Cuyahoga Community College: A.A.B. Cybersecurity, Dec. 2024.
+- CompTIA Security+ SY0-701, Aug. 2026.
+
+## Projects
+
+- [Album Reviews](https://zackcrawford.com/albums): a static album-review site with search, stats, and an RSS feed, built on a custom Python pipeline for scoring, cover art, and newsletters.
+- [picoCTF Solves](https://zackcrawford.com/picoctf): documented picoCTF challenge solutions focused on reasoning and methodology.
+- Minecraft mod (in progress, not hosted): immersive horror gameplay with custom entities and loot tables.
+- Planned labs (in progress, not yet published): SOC Automation Lab, Cloud Security Lab, Phishing Analysis Lab, Active Directory Lab, SIEM Detection Lab.
+- [Other projects](https://github.com/ZackCrawford): smaller builds, scripts, and experiments on GitHub.
+
+## Skills
+
+Python, Linux, SQL, ethical hacking, incident response, network security, penetration testing.
+
+## Contact
+
+- Email: ZACrawfordx@gmail.com
+- LinkedIn: https://www.linkedin.com/in/crawfordz/
+- GitHub: https://github.com/ZackCrawford

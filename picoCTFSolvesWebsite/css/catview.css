@@ -1,0 +1,119 @@
+/* Category view: one category, centred. Back-out button, difficulty selector,
+   challenge cards. Shared by category.html and the in-place view on the landing page. */
+
+.catview{text-align:center}
+
+/* ---------- back out to the helix ---------- */
+.catview .back-out{
+  all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:12px;margin:0 0 38px;
+  padding:11px 20px 11px 14px;border-radius:999px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--c) 45%,transparent);background:rgba(7,8,16,.7);
+  box-shadow:0 0 24px -10px var(--c);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:background .2s,border-color .2s,transform .25s var(--ease);
+}
+.catview .back-out:hover{background:color-mix(in srgb,var(--c) 14%,rgba(7,8,16,.7));border-color:var(--c)}
+.catview .back-out:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.catview .back-out .ic{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--c) 20%,transparent)}
+.catview .back-out svg{width:14px;height:14px;transition:transform .3s var(--ease)}
+.catview .back-out:hover svg{transform:scale(.8)}
+.catview .back-out kbd{margin-left:4px}
+
+/* ---------- header ---------- */
+.catview .head{max-width:680px;margin:0 auto 34px}
+.catview .head .eyebrow{display:inline-flex;align-items:center;gap:10px;margin:0 0 16px}
+.catview .head .eyebrow i{display:block;width:22px;height:1px;background:currentColor}
+.catview .head h1{
+  margin:0 0 16px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2.4rem,6.4vw,5rem);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;
+}
+.catview .head .desc{margin:0 auto 22px;color:var(--text);font-size:1.05rem;max-width:44ch}
+.catview .cv-stats{display:inline-flex;align-items:center;gap:0;margin:0;padding:0;list-style:none;
+  border:1px solid var(--line);border-radius:999px;background:rgba(7,8,16,.55)}
+.catview .cv-stats li{padding:9px 18px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.catview .cv-stats li+li{border-left:1px solid var(--line)}
+.catview .cv-stats b{color:var(--ink);font-weight:500;margin-right:6px}
+
+/* ---------- difficulty selector ---------- */
+.catview .tabs{display:inline-grid;grid-template-columns:repeat(3,minmax(0,170px));gap:6px;margin:0 auto 30px;
+  padding:6px;border:1px solid var(--line);border-radius:16px;background:rgba(7,8,16,.6);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.catview .tab{
+  all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 12px 12px;border-radius:11px;border:1px solid transparent;transition:background .2s,border-color .2s;
+}
+.catview .tab:hover{background:rgba(255,255,255,.04)}
+.catview .tab:focus-visible{outline:2px solid var(--tc);outline-offset:2px}
+.catview .tab .lab{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tc)}
+.catview .tab .num{font-family:var(--mono);font-size:1.6rem;line-height:1;color:var(--ink)}
+.catview .tab .bar{width:70%;height:3px;border-radius:3px;background:rgba(236,233,245,.1);overflow:hidden}
+.catview .tab .bar i{display:block;height:100%;background:var(--tc);border-radius:3px}
+.catview .tab .sub{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.catview .tab[aria-selected="true"]{background:color-mix(in srgb,var(--tc) 13%,transparent);border-color:color-mix(in srgb,var(--tc) 55%,transparent)}
+.catview .tab.is-empty .num,.catview .tab.is-empty .lab{color:var(--muted)}
+.catview .tab.is-empty .bar{background:repeating-linear-gradient(90deg,rgba(236,233,245,.16) 0 4px,transparent 4px 8px)}
+
+/* ---------- challenge cards ---------- */
+.catview .grid{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;text-align:left}
+.catview .card{
+  position:relative;display:flex;flex-direction:column;gap:14px;height:100%;min-height:150px;padding:20px 20px 18px;border-radius:14px;
+  text-decoration:none;color:var(--ink);overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--tc) 16%,transparent),transparent 60%),
+    linear-gradient(160deg,rgba(20,20,36,.85),rgba(8,8,16,.82));
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:border-color .25s,transform .3s var(--ease),box-shadow .3s;
+}
+.catview .card::before{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--tc),transparent);opacity:.6}
+.catview .card:hover{border-color:color-mix(in srgb,var(--tc) 60%,transparent);transform:translateY(-3px);box-shadow:0 24px 50px -28px color-mix(in srgb,var(--tc) 70%,transparent)}
+.catview .card:focus-visible{outline:2px solid var(--tc);outline-offset:3px}
+.catview .card .cv-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.catview .card .t{font-family:var(--mono);font-weight:600;font-stretch:85%;font-size:1.15rem;line-height:1.2;text-transform:uppercase;text-wrap:balance}
+.catview .card .e{margin-top:-8px;font-size:.85rem;color:var(--muted)}
+.catview .card .cv-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center}
+.catview .card .go{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tc);transition:transform .25s var(--ease)}
+.catview .card:hover .go{transform:translateX(4px)}
+.catview .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;white-space:nowrap;
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.catview .badge.done{color:var(--teal);border-color:rgba(79,224,200,.45)}
+.catview .badge.locked{color:var(--muted);border-color:var(--line-strong)}
+.catview .card.is-locked .t{color:#c9c6d6}
+.catview .card.is-locked{background:
+    radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--tc) 7%,transparent),transparent 60%),
+    linear-gradient(160deg,rgba(16,16,28,.85),rgba(8,8,16,.82))}
+
+/* cards arrive one after another */
+.js:not(.rm) .catview .grid > li{animation:card-in .6s var(--ease) both;animation-delay:calc(var(--i) * 60ms + 120ms)}
+@keyframes card-in{from{opacity:0;transform:translateY(14px)}}
+
+/* ---------- empty difficulty ---------- */
+.catview .empty{position:relative;overflow:hidden;max-width:620px;margin:0 auto;padding:34px 28px;border-radius:14px;border:1px dashed var(--line-strong);background:rgba(10,10,20,.7)}
+.catview .empty::after{
+  content:"";position:absolute;left:0;right:0;top:-40%;height:40%;pointer-events:none;
+  background:linear-gradient(transparent,color-mix(in srgb,var(--tc) 14%,transparent),transparent);
+  animation:scan 3.6s linear infinite;
+}
+@keyframes scan{to{top:110%}}
+html.rm .catview .empty::after{display:none}
+.catview .empty .code{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tc);margin:0 0 14px}
+.catview .empty h2{margin:0 0 10px;font-family:var(--mono);font-weight:500;font-stretch:80%;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1;text-transform:uppercase}
+.catview .empty p{margin:0 auto 22px;color:var(--text);max-width:44ch}
+.catview .slots{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:6px;text-align:left}
+.catview .slots li{
+  display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:14px 18px;border-radius:8px;
+  border:1px dashed var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(143,140,163,.6);
+}
+.catview .slots i{display:block;height:9px;border-radius:2px;background:rgba(236,233,245,.08)}
+.catview .empty .alts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+
+.catview .notfound{padding:40px 0}
+
+@media (max-width:560px){
+  .catview .tabs{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+  .catview .tab{padding:12px 6px 10px}
+  .catview .cv-stats li{padding:8px 12px}
+  .catview .grid{grid-template-columns:1fr}
+  .catview .back-out kbd{display:none}
+}

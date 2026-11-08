@@ -2,54 +2,104 @@
 
 # Zack Crawford - Portfolio
 
-*A static, no-framework portfolio site hosting a resume and two projects,
-deployed as a single Vercel site with path-based routing.*
+*A static, no-framework portfolio site with a 3D front page, a resume, and two
+projects, deployed as a single Vercel site with path-based routing.*
 
 </div>
 
 ---
 
 Everything here is plain HTML/CSS/JS - no build step, no bundler, no
-framework. Each project lives in its own top-level folder and can be opened
-and run independently; `vercel.json` at the repo root stitches them
+framework. The 3D scenes use [Three.js](https://threejs.org/) loaded from a
+CDN, pinned to an exact version and integrity-checked. Each project lives in
+its own top-level folder; `vercel.json` at the repo root stitches them
 together into one deployed site.
 
 ## What's here
 
 | Path | What it is |
 |---|---|
-| `/` | **Portfolio** - resume, contact links, and project cards |
-| `/albums` | **Album Reviews** - a personal album-review site: scoring, genre browsing, fuzzy search, RSS, email sign-up |
-| `/picoctf` | **picoCTF Solves** - browsable write-ups for picoCTF challenges, pulled live from a separate GitHub repo of Markdown solves |
+| `/` | **Portfolio** - 3D intro, projects, experience and education, contact |
+| `/resume` | Resume viewer with PDF download |
+| `/picoctf` | **picoCTF Solves** - write-ups for picoCTF challenges, browsable by category and difficulty |
+| `/albums` | **Album Reviews** - scoring, genre browsing, fuzzy search, RSS, email sign-up |
+| `/privacy`, `/accessibility` | Privacy policy and accessibility statement |
+
+## Front page
+
+- **Coin intro** - a greyscale ZC coin falls in spinning and latches into a wireframe lock; scrolling unlocks it
+- **Coin to helix** - the coin turns edge-on into a line of light, which unzips into a DNA double helix
+- **Projects on the helix** - each project card is fixed to its own point on the strand; the camera descends and circles the helix as you scroll, and each card's attachment point glows
+- **Record** - experience, education and certification as a centred timeline
+- **Section navigator** - bottom-left control to jump between Main, Info, Projects, Record and Contact
+- **Reduced motion** - with the system setting on, all 3D is skipped for a plain layout with the same content
+
+## picoCTF Solves
+
+- **Category ride** - a particle cloud forms a shape for each category (globe, padlock, magnifying glass, terminal...) as the camera turns and descends; the cursor scatters particles, which drift back
+- **Dive in** - "Open category" flies into the shape and opens the category in place, with difficulty tabs and challenge cards
+- **Write-ups** - a terminal-style page that opens downward from its title bar; unsolved challenges show clearly labelled placeholder text
+- **Search** - `Ctrl + K` (or `/`) from any picoCTF page
+- **Ordering** - categories are sorted from most to least solved, computed from the data
+
+## Keyboard
+
+| Key | Action |
+|---|---|
+| `Page Down` / `Space` | Next section |
+| `Page Up` / `Shift + Space` | Previous section |
+| `Home` / `End` | Top / bottom |
+| `Left` / `Right` | Previous / next picoCTF category or write-up |
+| `Ctrl + K`, `/` | Search (picoCTF) |
+| `Esc` | Close menus, back out of a category or write-up |
 
 ## Folders
 
 ```
-vercel.json                  routes "/", "/albums", "/picoctf" to the folders below
+vercel.json                  rewrites, security headers, cache rules
+404.html                     custom not-found page
+robots.txt, sitemap.xml      crawler files
+llms.txt                     plain-text summary of the site for AI tools
 
-MainPortfolioPage/           the site root - resume.pdf + resume.html viewer, project cards
-AlbumReviewsWebsite/         the album review site (technical details below, and in its own CLAUDE.md)
-picoCTFSolvesWebsite/        the picoCTF write-up site
+MainPortfolioPage/           front page, resume viewer, privacy + accessibility pages
+  js/main.js                 scroll choreography, project ring, navigator, keyboard
+  js/scene.js                Three.js scene: coin, lock, helix
+  img/og.png                 link-preview image
+picoCTFSolvesWebsite/        picoCTF site
+  js/particles.js            particle shapes, cursor wind, orbiting camera
+  js/catview.js              category view (shared by the landing page and category.html)
+  js/palette.js              Ctrl+K search
+  js/render.js               shared helpers, safe Markdown rendering, category order
+  data/picoctf-data.js       generated from the write-up repo
+AlbumReviewsWebsite/         album review site (details below and in its own CLAUDE.md)
 ```
-
-Each project folder is self-contained: its own pages, its own `data/`,
-its own `scripts/` for anything that needs regenerating. Nothing is shared
-between them except the routing in `vercel.json`.
 
 ## Deployment
 
-The whole repo is one Vercel project. `vercel.json` rewrites map clean
-URLs to each folder's real files - for example `/albums/reviews.html` is
-served at the on-disk path `AlbumReviewsWebsite/reviews.html`, so every
-internal link inside that folder just works without any extra rewrites.
-Pushing to `main` redeploys automatically.
+The whole repo is one Vercel project; pushing to `main` redeploys
+automatically, and other branches get preview deployments. `vercel.json`
+rewrites map clean URLs to each folder's real files - for example
+`/albums/reviews.html` is served from `AlbumReviewsWebsite/reviews.html`.
+
+**Cache versioning:** scripts and stylesheets are loaded with a `?v=` tag
+(for example `particles.js?v=20261109n`). When you change a JS or CSS file,
+bump the tag in every page that loads it, or returning visitors will keep
+running their cached copy.
+
+## Security
+
+- Content Security Policy and other security headers are set in `vercel.json`
+- CDN libraries are version-pinned with Subresource Integrity hashes
+- Write-up Markdown is rendered with raw HTML shown as text and links limited to safe protocols
+- Search input and URL parameters are escaped before display
+- The album request form has a spam honeypot and a per-browser submission limit
+- Rate limiting is configured in Vercel's Firewall (one rule on the Hobby plan)
 
 ## Regenerating data
 
 Both projects that pull from external sources have a small Python script
-(standard library only, no installs) to regenerate their data file. Run
-each from inside its own project folder - they write to `data/` relative
-to the current directory:
+(standard library only, no installs). Run each from inside its own project
+folder - they write to `data/` relative to the current directory:
 
 ```bash
 # from AlbumReviewsWebsite/ - parses reviews/*.docx into data/reviews-data.js
@@ -59,9 +109,8 @@ python scripts/parse_reviews.py reviews
 python scripts/parse_picoctf.py
 ```
 
-See `AlbumReviewsWebsite/CLAUDE.md` for that project's full internal
-conventions - slug rules, the document format its parser expects, styling
-variables, and known gotchas.
+A picoCTF challenge counts as solved once its write-up text is published;
+category order and colours update automatically.
 
 ---
 

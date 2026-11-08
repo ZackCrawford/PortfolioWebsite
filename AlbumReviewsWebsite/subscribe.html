@@ -5,6 +5,19 @@
 <script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sign up — Album reviews</title>
+<meta name="description" content="Get new album reviews by email, or request an album for Zack Crawford to review.">
+<link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://zackcrawford.com/albums/subscribe">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zack Crawford">
+<meta property="og:title" content="Subscribe to Album Reviews - Zack Crawford">
+<meta property="og:description" content="Get new album reviews by email, or request an album for Zack Crawford to review.">
+<meta property="og:url" content="https://zackcrawford.com/albums/subscribe">
+<meta property="og:image" content="https://zackcrawford.com/MainPortfolioPage/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zack Crawford, cybersecurity portfolio">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="/albums/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -270,7 +283,7 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 
         <div class="field">
           <label class="sr" for="signup-email">Email address</label>
-          <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
+          <input type="email" name="email" id="signup-email" placeholder="you@example.com" required maxlength="254" autocomplete="email">
         </div>
 
         <button type="submit" class="submit">Sign Up</button>
@@ -287,7 +300,11 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
       <form id="request-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="post">
         <div class="field">
           <label class="sr" for="request-album">Artist and album</label>
-          <input type="text" name="album" id="request-album" placeholder="Artist – Album title" required>
+          <input type="text" name="album" id="request-album" placeholder="Artist – Album title" required maxlength="160" autocomplete="off">
+        </div>
+        <!-- spam trap: hidden from people, filled in by bots; Formspree drops anything that sets it -->
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         </div>
         <button type="submit" class="submit">Request</button>
         <p class="hint error" id="request-error" hidden>Something went wrong — try again in a moment.</p>
@@ -303,7 +320,7 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
     <p class="modal-body" id="modal-body">Want an email the moment it's posted?</p>
     <div class="modal-row" id="modal-row">
       <label class="sr" for="modal-email">Email address</label>
-      <input type="email" id="modal-email" placeholder="you@example.com">
+      <input type="email" id="modal-email" placeholder="you@example.com" maxlength="254">
       <button type="button" id="modal-notify" class="submit">Notify me</button>
     </div>
     <button type="button" id="modal-skip" class="modal-skip">No thanks, that's it</button>
@@ -373,6 +390,8 @@ const esc = s => String(s == null ? "" : s)
   btnSpecific.addEventListener("click", function () { setMode(true); });
 
   document.getElementById("signup-form").addEventListener("submit", function (e) {
+    var blocked = allowSubmit("ar-signup");
+    if (blocked) { e.preventDefault(); alert(blocked); return; }
     if (btnSpecific.getAttribute("aria-pressed") === "true") {
       var anyChecked = Array.prototype.some.call(checkboxes, function (cb) { return cb.checked; });
       if (!anyChecked) {
@@ -382,6 +401,18 @@ const esc = s => String(s == null ? "" : s)
     }
   });
 })();
+
+// ---- per-browser submission limit: blunts accidental double-submits and
+// casual spam before it reaches Formspree/Buttondown (who also rate-limit) ----
+function allowSubmit(key) {
+  var now = Date.now(), MIN_GAP = 20000, MAX_PER_HOUR = 5, list = [];
+  try { list = JSON.parse(localStorage.getItem(key) || "[]").filter(function (t) { return now - t < 3600000; }); } catch (e) { list = []; }
+  if (list.length && now - list[list.length - 1] < MIN_GAP) return "Please wait a few seconds before sending again.";
+  if (list.length >= MAX_PER_HOUR) return "That's a lot of requests - try again in a little while.";
+  list.push(now);
+  try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) { /* storage blocked: allow */ }
+  return "";
+}
 
 // ---- request an album: record it, then optionally offer email notify ----
 (function () {
@@ -425,6 +456,11 @@ const esc = s => String(s == null ? "" : s)
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     errorMsg.hidden = true;
+    var blocked = allowSubmit("ar-request");
+    if (blocked) { errorMsg.textContent = blocked; errorMsg.hidden = false; return; }
+    var btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    setTimeout(function () { btn.disabled = false; }, 4000);
     var data = new FormData(form);
     fetch(form.action, { method: "POST", body: data, headers: { "Accept": "application/json" } })
       .then(function (res) {
@@ -440,7 +476,8 @@ const esc = s => String(s == null ? "" : s)
 
   document.getElementById("modal-notify").addEventListener("click", function () {
     var email = modalEmail.value.trim();
-    if (!email) { modalEmail.focus(); return; }
+    if (!email || !modalEmail.checkValidity()) { modalEmail.focus(); return; }
+    if (allowSubmit("ar-notify")) { modalBody.textContent = "Please wait a moment before trying again."; return; }
     var slug = slugify(pendingAlbum);
     submitSilently("https://buttondown.com/api/emails/embed-subscribe/YOUR_BUTTONDOWN_USERNAME", {
       email: email, embed: "1", tag: "album-" + slug,
@@ -453,8 +490,8 @@ const esc = s => String(s == null ? "" : s)
 })();
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" integrity="sha384-9EQoUIJYrv09/oYhSxnw1VpLcfPw3BM9dE7+D/3wGUPeLLa7F9Z6OAoD+i/M6FK9" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js" integrity="sha384-D6Vi74NVmijKQf1pli4I6bI+2tgDqRYLXsmZyVTkgToClCy0td6CwjcovDvODoUu" crossorigin="anonymous"></script>
 <script>
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && window.VANTA) {
     var vantaDark  = { color1: 0x4a00a7, color2: 0x250055 };
