@@ -5,6 +5,19 @@
 <script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2Pacalypse Now — review</title>
+<meta name="description" content="A full album review by Zack Crawford: score, track-by-track notes, and verdict.">
+<link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://zackcrawford.com/albums/review">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zack Crawford">
+<meta property="og:title" content="Album Review - Zack Crawford">
+<meta property="og:description" content="A full album review by Zack Crawford: score, track-by-track notes, and verdict.">
+<meta property="og:url" content="https://zackcrawford.com/albums/review">
+<meta property="og:image" content="https://zackcrawford.com/MainPortfolioPage/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zack Crawford, cybersecurity portfolio">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="alternate" type="application/rss+xml" title="Ridez — Album Reviews" href="/albums/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -332,6 +345,9 @@ function render(r){
     : "";
 
   document.title = `${r.title} \u2014 review`;
+  // point the canonical link at this specific review
+  document.querySelector('link[rel="canonical"]').href =
+    `https://zackcrawford.com/albums/review?album=${encodeURIComponent(r.slug)}`;
 
   return `
   <section class="head">
@@ -394,8 +410,8 @@ function render(r){
 })();
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" integrity="sha384-9EQoUIJYrv09/oYhSxnw1VpLcfPw3BM9dE7+D/3wGUPeLLa7F9Z6OAoD+i/M6FK9" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js" integrity="sha384-D6Vi74NVmijKQf1pli4I6bI+2tgDqRYLXsmZyVTkgToClCy0td6CwjcovDvODoUu" crossorigin="anonymous"></script>
 <script>
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && window.VANTA) {
     var vantaDark  = { color1: 0x4a00a7, color2: 0x250055 };

@@ -3,274 +3,912 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>picoCTF Solves</title>
+<title>picoCTF Solves - Zack Crawford</title>
 <meta name="description" content="Zack Crawford's picoCTF challenge write-ups, browsable by category and difficulty.">
+<link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://zackcrawford.com/picoctf">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zack Crawford">
+<meta property="og:title" content="picoCTF Solves - Zack Crawford">
+<meta property="og:description" content="Zack Crawford's picoCTF challenge write-ups, browsable by category and difficulty.">
+<meta property="og:url" content="https://zackcrawford.com/picoctf">
+<meta property="og:image" content="https://zackcrawford.com/MainPortfolioPage/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zack Crawford, cybersecurity portfolio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#05060a">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/picoctf/css/pico.css?v=20261108v">
+<link rel="stylesheet" href="/picoctf/css/catview.css?v=20261108v">
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("rm");
+    // returning from a category page zooms out of its shape: no loading screen
+    try { if (sessionStorage.getItem("pico-zoomout")) d.classList.add("zoomback"); } catch (e) { /* private mode */ }
+  })();
+</script>
+<script type="importmap">
+{
+  "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" },
+  "integrity": {
+    "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js": "sha384-IDC7sAMAIMB/TZ6dgKKPPAKZ2bXXXP8+FBMBC8cU319eBhKITx+PaalhfDkDNH28"
+  }
+}
+</script>
 <style>
-:root{
-  --bg:#0a0c10;
-  --surface:#12161d;
-  --surface-2:#181d26;
-  --border:#242b35;
-  --border-hover:#39424f;
-  --text:#e6e9ee;
-  --muted:#7d8590;
-  --accent:#39d98a;
-  --accent-ink:#04140c;
-  --accent-wash:#39d98a1a;
-  --easy:#3fb950;
-  --medium:#d29922;
-  --hard:#f85149;
-  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
-  --wrap:1760px;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:var(--mono);font-size:15px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:inherit}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 56px}
-@media (max-width:900px){.wrap{padding:0 24px}}
-
-header{
-  padding:56px 0 48px;
-}
-.back{color:var(--muted);text-decoration:none;font-size:13px;display:inline-block;margin-bottom:28px}
-.back:hover{color:var(--accent)}
-.hero{text-align:center;max-width:640px;margin:0 auto}
-.eyebrow{
-  text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:600;
-  color:var(--accent);margin:0 0 14px;
-}
-h1{font-size:2.4rem;margin:0 0 12px;font-weight:600;letter-spacing:-.01em}
-.subtitle{color:var(--muted);margin:0 auto;font-size:.96rem;max-width:460px}
-
-.search-wrap{position:relative;width:380px;max-width:100%;margin:26px auto 0}
-.search-wrap svg{
-  position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  width:16px;height:16px;color:var(--muted);pointer-events:none;
-}
-#search{
-  width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  color:var(--text);font-family:var(--mono);font-size:.9rem;text-align:left;
-  padding:11px 14px 11px 38px;outline:none;
-}
-#search::placeholder{color:var(--muted)}
-#search:focus{border-color:var(--accent)}
-
-main{padding:44px 0 80px}
-
-/* category showcase grid */
-.category-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:16px;margin-bottom:44px;padding-top:32px;
-}
-.category-tile{
-  text-align:left;cursor:pointer;
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:20px 22px;font-family:var(--mono);color:var(--text);
-  transition:border-color .15s,transform .15s,background .15s;
-}
-.category-tile:hover{border-color:var(--border-hover);transform:translateY(-2px)}
-.category-tile.active{border-color:var(--accent);background:var(--accent-wash)}
-.category-tile .name{font-size:1.05rem;font-weight:700;margin:0 0 5px}
-.category-tile .desc{color:var(--muted);font-size:.82rem;margin:0 0 16px;line-height:1.5;min-height:2.2em}
-.tile-stats{display:flex;align-items:center;gap:12px}
-.tile-total{font-size:.78rem;color:var(--muted)}
-.tile-diffs{display:flex;gap:10px;margin-left:auto}
-.tile-diff{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;color:var(--muted)}
-.dot{width:7px;height:7px;border-radius:50%;flex:none}
-
-/* selected category panel */
-.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
-.panel-title{font-size:1.3rem;font-weight:700;margin:0}
-.panel-desc{color:var(--muted);font-size:.88rem;margin:4px 0 0}
-.panel-count{color:var(--muted);font-size:.85rem}
-
-.tier-block{margin-bottom:30px}
-.tier-block:last-child{margin-bottom:0}
-.tier-block-head{display:flex;align-items:center;gap:8px;margin-bottom:14px}
-.tier-block-head .label{font-weight:700;font-size:.92rem}
-.tier-block-head .count{color:var(--muted);font-size:.82rem}
-.empty-note{color:var(--muted);font-size:.86rem;font-style:italic}
-
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-.solve-card{
-  display:block;text-decoration:none;color:var(--text);
-  background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:18px 20px;transition:border-color .15s,transform .15s,background .15s;
-}
-.solve-card:hover{border-color:var(--border-hover);background:var(--surface-2);transform:translateY(-2px)}
-.solve-card .title{font-size:.98rem;font-weight:600;margin:0 0 10px}
-.pill{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-  padding:3px 9px;border-radius:999px;background:var(--surface-2);
+/* ---------- background colour: blended every frame from the scroll position ---------- */
+.aurora{
+  --gx:75%;position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(45% 50% at var(--gx) 45%,rgba(var(--gc),calc(.07 * var(--gi))),transparent 72%),
+    radial-gradient(80% 45% at 50% 110%,rgba(var(--gc),calc(.05 * var(--gi))),transparent 72%),
+    linear-gradient(180deg,#07070f,#05060a 50%,#080812),
+    radial-gradient(45% 50% at calc(100% - var(--gx)) 90%,rgba(79,224,200,.06),transparent 70%),
+    radial-gradient(50% 45% at calc(100% - var(--gx)) 5%,rgba(154,123,255,.08),transparent 70%);
 }
 
-/* search results mode */
-.results-head{margin-bottom:20px;color:var(--muted);font-size:.88rem}
-.results-head b{color:var(--text)}
-.result-meta{color:var(--muted);font-size:.78rem;margin-top:2px}
-.no-results{color:var(--muted);text-align:center;padding:60px 0}
+/* ---------- loader + intro ---------- */
+.loader{
+  position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  background:#05060a;font-family:var(--mono);color:var(--muted);transition:opacity .6s var(--ease);
+}
+.loader.is-done{opacity:0;pointer-events:none}
+html.rm .loader,html:not(.js) .loader,html.zoomback .loader{display:none}
+.loader-art{margin:0;color:var(--teal);font-size:12px;line-height:1.15;text-shadow:0 0 12px rgba(79,224,200,.5)}
+.loader-bar{margin:0;font-size:12px;letter-spacing:.08em;color:var(--ink)}
+.loader-bar b{color:var(--teal);font-weight:500;display:inline-block;min-width:4ch;text-align:right}
+.loader-line{margin:0;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+/* hero copy waits for the camera to arrive */
+.js:not(.rm) .hero-copy,.js:not(.rm) .scroll-cue{transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+.js:not(.rm) body.intro .hero-copy{opacity:0;transform:translateY(24px)}
+.js:not(.rm) body.intro .scroll-cue{opacity:0!important}
 
-footer{padding:24px 0 40px;color:var(--muted);font-size:.8rem;text-align:center}
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;
+  padding:110px var(--gutter) 80px;
+}
+.hero-copy{max-width:560px}
+.hero h1{
+  margin:0 0 22px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(3rem,8vw,7rem);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+}
+.hero h1 .glitch{display:block}
+.hero .sub{margin:0 0 28px;font-size:1.05rem;color:var(--text);max-width:44ch}
+.stats{display:flex;flex-wrap:wrap;gap:10px 28px;margin:0 0 30px;padding:0;list-style:none}
+.stats li{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.stats b{display:block;font-size:1.6rem;font-weight:500;color:var(--ink);letter-spacing:-.01em;line-height:1.1}
 
-[hidden]{display:none !important}
+.search{position:relative;max-width:440px}
+.search svg{position:absolute;left:16px;top:50%;width:16px;height:16px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.search input{
+  width:100%;font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink);
+  padding:14px 16px 14px 44px;border-radius:999px;border:1px solid var(--line-strong);background:rgba(7,9,26,.75);
+  transition:border-color .2s;
+}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--teal)}
+.search-hint{margin:10px 0 0 18px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.results{
+  position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:30;margin:0;padding:6px;list-style:none;
+  background:rgba(10,10,20,.96);border:1px solid var(--line-strong);border-radius:8px;max-height:340px;overflow:auto;
+}
+.results[hidden]{display:none}
+.results a{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:5px;text-decoration:none;
+}
+.results a:hover,.results a:focus{background:rgba(79,224,200,.1);outline:none}
+.results .t{font-size:.92rem}
+.results .m{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.results .none{padding:12px;color:var(--muted);font-size:.9rem}
+
+.scroll-cue{
+  position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+}
+.scroll-cue{transition:opacity .3s linear}
+.scroll-cue i{display:block;width:1px;height:38px;background:linear-gradient(var(--teal),transparent);animation:cue 2.2s var(--ease) infinite;transform-origin:top}
+.scroll-cue .chev{display:flex;flex-direction:column;align-items:center;margin-top:-6px}
+.scroll-cue .chev b{display:block;width:16px;height:16px;border-right:2px solid var(--teal);border-bottom:2px solid var(--teal);transform:rotate(45deg);margin-top:-7px;filter:drop-shadow(0 0 6px rgba(79,224,200,.7));animation:chev 1.6s var(--ease) infinite}
+.scroll-cue .chev b:nth-child(2){animation-delay:.18s}
+@keyframes chev{0%{opacity:0;translate:0 -6px}40%{opacity:1}100%{opacity:0;translate:0 8px}}
+html.rm .scroll-cue .chev b{animation:none;opacity:.8}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+html.rm .scroll-cue i{animation:none}
+
+/* ---------- chapters ---------- */
+.chapter{position:relative;min-height:185vh;display:flex;align-items:center;padding:120px var(--gutter);overflow-x:clip}
+.chapter-card{
+  /* no box: the text floats in the scene like a HUD callout tethered to its shape */
+  position:relative;width:min(520px,100%);margin-left:clamp(0px,6vw,110px);padding:10px 0 10px 34px;
+  text-shadow:0 2px 18px rgba(5,6,10,.95),0 0 3px rgba(5,6,10,.9);
+}
+.chapter-card::after{   /* soft shadow pool for legibility, no edges */
+  content:"";position:absolute;inset:-70px -90px;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(5,6,10,.72),rgba(5,6,10,.35) 55%,transparent);
+}
+.chapter-card::before{   /* left rail with ticks, in the category colour */
+  content:"";position:absolute;left:0;top:0;bottom:0;width:10px;
+  border-left:1px solid color-mix(in srgb,var(--c) calc(30% + 50% * var(--gi)),transparent);
+  background:repeating-linear-gradient(180deg,color-mix(in srgb,var(--c) 70%,transparent) 0 1px,transparent 1px 22px) left/6px 100% no-repeat;
+}
+.chapter.flip .chapter-card{margin-left:auto;margin-right:clamp(0px,6vw,110px);padding:10px 34px 10px 0;text-align:right}
+.chapter.flip .chapter-card::before{left:auto;right:0;border-left:0;border-right:1px solid color-mix(in srgb,var(--c) calc(30% + 50% * var(--gi)),transparent);background-position:right}
+/* tether: a line from the text out toward the shape, ending in a node */
+.tether{position:absolute;top:118px;left:calc(100% + 18px);width:clamp(60px,11vw,190px);height:1px;pointer-events:none;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 85%,transparent),color-mix(in srgb,var(--c) 25%,transparent));
+  opacity:calc(.25 + .75 * var(--gi));transform-origin:left;}
+.tether::after{content:"";position:absolute;right:-5px;top:-4px;width:9px;height:9px;border-radius:50%;
+  border:1px solid var(--c);box-shadow:0 0 10px var(--c),inset 0 0 4px var(--c)}
+.tether::before{content:"";position:absolute;left:0;top:-3px;width:28px;height:7px;border-top:1px solid var(--c);border-left:1px solid var(--c);transform:skewX(-40deg);transform-origin:left;opacity:.7}
+.chapter.flip .tether{left:auto;right:calc(100% + 18px);transform:scaleX(-1);transform-origin:right}
+.js:not(.rm) .chapter-card.reveal .tether{transform:scaleX(0);transition:transform 1s var(--ease) .35s}
+.js:not(.rm) .chapter-card.reveal.is-visible .tether{transform:scaleX(1)}
+.js:not(.rm) .chapter.flip .chapter-card.reveal.is-visible .tether{transform:scaleX(-1)}
+.ghost-n{
+  position:absolute;bottom:calc(100% - 40px);left:20px;font-family:var(--mono);font-weight:700;font-stretch:75%;
+  font-size:clamp(7rem,12vw,10.5rem);line-height:.8;color:transparent;z-index:-1;
+  -webkit-text-stroke:1px color-mix(in srgb,var(--c) 30%,transparent);
+  pointer-events:none;user-select:none;text-shadow:none;
+}
+.chapter.flip .ghost-n{left:auto;right:20px}
+.card-top{display:flex;align-items:center;gap:10px;margin:0 0 16px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.chapter.flip .card-top{justify-content:flex-end}
+.card-top i{display:block;width:22px;height:1px;background:var(--c)}
+.chapter h2{
+  position:relative;margin:0 0 12px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2.4rem,4.6vw,4rem);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;
+}
+.chapter .desc{position:relative;margin:0 0 28px;color:var(--text);font-size:1rem;max-width:40ch}
+.chapter.flip .desc{margin-left:auto}
+
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 26px;padding:0;list-style:none}
+.rings{max-width:330px}
+.chapter.flip .rings{margin-left:auto}
+.ring{
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 4px;border-radius:50px;text-decoration:none;
+  transition:transform .25s var(--ease);
+}
+a.ring:hover{transform:translateY(-3px)}
+a.ring:hover .dial-wrap{filter:drop-shadow(0 0 8px var(--tc))}
+.dial{
+  --p:0;display:block;position:relative;width:62px;height:62px;border-radius:50%;
+  background:conic-gradient(var(--tc) calc(var(--p) * 1%),rgba(236,233,245,.1) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));
+          mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));
+}
+.dial-wrap{display:block;position:relative;width:62px;height:62px}
+.ring.is-empty .dial-num{padding-top:20px}
+.dial-num{position:absolute;inset:0;display:flex;align-items:baseline;justify-content:center;padding-top:21px;font-family:var(--mono);font-size:14px;color:var(--ink)}
+.dial-num small{font-size:9.5px;color:var(--muted);margin-left:1px}
+.ring .lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tc)}
+.ring.is-empty .dial{background:repeating-conic-gradient(rgba(236,233,245,.16) 0 6deg,transparent 6deg 14deg)}
+.ring.is-empty .dial-num{color:var(--muted)}
+.ring.is-empty .lab{color:var(--muted)}
+
+.chapter-actions{position:relative;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.chapter.flip .chapter-actions{justify-content:flex-end;flex-direction:row-reverse}
+.chapter-actions .total{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chapter-actions .total b{color:var(--ink);font-weight:500}
+
+/* in-place category view: opens inside the shape after the dive, no page load */
+.cat-overlay{position:fixed;inset:0;z-index:11;overflow-y:auto;overscroll-behavior:contain;opacity:0;transition:opacity .45s var(--ease)}
+.cat-overlay[hidden]{display:none}
+.cat-overlay.is-shown{opacity:1}
+.cat-overlay .vignette{
+  position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(60% 60% at 50% 45%,rgba(5,6,10,.5),rgba(5,6,10,.12) 70%,rgba(5,6,10,0));
+}
+.cat-overlay .page{position:relative;min-height:100vh;padding:120px var(--gutter) 90px}
+.cat-overlay .inner{max-width:860px;margin:0 auto}
+.cat-overlay.is-shown .inner{animation:ov-arrive 1s var(--ease) both .05s}
+.cat-overlay .inner.back-in{animation:ov-back .9s var(--ease) both}
+@keyframes ov-back{from{opacity:0;transform:scale(1.08);filter:blur(8px)}}
+@keyframes ov-arrive{from{opacity:0;transform:scale(.96) translateY(14px);filter:blur(6px)}}
+html.ov-lock{overflow:hidden}
+body.ov-open .site{opacity:0;pointer-events:none}
+/* the navigator stays inside a category, above it */
+body.ov-open .rail{z-index:14}
+
+/* dive-in transition: everything but the particles fades away */
+.site,.rail,.brand,.nav,.topfade{transition:opacity .55s var(--ease)}
+/* warp: the page fades while the particles carry the move */
+body.warping .site,body.warping .rail{opacity:0;pointer-events:none;transition-duration:.3s}
+body.diving .site,body.diving .rail,body.diving .brand,body.diving .nav,body.diving .topfade{opacity:0;pointer-events:none}
+
+/* ---------- ending ---------- */
+.ending{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px var(--gutter)}
+.ending h2{
+  margin:0 0 14px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(1.8rem,4vw,3.2rem);line-height:1.05;text-transform:uppercase;letter-spacing:-.01em;
+}
+.ending p{margin:0 0 28px;color:var(--text);max-width:46ch}
+.ending h2,.ending p,.ending .eyebrow{text-shadow:0 2px 18px #05060a,0 0 4px #05060a}
+.ending .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+
+/* ---------- smaller screens ---------- */
+@media (max-width:1100px){
+  .chapter-card,.chapter.flip .chapter-card{margin:0 auto}
+  .tether{display:none}
+  /* phones/tablets: every category reads left-aligned, centred on screen */
+  .chapter.flip .chapter-card{padding:10px 0 10px 34px;text-align:left}
+  .chapter.flip .chapter-card::before{right:auto;left:0;border-right:0;border-left:1px solid color-mix(in srgb,var(--c) calc(30% + 50% * var(--gi)),transparent);background-position:left}
+  .chapter.flip .card-top{justify-content:flex-start}
+  .chapter.flip .desc,.chapter.flip .rings{margin-left:0}
+  .chapter.flip .chapter-actions{justify-content:flex-start;flex-direction:row}
+  .chapter.flip .ghost-n{right:auto;left:20px}
+}
+@media (max-width:860px){
+  .chapter{min-height:150vh}
+  .rail{left:0;right:0;bottom:0;border-radius:0;border-width:1px 0 0;padding:8px var(--gutter) calc(8px + env(safe-area-inset-bottom))}
+  .rail-now{flex:1;min-width:0}
+  .rail-now b{overflow:hidden;text-overflow:ellipsis}
+  .rail .all span{display:none}
+  .rail-menu{left:var(--gutter);right:var(--gutter);min-width:0}
+  .chapter-card{padding:26px 22px 22px}
+  .ghost-n{font-size:5.5rem}
+}
+html.rm .chapter{min-height:auto;padding-top:80px;padding-bottom:80px}
+html.rm .rail{position:sticky;bottom:12px;transform:none;opacity:1;pointer-events:auto;margin:0 var(--gutter);width:max-content}
 </style>
+<!-- browsers that support it load these pages in the background on hover -->
+<script type="speculationrules">{"prefetch": [{"where": {"href_matches": "/picoctf/category*"}, "eagerness": "moderate"}]}</script>
+<!-- loaded before the body so pages draw complete on their first frame -->
+<script src="/picoctf/data/picoctf-data.js?v=20261108v"></script>
+<script src="/picoctf/js/render.js?v=20261108v"></script>
+<script src="/picoctf/js/catview.js?v=20261108v"></script>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin="anonymous">
+<link rel="modulepreload" href="/picoctf/js/particles.js?v=20261108v">
 </head>
-<body>
+<body class="intro">
+<a class="skip" href="#main">Skip to content</a>
+<div class="loader" id="loader" aria-hidden="true">
+  <pre class="loader-art">  ___ _  _   ___
+ / __| |/ | | __|
+| (__| ' <  | _|
+ \___|_|\_\ |_|  </pre>
+  <p class="loader-bar"><span id="loader-bar">[..........]</span> <b id="loader-pct">0%</b></p>
+  <p class="loader-line" id="loader-line">decrypting challenges</p>
+</div>
+<div class="aurora" id="aurora" aria-hidden="true"></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="topfade" aria-hidden="true"></div>
 
-<header>
-  <div class="wrap">
-    <a class="back" href="/">&larr; back to portfolio</a>
-    <div class="hero">
-      <p class="eyebrow">Write-ups &amp; Walkthroughs</p>
-      <h1>picoCTF Solves</h1>
-      <p class="subtitle">Write-ups from picoCTF, organized by category and difficulty.</p>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="search" type="text" placeholder="Search challenges or categories" autocomplete="off">
+<a class="brand" href="/" aria-label="Zack Crawford portfolio home" title="Portfolio home">
+  <svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" fill="none" stroke="#4fe0c8" stroke-width="2"/>
+    <circle cx="32" cy="32" r="24" fill="none" stroke="#9a7bff" stroke-width="1" stroke-dasharray="2 3"/>
+    <path d="M20 21h18L20 43h18" fill="none" stroke="#ece9f5" stroke-width="3.2"/>
+    <path d="M47 24a9 9 0 1 0 0 16" fill="none" stroke="#ff6b7d" stroke-width="3.2"/>
+  </svg>
+</a>
+<nav class="nav" aria-label="Primary">
+  <a href="/">Portfolio</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="/picoctf" aria-current="page">picoCTF</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="/#contact">Contact</a>
+</nav>
+
+<nav class="rail is-hidden" id="rail" aria-label="Category navigation">
+  <button type="button" id="rail-top" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" id="rail-prev" aria-label="Previous category" title="Previous category" aria-keyshortcuts="ArrowLeft">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="rail-now" aria-live="polite"><small id="rail-count">Category</small><b id="rail-name"></b></div>
+  <button type="button" id="rail-next" aria-label="Next category" title="Next category" aria-keyshortcuts="ArrowRight">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" class="all" id="rail-all" aria-expanded="false" aria-controls="rail-menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>All categories</span>
+  </button>
+  <ul class="rail-menu" id="rail-menu" hidden></ul>
+</nav>
+
+<div class="cat-overlay" id="cat-overlay" hidden>
+  <div class="vignette" aria-hidden="true"></div>
+  <main class="page" aria-label="Category"><div class="inner" id="ov-app"></div></main>
+</div>
+
+<div class="site">
+<main id="main">
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">Write-ups &amp; walkthroughs</p>
+      <h1 id="hero-title">
+        <span class="glitch" data-text="picoCTF">picoCTF</span>
+        <span class="glitch" data-text="Solves">Solves</span>
+      </h1>
+      <p class="sub">Challenges from picoCTF, organized by category and difficulty, with the reasoning behind each flag.</p>
+      <ul class="stats" id="stats"></ul>
+      <div class="search" role="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <label class="visually-hidden" for="search">Search challenges</label>
+        <input id="search" type="search" placeholder="Search challenges, categories, events" autocomplete="off" aria-haspopup="dialog">
+        <ul class="results" id="results" hidden></ul>
       </div>
+      <p class="search-hint" aria-hidden="true">Press <kbd class="k" id="search-kbd">Ctrl K</kbd> anywhere to search</p>
     </div>
-  </div>
-</header>
+    <div class="scroll-cue" id="scroll-cue" aria-hidden="true">Scroll the categories<i></i><span class="chev"><b></b><b></b></span></div>
+  </section>
 
-<main class="wrap">
-  <div id="browse-mode">
-    <div class="category-grid" id="category-grid"></div>
-    <div class="panel-head">
-      <div>
-        <p class="panel-title" id="panel-title"></p>
-        <p class="panel-desc" id="panel-desc"></p>
-      </div>
-      <span class="panel-count" id="panel-count"></span>
+  <div id="chapters"></div>
+
+  <section class="ending" id="end" aria-labelledby="end-title">
+    <p class="eyebrow">End of the list</p>
+    <h2 id="end-title">More flags incoming</h2>
+    <p>New challenges and write-ups are added as they're solved. Locked entries fill in over time.</p>
+    <div class="row">
+      <a class="btn-line primary" href="#top" id="to-top">Back to top <span aria-hidden="true">&uarr;</span></a>
+      <a class="btn-line" href="/">Portfolio <span class="arr" aria-hidden="true">&rarr;</span></a>
     </div>
-    <div id="panel-body"></div>
-  </div>
-
-  <div id="search-mode" hidden>
-    <p class="results-head" id="results-head"></p>
-    <div class="card-grid" id="results-grid"></div>
-  </div>
+  </section>
 </main>
 
-<footer>&copy; 2026 Zack Crawford</footer>
+<footer class="foot">
+  <span>&copy; 2026 Zack Crawford</span>
+  <a href="/privacy">Privacy</a>
+  <a href="/accessibility">Accessibility</a>
+</footer>
+</div>
 
-<script src="/picoctf/data/picoctf-data.js"></script>
-<script src="/picoctf/js/render.js"></script>
+<script src="/picoctf/js/palette.js?v=20261108v"></script>
 <script>
+(() => {
+"use strict";
+const root = document.documentElement;
+const reduced = root.classList.contains("rm");
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const grouped = groupSolves(SOLVES);
-let activeCategory = CATEGORY_ORDER.find((c) => grouped.get(c)) || CATEGORY_ORDER[0];
+const cats = CATEGORY_ORDER.filter((c) => grouped.has(c));
 
-const categoryGrid = document.getElementById("category-grid");
-const panelTitle = document.getElementById("panel-title");
-const panelDesc = document.getElementById("panel-desc");
-const panelCount = document.getElementById("panel-count");
-const panelBody = document.getElementById("panel-body");
-const browseMode = document.getElementById("browse-mode");
-const searchMode = document.getElementById("search-mode");
-const resultsHead = document.getElementById("results-head");
-const resultsGrid = document.getElementById("results-grid");
-const searchInput = document.getElementById("search");
+/* ---------- stats ---------- */
+const solvedCount = SOLVES.filter(isSolved).length;
+document.getElementById("stats").innerHTML = [
+  [SOLVES.length, "Challenges"], [cats.length, "Categories"], [solvedCount, "Write-ups"],
+].map(([n, l]) => `<li><b>${n}</b>${l}</li>`).join("");
 
-function difficultyPill(difficulty) {
-  const meta = DIFFICULTY_META[difficulty] || { color: "var(--muted)" };
-  return `<span class="pill" style="color:${meta.color}">${difficultyDot(difficulty)}${difficulty}</span>`;
-}
-
-function solveCard(solve, showCategory) {
-  return `
-    <a class="solve-card" href="/picoctf/solve?slug=${encodeURIComponent(solve.slug)}">
-      <p class="title">${escapeHtml(solve.title)}</p>
-      ${difficultyPill(solve.difficulty)}
-      ${showCategory ? `<p class="result-meta">${escapeHtml(solve.category)}</p>` : ""}
-    </a>
-  `;
-}
-
-function buildCategoryGrid() {
-  categoryGrid.innerHTML = "";
-  for (const [category, byDiff] of grouped) {
-    const total = DIFFICULTY_ORDER.reduce((n, d) => n + byDiff.get(d).length, 0);
-
-    const tile = document.createElement("button");
-    tile.type = "button";
-    tile.className = "category-tile" + (category === activeCategory ? " active" : "");
-    tile.dataset.category = category;
-    tile.innerHTML = `
-      <p class="name">${escapeHtml(category)}</p>
-      <p class="desc">${escapeHtml(CATEGORY_DESCRIPTIONS[category] || "")}</p>
-      <div class="tile-stats">
-        <span class="tile-total">${total} solve${total === 1 ? "" : "s"}</span>
-        <span class="tile-diffs">
-          ${DIFFICULTY_ORDER.map((d) => `<span class="tile-diff">${difficultyDot(d)}${byDiff.get(d).length}</span>`).join("")}
-        </span>
-      </div>
-    `;
-    tile.addEventListener("click", () => {
-      activeCategory = category;
-      renderPanel();
-      for (const t of categoryGrid.children) t.classList.toggle("active", t.dataset.category === category);
-    });
-    categoryGrid.appendChild(tile);
-  }
-}
-
-function renderPanel() {
-  const byDiff = grouped.get(activeCategory);
-  const total = DIFFICULTY_ORDER.reduce((n, d) => n + byDiff.get(d).length, 0);
-
-  panelTitle.textContent = activeCategory;
-  panelDesc.textContent = CATEGORY_DESCRIPTIONS[activeCategory] || "";
-  panelCount.textContent = `${total} solve${total === 1 ? "" : "s"}`;
-
-  panelBody.innerHTML = DIFFICULTY_ORDER.map((difficulty) => {
-    const items = byDiff.get(difficulty);
-    const body = items.length
-      ? `<div class="card-grid">${items.map((s) => solveCard(s, false)).join("")}</div>`
-      : `<p class="empty-note">No ${difficulty.toLowerCase()} challenges yet.</p>`;
-    return `
-      <div class="tier-block">
-        <div class="tier-block-head">
-          ${difficultyDot(difficulty)}
-          <span class="label">${difficulty}</span>
-          <span class="count">(${items.length})</span>
-        </div>
-        ${body}
-      </div>
-    `;
+/* ---------- chapters ---------- */
+const chaptersEl = document.getElementById("chapters");
+const pad2 = (n) => String(n).padStart(2, "0");
+chaptersEl.innerHTML = cats.map((cat, k) => {
+  const byDiff = grouped.get(cat);
+  const all = DIFFICULTY_ORDER.flatMap((d) => byDiff.get(d));
+  const rings = DIFFICULTY_ORDER.map((d) => {
+    const items = byDiff.get(d), done = items.filter(isSolved).length, color = DIFFICULTY_META[d].color;
+    const dial = `<span class="dial-wrap" aria-hidden="true"><span class="dial" style="--p:${items.length ? (done / items.length) * 100 : 0}"></span>
+      <span class="dial-num">${items.length ? `${done}<small>/${items.length}</small>` : "&mdash;"}</span></span>`;
+    if (!items.length) return `<li><div class="ring is-empty" style="--tc:${color}">${dial}<span class="lab">${d}</span>
+      <span class="visually-hidden">No ${d.toLowerCase()} challenges yet</span></div></li>`;
+    return `<li><a class="ring" href="${categoryUrl(cat, d)}" style="--tc:${color}" data-dive="${k}">${dial}<span class="lab">${d}</span>
+      <span class="visually-hidden">${done} of ${items.length} solved</span></a></li>`;
   }).join("");
+  return `
+  <section class="chapter ${k % 2 ? "flip" : ""}" id="${categorySlug(cat)}" style="--c:${CATEGORY_COLOR[cat]}" aria-labelledby="h-${categorySlug(cat)}">
+    <div class="chapter-card reveal">
+      <span class="ghost-n" aria-hidden="true">${pad2(k + 1)}</span>
+      <span class="tether" aria-hidden="true"></span>
+      <p class="card-top"><i aria-hidden="true"></i>Category ${pad2(k + 1)} of ${pad2(cats.length)}</p>
+      <h2 id="h-${categorySlug(cat)}"><span class="glitch" data-text="${escapeHtml(cat)}">${escapeHtml(cat)}</span></h2>
+      <p class="desc">${escapeHtml(CATEGORY_DESCRIPTIONS[cat] || "")}.</p>
+      <ul class="rings">${rings}</ul>
+      <div class="chapter-actions">
+        <span class="total"><b>${all.length}</b> challenges &middot; <b>${all.filter(isSolved).length}</b> write-ups</span>
+        <a class="btn-line primary" href="${categoryUrl(cat)}" data-dive="${k}">Open category <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>`;
+}).join("");
+const chapters = Array.from(chaptersEl.querySelectorAll(".chapter"));
+
+/* ---------- rail: jump straight to a category ---------- */
+const rail = document.getElementById("rail");
+const railName = document.getElementById("rail-name");
+const railCount = document.getElementById("rail-count");
+const railMenu = document.getElementById("rail-menu");
+const railAll = document.getElementById("rail-all");
+const railPrev = document.getElementById("rail-prev");
+const railNext = document.getElementById("rail-next");
+railMenu.innerHTML = cats.map((cat, k) => {
+  const all = SOLVES.filter((s) => s.category === cat);
+  return `<li><a href="#${categorySlug(cat)}" style="--c:${CATEGORY_COLOR[cat]}">
+    <span class="n">${pad2(k + 1)}</span><span class="d" aria-hidden="true"></span>
+    <span>${escapeHtml(cat)}</span><span class="s">${all.filter(isSolved).length}/${all.length} solved</span></a></li>`;
+}).join("");
+const railLinks = Array.from(railMenu.querySelectorAll("a"));
+function setMenu(open) {
+  railMenu.hidden = !open;
+  railAll.setAttribute("aria-expanded", String(open));
+  if (open) (railMenu.querySelector('[aria-current="true"]') || railLinks[0]).focus();
 }
-
-function renderSearch(query) {
-  const q = query.toLowerCase();
-  const matches = SOLVES.filter(
-    (s) => s.title.toLowerCase().includes(q) || s.category.toLowerCase().includes(q)
-  );
-
-  resultsHead.innerHTML = `<b>${matches.length}</b> result${matches.length === 1 ? "" : "s"} for &ldquo;${escapeHtml(query)}&rdquo;`;
-  resultsGrid.innerHTML = matches.length
-    ? matches.map((s) => solveCard(s, true)).join("")
-    : `<p class="no-results">No challenges match that search.</p>`;
-}
-
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.trim();
-  if (q) {
-    browseMode.hidden = true;
-    searchMode.hidden = false;
-    renderSearch(q);
-  } else {
-    browseMode.hidden = false;
-    searchMode.hidden = true;
+railAll.addEventListener("click", () => setMenu(railMenu.hidden));
+document.addEventListener("click", (e) => { if (!rail.contains(e.target)) setMenu(false); });
+rail.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !railMenu.hidden) { setMenu(false); railAll.focus(); }
+  if (!railMenu.hidden && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+    e.preventDefault();
+    const i = railLinks.indexOf(document.activeElement);
+    railLinks[(i + (e.key === "ArrowDown" ? 1 : railLinks.length - 1)) % railLinks.length].focus();
   }
 });
+// inside an open category the navigator switches categories in place
+const inCategory = () => document.body.classList.contains("ov-open") && dive && dive.phase === "open";
+const railK = () => (inCategory() ? dive.k : activeK);
+function goToCategory(k) {
+  if (k < 0 || k >= chapters.length) return;
+  if (inCategory()) {
+    view.show(cats[k]);
+    overlay.scrollTo({ top: 0, behavior: "instant" });
+    return;
+  }
+  const target = chapters[k];
+  jumpTo(target);
+  history.replaceState(null, "", "#" + target.id);
+}
+function setRail(k) {
+  railLinks.forEach((a, j) => a.setAttribute("aria-current", String(j === k)));
+  if (cats[k]) {
+    railCount.textContent = `Category ${pad2(k + 1)} of ${pad2(cats.length)}`;
+    railName.innerHTML = `<i style="--c:${CATEGORY_COLOR[cats[k]]}"></i>${escapeHtml(cats[k])}`;
+  }
+  railPrev.disabled = k <= 0;
+  railNext.disabled = k >= chapters.length - 1;
+}
+railPrev.addEventListener("click", () => goToCategory(railK() - 1));
+// Keyboard: section by section, the way pages usually move.
+//   PageDown / Space / ArrowRight   next   (hero -> categories -> ending)
+//   PageUp / Shift+Space / ArrowLeft previous
+//   Home / End                      top / bottom
+document.addEventListener("keydown", (e) => {
+  if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+  const tag = e.target.tagName;
+  // leave keys alone while typing, and let Space/Enter press buttons and links
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || e.target.isContentEditable) return;
+  if (e.key === " " && /^(BUTTON|A|SUMMARY)$/.test(tag)) return;
+  if (!railMenu.hidden || document.querySelector(".cmdk:not([hidden])") || dive) return;
+  const next = e.key === "PageDown" || (e.key === " " && !e.shiftKey);
+  const prev = e.key === "PageUp" || (e.key === " " && e.shiftKey);
+  if (!next && !prev && e.key !== "Home" && e.key !== "End") return;
+  e.preventDefault();
+  const endY = document.getElementById("end").offsetTop;
+  const pos = window.scrollY < innerHeight * 0.5 ? -1 : window.scrollY > endY - innerHeight * 0.5 ? chapters.length : activeK;
+  if (e.key === "Home") return warpTo(0);
+  if (e.key === "End") return warpTo(document.documentElement.scrollHeight - innerHeight);
+  const to = pos + (next ? 1 : -1);
+  if (to < 0) return pos === 0 ? warpTo(0) : undefined;
+  if (to >= chapters.length) return window.scrollTo({ top: document.documentElement.scrollHeight - innerHeight, behavior: reduced ? "instant" : "smooth" });
+  goToCategory(to);
+  const h = chapters[to].querySelector("h2");
+  h.setAttribute("tabindex", "-1");
+  h.focus({ preventScroll: true });
+});
+// arrow keys step between categories when nothing else wants them
+document.addEventListener("keydown", (e) => {
+  if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName) && e.target.id !== "rail-prev" && e.target.id !== "rail-next") return;
+  if (!railMenu.hidden || document.querySelector(".cmdk:not([hidden])") || (dive && !inCategory())) return;
+  if (e.key === "ArrowRight") { e.preventDefault(); goToCategory(railK() + 1); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); goToCategory(railK() - 1); }
+});
+railNext.addEventListener("click", () => goToCategory(railK() + 1));
+// warp: for long jumps. The shape scatters as the camera lifts away, the page
+// jumps while everything is dust, then the new shape gathers as it settles.
+let warp = null;   // { t0, y, after, jumped }
+function warpTo(y, after) {
+  if (reduced || root.classList.contains("no-gl") || !window.__cloudReady) {
+    window.scrollTo({ top: y, behavior: "instant" });
+    after && after();
+    return;
+  }
+  if (warp) return;
+  warp = { t0: performance.now(), y, after, jumped: false };
+  document.body.classList.add("warping");
+}
+document.getElementById("rail-top").addEventListener("click", () => {
+  if (inCategory()) { overlay.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  history.replaceState(null, "", location.pathname);
+  warpTo(0, () => document.getElementById("search").focus({ preventScroll: true }));
+});
+function jumpTo(el) {
+  // instant, centred on the section, so the shape is already in place
+  const top = el.offsetTop + Math.max(0, (el.offsetHeight - innerHeight) / 2);
+  window.scrollTo({ top, behavior: "instant" });
+}
+railLinks.forEach((a, j) => a.addEventListener("click", (e) => {
+  e.preventDefault();
+  setMenu(false);
+  if (inCategory()) { goToCategory(j); return; }
+  const target = document.getElementById(a.getAttribute("href").slice(1));
+  history.replaceState(null, "", a.getAttribute("href"));
+  const top = target.offsetTop + Math.max(0, (target.offsetHeight - innerHeight) / 2);
+  const far = Math.abs(chapters.indexOf(target) - activeK) > 1;
+  const land = () => { target.querySelector("h2").setAttribute("tabindex", "-1"); target.querySelector("h2").focus({ preventScroll: true }); };
+  if (far) warpTo(top, land); else { jumpTo(target); land(); }
+}));
+document.getElementById("to-top").addEventListener("click", (e) => {
+  e.preventDefault();
+  warpTo(0);
+});
+if (location.hash) {
+  const t = document.getElementById(location.hash.slice(1));
+  if (t) requestAnimationFrame(() => jumpTo(t));
+}
 
-buildCategoryGrid();
-renderPanel();
+/* ---------- dive: pulled into the shape, then the category opens in place ---------- */
+// phases: "in" (flying into the shape) -> "open" (category view shown inside it)
+// -> "out" (backing out to the landing page). The 3D scene never reloads.
+let dive = null;   // { phase, t0, k, url, timer, from }
+// we position the page ourselves when backing out of a category
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const overlay = document.getElementById("cat-overlay");
+const rgbStr = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(",");
+const view = createCategoryView(document.getElementById("ov-app"), {
+  onChange(category, difficulty, k) {
+    if (!dive) return;
+    dive.k = k;
+    setRail(k);
+    document.title = `${category} - picoCTF Solves`;
+    history.replaceState({ ov: true }, "", categoryUrl(category, difficulty));
+  },
+  onExit() { history.back(); },
+});
+
+chaptersEl.addEventListener("click", (e) => {
+  const link = e.target.closest("[data-dive]");
+  if (!link || reduced || root.classList.contains("no-gl") || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault();
+  if (dive) return;
+  const url = new URL(link.href, location.href);
+  dive = { phase: "in", t0: performance.now(), k: Number(link.dataset.dive), url: link.getAttribute("href"),
+    diff: url.searchParams.get("d"), from: { ...poseNow } };
+  document.body.classList.add("diving");
+  dive.timer = setTimeout(openInPlace, 1100);
+});
+
+function openInPlace() {
+  if (!dive || dive.phase !== "in") return;
+  dive.phase = "open";
+  history.pushState({ ov: true }, "", dive.url);
+  view.show(cats[dive.k], dive.diff);
+  overlay.hidden = false;
+  overlay.scrollTop = 0;
+  root.classList.add("ov-lock");
+  document.body.classList.add("ov-open");
+  document.body.classList.remove("diving");
+  requestAnimationFrame(() => overlay.classList.add("is-shown"));
+  overlay.querySelector("h1")?.setAttribute("tabindex", "-1");
+  overlay.querySelector("h1")?.focus({ preventScroll: true });
+}
+
+function closeInPlace() {
+  if (!dive) return;
+  if (dive.phase === "in") {            // still flying in: just cancel
+    clearTimeout(dive.timer);
+    dive = null;
+    document.body.classList.remove("diving");
+    return;
+  }
+  if (dive.phase !== "open") return;
+  // line the landing page up with the category we ended on, then back out
+  jumpTo(chapters[dive.k]);
+  activeK = -1;
+  dive.phase = "out";
+  dive.t0 = performance.now();
+  overlay.classList.remove("is-shown");
+  root.classList.remove("ov-lock");
+  document.body.classList.remove("ov-open");
+  document.title = "picoCTF Solves - Zack Crawford";
+  setTimeout(() => { overlay.hidden = true; }, 450);
+  chapters[dive.k].querySelector("h2")?.setAttribute("tabindex", "-1");
+  chapters[dive.k].querySelector("h2")?.focus({ preventScroll: true });
+}
+
+addEventListener("popstate", closeInPlace);
+addEventListener("keydown", (e) => {
+  if (e.key !== "Escape" || !dive || document.querySelector(".cmdk:not([hidden])") || !railMenu.hidden) return;
+  if (dive.phase === "open") history.back(); else closeInPlace();
+});
+// returning from another page restores the landing page; never leave it mid-flight
+addEventListener("pageshow", (e) => {
+  let back = false;
+  try { back = sessionStorage.getItem("pico-from-solve") === "1"; sessionStorage.removeItem("pico-from-solve"); } catch (err) { /* private mode */ }
+  if (e.persisted && back && !overlay.hidden) {
+    document.body.classList.add("from-solve");
+    if (!("CSSViewTransitionRule" in window)) {
+      const inner = overlay.querySelector(".inner");
+      inner.classList.remove("back-in"); void inner.offsetWidth; inner.classList.add("back-in");
+    }
+  }
+  if (e.persisted && dive && dive.phase !== "open") { clearTimeout(dive.timer); dive = null; document.body.classList.remove("diving"); }
+});
+
+/* ---------- search: hands off to the command menu ---------- */
+document.getElementById("search-kbd").textContent = window.CMDK_LABEL || "Ctrl K";
+{
+  const box = document.getElementById("search");
+  box.addEventListener("mousedown", (e) => { e.preventDefault(); openCommandMenu(); });
+  box.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCommandMenu(box.value); }
+    else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) { e.preventDefault(); openCommandMenu(box.value + e.key); }
+  });
+}
+/* ---------- search (legacy inline results, kept for no-JS-module fallbacks) ---------- */
+const input = document.getElementById("search");
+const results = document.getElementById("results");
+function runSearch() {
+  const q = input.value.trim().toLowerCase();
+  if (!q) { results.hidden = true; results.innerHTML = ""; return; }
+  const hits = SOLVES.filter((s) => [s.title, s.category, s.event, s.difficulty].join(" ").toLowerCase().includes(q)).slice(0, 10);
+  results.innerHTML = hits.length
+    ? hits.map((s) => `<li><a href="/picoctf/solve?slug=${encodeURIComponent(s.slug)}">
+        <span class="t">${escapeHtml(s.title)}</span>
+        <span class="m">${escapeHtml(s.category)} &middot; ${s.difficulty}${isSolved(s) ? "" : " &middot; locked"}</span></a></li>`).join("")
+    : `<li class="none">No challenges match &ldquo;${escapeHtml(input.value)}&rdquo;.</li>`;
+  results.hidden = false;
+}
+input.addEventListener("input", runSearch);
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { input.value = ""; runSearch(); }
+  if (e.key === "ArrowDown") { const f = results.querySelector("a"); if (f) { e.preventDefault(); f.focus(); } }
+});
+results.addEventListener("keydown", (e) => {
+  const links = Array.from(results.querySelectorAll("a")), i = links.indexOf(document.activeElement);
+  if (e.key === "ArrowDown" && i < links.length - 1) { e.preventDefault(); links[i + 1].focus(); }
+  if (e.key === "ArrowUp") { e.preventDefault(); (i > 0 ? links[i - 1] : input).focus(); }
+  if (e.key === "Escape") input.focus();
+});
+document.addEventListener("click", (e) => { if (!e.target.closest(".search")) results.hidden = true; });
+input.addEventListener("focus", () => { if (input.value.trim()) runSearch(); });
+
+/* ---------- reveal + glitch as chapters arrive ---------- */
+if (!reduced && "IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add("is-visible");
+      glitch(e.target.querySelector(".glitch"), 150);
+    }
+  }), { rootMargin: "0px 0px -20% 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+} else {
+  document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+}
+glitch(document.querySelectorAll(".hero .glitch")[0], 300);
+glitch(document.querySelectorAll(".hero .glitch")[1], 460);
+
+/* ---------- scroll -> which shape, which side ---------- */
+// anchors: hero, each category, the ending. Shape k is held around anchor k's
+// centre and morphs on the way to the next one.
+const anchors = [document.getElementById("top"), ...chapters, document.getElementById("end")];
+// Where the shape rests in each section: right of the copy, then centred for
+// the ending. Between two rests it sweeps down through the centre, grows, and
+// spins a full turn while it is scattered, then settles into the next rest.
+// sides alternate: the card is on the left for even categories and the
+// shape on the right, then they swap
+const rests = [
+  { x: 0.5, y: 0.02, scale: 1.15 },
+  ...chapters.map((c, k) => ({ x: k % 2 ? -0.48 : 0.48, y: 0, scale: 1.18 })),
+  { x: 0, y: 0, scale: 1.25 },
+];
+const MID = { x: 0, y: -0.12, scale: 1.4 };
+const INSIDE = 6.5;   // scale at which the camera sits inside the shape
+const poseNow = { x: 0, y: 0, scale: 1 };
+const ease = (t) => t * t * (3 - 2 * t);
+const cue = document.getElementById("scroll-cue");
+const aurora = document.getElementById("aurora");
+const glowColors = ["#9a7bff", ...cats.map((c) => CATEGORY_COLOR[c]), "#9a7bff"];
+const rgbOf = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+const glow = { r: 154, g: 123, b: 255, i: 1 };
+const lerp = (a, b, t) => a + (b - a) * t;
+// Camera path. Each step turns the camera AWAY from the side the next shape
+// forms on (shape on the right -> turn left, and the reverse), and drops it a
+// little, so the ride zig-zags downward around the strands.
+const TURN = 1.0, DROP = 2.6;
+const angles = [0];
+for (let j = 1; j < rests.length; j++) {
+  const side = rests[j].x > 0 ? 1 : rests[j].x < 0 ? -1 : -Math.sign(rests[j - 1].x || 1);
+  angles.push(angles[j - 1] - side * TURN);
+}
+const state = { time: 0, f: 0, x: 0.5, y: 0, scale: 1, dim: 1, mouseX: 0, mouseY: 0, intro: 0,
+  orbit: 0, shapeAt: 0, camY: 0, shapeY: 0 };
+let activeK = -1;
+
+function readScroll() {
+  const mid = window.scrollY + innerHeight / 2;
+  const centres = anchors.map((a) => a.offsetTop + a.offsetHeight / 2);
+  let i = 0;
+  while (i < centres.length - 2 && mid > centres[i + 1]) i++;
+  const frac = clamp((mid - centres[i]) / (centres[i + 1] - centres[i]));
+  const m = clamp((frac - 0.15) / 0.7);
+  state.f = i + m;
+  // background light: blend the two neighbouring colours by the same progress as the shape
+  {
+    const c0 = rgbOf(glowColors[i]), c1 = rgbOf(glowColors[i + 1]), t = ease(m);
+    glow.r += (c0[0] + (c1[0] - c0[0]) * t - glow.r) * 0.12;
+    glow.g += (c0[1] + (c1[1] - c0[1]) * t - glow.g) * 0.12;
+    glow.b += (c0[2] + (c1[2] - c0[2]) * t - glow.b) * 0.12;
+    root.style.setProperty("--gc", `${glow.r | 0},${glow.g | 0},${glow.b | 0}`);
+    // dim while the shape is scattered, full once it has formed
+    // the closing section keeps only a faint glow so the helix stays crisp
+    const endness = clamp(i + m - chapters.length);
+    glow.i += ((1 - 0.85 * Math.sin(Math.PI * ease(m))) * (1 - 0.7 * endness) - glow.i) * 0.12;
+    root.style.setProperty("--gi", glow.i.toFixed(3));
+    state.halo = glow.i;
+  }
+  state.scrollY = window.scrollY;
+  cue.style.opacity = String(1 - clamp(window.scrollY / (innerHeight * 0.25)));
+  const narrow = innerWidth < 1100;
+  // rest i -> MID -> rest i+1, continuous so the cloud never jumps
+  const A = rests[i], B = rests[i + 1];
+  const P = frac < 0.5 ? [A, MID, ease(frac / 0.5)] : [MID, B, ease((frac - 0.5) / 0.5)];
+  const pos = { x: lerp(P[0].x, P[1].x, P[2]), y: lerp(P[0].y, P[1].y, P[2]), scale: lerp(P[0].scale, P[1].scale, P[2]) };
+  state.x = narrow ? pos.x * 0.25 : pos.x;
+  state.y = pos.y;
+  aurora.style.setProperty("--gx", `${50 + pos.x * 50}%`);
+  state.scale = narrow ? pos.scale * 0.9 : pos.scale;
+  // the camera turns steadily with the scroll; the shape lags at both ends,
+  // so the old one slides out of view before the new one gathers in its place
+  state.orbit = lerp(angles[i], angles[i + 1], ease(frac));
+  state.shapeAt = lerp(angles[i], angles[i + 1], ease(m));
+  state.camY = (i + ease(frac)) * DROP;
+  state.shapeY = (i + ease(m)) * DROP;
+  state.rate = undefined;
+  poseNow.x = state.x; poseNow.y = state.y; poseNow.scale = state.scale;
+  if (dive) {
+    const now = performance.now();
+    const t = dive.phase === "in" ? clamp((now - dive.t0) / 1100)
+      : dive.phase === "open" ? 1
+      : 1 - clamp((now - dive.t0) / 950);
+    if (dive.phase !== "in") {
+      // inside: the shape is whichever category is open, so switching morphs it
+      const a = dive.k + 1;
+      state.f = a; state.orbit = state.shapeAt = angles[a]; state.camY = state.shapeY = a * DROP;
+    }
+    const e = ease(t);
+    state.x = lerp(state.x, 0, e);
+    state.y = lerp(state.y, 0, e);
+    state.scale = lerp(state.scale, INSIDE, e);
+    state.dim = 1;
+    state.halo = 1 - 0.35 * e;
+    state.rate = dive.phase === "open" ? 3 : 7;
+    root.style.setProperty("--gc", rgbStr(CATEGORY_COLOR[cats[dive.k]]));
+    root.style.setProperty("--gi", "1");
+    if (dive.phase === "out" && t <= 0) dive = null;
+    return;
+  }
+  // dim while the cloud sits behind text: phones, and the centred ending
+  state.dim = narrow ? 0.45 : 1 - 0.25 * clamp(state.f - chapters.length);
+
+  // rail shows once the hero is behind us; highlights the nearest category
+  const k = Math.round(state.f) - 1;
+  rail.classList.toggle("is-hidden", window.scrollY < innerHeight * 0.55 || k >= chapters.length);
+  if (k !== activeK) {
+    activeK = k;
+    setRail(k);
+  }
+}
+
+window.addEventListener("pointermove", (e) => {
+  state.mouseX = (e.clientX / innerWidth) * 2 - 1;
+  state.mouseY = (e.clientY / innerHeight) * 2 - 1;
+  // the cursor scatters particles it passes through (mouse and pen only)
+  if (e.pointerType !== "touch") { state.pointerX = state.mouseX; state.pointerY = -state.mouseY; }
+}, { passive: true });
+document.documentElement.addEventListener("pointerleave", () => { state.pointerX = state.pointerY = undefined; });
+
+if (reduced) {
+  document.body.classList.remove("intro");
+  rail.classList.remove("is-hidden");
+  railName.textContent = "Categories";
+} else {
+  let cloud = null;
+  const shapes = ["flag", ...cats.map((c) => CATEGORY_SHAPE[c] || "core"), "dna"];
+  const tints = ["#ece9f5", ...cats.map((c) => CATEGORY_COLOR[c]), "#9a7bff"];
+  // loader: a short readout while the scene builds, then the camera descends
+  const loader = document.getElementById("loader");
+  const barEl = document.getElementById("loader-bar"), pctEl = document.getElementById("loader-pct"), lineEl = document.getElementById("loader-line");
+  const lines = ["decrypting challenges", "parsing flags", "assembling particles", "aligning strands"];
+  const loadT0 = performance.now();
+  let introOn = false, introP = 0, introSpeed = 1, hurry = false, lastMs = 0;
+  let seen = false;
+  try { seen = sessionStorage.getItem("pico-intro") === "1"; sessionStorage.setItem("pico-intro", "1"); } catch (e) { /* private mode */ }
+  // coming back from a category page: start inside its shape and zoom out
+  let zoomFrom = null;
+  try { zoomFrom = sessionStorage.getItem("pico-zoomout"); sessionStorage.removeItem("pico-zoomout"); } catch (e) { /* private mode */ }
+  const zoomK = zoomFrom ? cats.findIndex((c) => categorySlug(c) === zoomFrom) : -1;
+  const LOAD_MS = zoomK >= 0 ? 0 : seen ? 350 : 1400;
+  if (seen) introSpeed = 2;
+  if (zoomK >= 0) {
+    introP = 1;
+    loader.classList.add("is-done");
+    document.body.classList.remove("intro");
+    requestAnimationFrame(() => jumpTo(chapters[zoomK]));
+    dive = { phase: "out", t0: performance.now() + 450, k: zoomK };
+  }
+  // any input during the intro fast-forwards it instead of making you wait
+  function skipIntro() {
+    if (introP >= 1) return;
+    hurry = true;
+    introSpeed = 6;
+  }
+  ["wheel", "keydown", "pointerdown", "touchstart"].forEach((t) => addEventListener(t, skipIntro, { passive: true }));
+  function tickLoader() {
+    const p = (hurry && cloud) ? 1 : Math.min(1, (performance.now() - loadT0) / LOAD_MS) * (cloud ? 1 : 0.9);
+    const n = Math.round(p * 10);
+    barEl.textContent = "[" + "#".repeat(n) + ".".repeat(10 - n) + "]";
+    pctEl.textContent = Math.round(p * 100) + "%";
+    lineEl.textContent = lines[Math.min(lines.length - 1, (p * lines.length) | 0)];
+    if (p >= 1) {
+      loader.classList.add("is-done");
+      introOn = true;
+      return;
+    }
+    requestAnimationFrame(tickLoader);
+  }
+  requestAnimationFrame(tickLoader);
+
+  import("/picoctf/js/particles.js?v=20261108v")
+    .then((m) => m.createParticles(document.getElementById("scene"), {
+      shapes, tints, orbit: true,
+      start: zoomK >= 0 ? zoomK + 1 : 0,
+      initial: zoomK >= 0 ? { orbit: angles[zoomK + 1], camY: (zoomK + 1) * DROP, scale: INSIDE, dim: 1 } : {},
+    }))
+    .then((c) => { cloud = c; window.__cloudReady = true; if (dive && dive.phase === "out") dive.t0 = performance.now() + 250; })
+    .catch((err) => {
+      console.warn("Particles unavailable.", err); root.classList.add("no-gl");
+      cloud = cloud || null; loader.classList.add("is-done"); document.body.classList.remove("intro");
+    });
+
+  const touch = matchMedia("(pointer: coarse)").matches;
+  let lastW = innerWidth, lastH = innerHeight;
+  addEventListener("resize", () => {
+    if (touch && innerWidth === lastW && Math.abs(innerHeight - lastH) < 160) return;
+    lastW = innerWidth; lastH = innerHeight;
+    if (cloud) cloud.resize();
+  });
+
+  const frame = (ms) => {
+    state.time = ms / 1000;
+    const dt = Math.min(0.1, (ms - lastMs) / 1000); lastMs = ms;
+    if (warp) {
+      const el = ms - warp.t0;
+      if (!warp.jumped) {
+        // lift and scatter (reuses the intro's camera lift and dust spread)
+        introP = 1 - 0.62 * ease(Math.min(1, el / 420));
+        if (el >= 420) {
+          window.scrollTo({ top: warp.y, behavior: "instant" });
+          warp.jumped = true;
+          readScroll();
+          if (cloud) cloud.snap();
+          introOn = true; introSpeed = 1.7;
+          document.body.classList.remove("warping");
+          const after = warp.after;
+          warp = null;
+          after && after();
+        }
+      }
+    } else if (introOn && introP < 1) {
+      introP = Math.min(1, introP + (dt * introSpeed) / 3);
+      if (introP > 0.55) document.body.classList.remove("intro");
+    }
+    state.intro = introP;
+    readScroll();
+    if (cloud) cloud.update(state);
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+})();
 </script>
 </body>
 </html>

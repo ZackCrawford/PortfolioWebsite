@@ -4,329 +4,945 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zack Crawford - Cybersecurity</title>
-<meta name="description" content="Zack Crawford - Cybersecurity student, University of Cincinnati. Resume and projects.">
+<meta name="description" content="Zack Crawford - Cybersecurity student at the University of Cincinnati. Projects, experience, and resume.">
+<link rel="canonical" href="https://zackcrawford.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zack Crawford">
+<meta property="og:title" content="Zack Crawford - Cybersecurity">
+<meta property="og:description" content="Zack Crawford - Cybersecurity student at the University of Cincinnati. Projects, experience, and resume.">
+<meta property="og:url" content="https://zackcrawford.com/">
+<meta property="og:image" content="https://zackcrawford.com/MainPortfolioPage/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zack Crawford, cybersecurity portfolio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#05060a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#f4f5f8;
-  --surface:#ffffff;
-  --line:#e3e6ec;
-  --ink:#171a21;
-  --muted:#5b6270;
-  --accent:#2856b8;
-  --accent-ink:#0e2a5c;
-  --hero-bg:#132a52;
-  --hero-ink:#f2f5fc;
-  --hero-muted:#aebde0;
-  --resume-bg:#f2f5fc;
-  --resume-ink:#0e2a5c;
-  --wrap:1280px;
-  --shadow:0 1px 2px rgba(15,23,42,.04),0 12px 28px -16px rgba(15,23,42,.18);
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<script>
+  // Decide the rendering mode before first paint so the layout never jumps.
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("rm");
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Zack Crawford",
+  "url": "https://zackcrawford.com/",
+  "image": "https://zackcrawford.com/MainPortfolioPage/img/og.png",
+  "jobTitle": "Cybersecurity Student",
+  "email": "mailto:ZACrawfordx@gmail.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Cleveland", "addressRegion": "OH", "addressCountry": "US" },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "University of Cincinnati" },
+    { "@type": "CollegeOrUniversity", "name": "Cuyahoga Community College" }
+  ],
+  "hasCredential": { "@type": "EducationalOccupationalCredential", "name": "CompTIA Security+ SY0-701" },
+  "knowsAbout": ["Cybersecurity", "Network Security", "Incident Response", "Penetration Testing", "Python", "Linux", "SQL"],
+  "sameAs": ["https://www.linkedin.com/in/crawfordz/", "https://github.com/ZackCrawford"]
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0f1115;
-    --surface:#181b21;
-    --line:#2a2e37;
-    --ink:#eef0f3;
-    --muted:#9aa1ad;
-    --accent:#7ea6e0;
-    --accent-ink:#dbe6f8;
-    --hero-bg:#0a1730;
-    --hero-ink:#f2f5fc;
-    --hero-muted:#93a4c9;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 28px -16px rgba(0,0,0,.5);
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js"
+  },
+  "integrity": {
+    "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js": "sha384-IDC7sAMAIMB/TZ6dgKKPPAKZ2bXXXP8+FBMBC8cU319eBhKITx+PaalhfDkDNH28"
   }
 }
+</script>
+<style>
+:root{
+  --bg:#05060a;
+  --ink:#ece9f5;
+  --muted:#8f8ca3;
+  --line:rgba(236,233,245,.14);
+  --line-strong:rgba(236,233,245,.32);
+  --violet:#9a7bff;
+  --teal:#4fe0c8;
+  --coral:#ff6b7d;
+  --amber:#ffc46b;
+  --mono:"Martian Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gutter:clamp(16px,4vw,48px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;color-scheme:dark}
 body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
-  line-height:1.55;
+  font-family:var(--sans);
+  line-height:1.6;
+  overflow-x:hidden;
 }
 a{color:inherit}
-.container{max-width:var(--wrap);margin:0 auto;padding:0 40px}
-@media (max-width:640px){.container{padding:0 20px}}
+::selection{background:var(--teal);color:#05060a}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 
-/* Hero */
-.hero{
-  background:var(--hero-bg);
-  color:var(--hero-ink);
-  padding:72px 0 88px;
-}
-.hero-inner{
-  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;
-}
 .eyebrow{
-  text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:600;
-  color:var(--hero-muted);margin:0 0 14px;
-}
-h1{
-  font-family:"Source Serif 4",Georgia,serif;
-  font-size:clamp(2.4rem,5vw,3.6rem);
-  font-weight:600;
-  margin:0 0 10px;
-  letter-spacing:-0.01em;
-}
-.tagline{font-size:1.1rem;color:var(--hero-muted);margin:0 0 26px;max-width:520px}
-.contact-row{display:flex;flex-wrap:wrap;gap:10px}
-.contact-row a{
-  width:42px;height:42px;
-  display:inline-flex;align-items:center;justify-content:center;
-  border-radius:10px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18);
-  color:var(--hero-ink);
-  transition:background .15s;
-}
-.contact-row a:hover{background:rgba(255,255,255,.16)}
-.contact-row svg{width:19px;height:19px;flex:none}
-
-.resume-btn{
-  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
-  padding:14px 24px;border-radius:10px;
-  background:var(--resume-bg);color:var(--resume-ink);
-  font-weight:700;font-size:.95rem;text-decoration:none;
-  box-shadow:0 10px 26px -10px rgba(0,0,0,.5);
-  transition:transform .15s;
-}
-.resume-btn:hover{transform:translateY(-2px)}
-.resume-btn svg{width:17px;height:17px}
-
-/* Layout */
-main{padding:56px 0 40px}
-
-h2{
-  font-size:.78rem;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  color:var(--muted);
-  font-weight:700;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);
   margin:0 0 18px;
 }
-section{margin-bottom:44px}
-section:last-child{margin-bottom:0}
 
-.panel{
-  background:var(--surface);
+.skip{
+  position:fixed;left:16px;top:-60px;z-index:100;
+  background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:4px;
+  font-family:var(--mono);font-size:12px;text-decoration:none;transition:top .2s;
+}
+.skip:focus{top:16px}
+
+/* ---------- layers ----------
+   0  ghost cards (projects on the far side of the ring)
+   1  WebGL canvas (the helix sits in front of the ghosts)
+   2  page content                                         */
+.ring-back{position:fixed;inset:0;z-index:0;pointer-events:none;visibility:hidden}
+#scene{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:1;pointer-events:none;display:block;
+}
+html.rm #scene, html.no-gl #scene, html.rm .ring-back{display:none}
+.tethers{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.tethers path{fill:none;stroke-width:1;stroke-linecap:round}
+.tethers circle{stroke:none}
+html.rm .tethers, html.no-gl .tethers{display:none}
+.site{position:relative;z-index:2}
+
+/* ---------- chrome: brand, nav ---------- */
+.topfade{
+  position:fixed;left:0;right:0;top:0;height:96px;z-index:15;pointer-events:none;
+  background:linear-gradient(rgba(5,6,10,.92),rgba(5,6,10,0));
+}
+.brand{
+  position:fixed;top:22px;left:var(--gutter);z-index:20;
+  display:flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+}
+.brand svg{width:30px;height:30px}
+.brand span{opacity:.85}
+@media (max-width:560px){.brand span{display:none}}
+
+.nav{
+  position:fixed;top:18px;right:var(--gutter);z-index:20;
+  display:flex;align-items:center;
+  padding:5px;border-radius:999px;
+  background:rgba(8,10,16,.55);
+  border:1px solid rgba(79,224,200,.35);
+  box-shadow:0 0 24px -6px rgba(79,224,200,.45), inset 0 0 12px -6px rgba(79,224,200,.5);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.nav a{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;padding:8px 14px;border-radius:999px;
+  transition:background .2s,color .2s;
+}
+.nav a:hover{background:rgba(79,224,200,.14);color:#fff}
+.nav .rule{width:22px;height:1px;background:var(--line-strong)}
+@media (max-width:420px){.nav a{padding:8px 10px}.nav .rule{width:10px}}
+
+
+/* ---------- scroll cue: chevrons, shown once the coin has locked ---------- */
+.scroll-cue .chev{display:flex;flex-direction:column;align-items:center;margin-top:-6px}
+.scroll-cue .chev b{display:block;width:16px;height:16px;border-right:2px solid var(--teal);border-bottom:2px solid var(--teal);
+  transform:rotate(45deg);margin-top:-7px;filter:drop-shadow(0 0 6px rgba(79,224,200,.7));animation:chev 1.6s var(--ease) infinite}
+.scroll-cue .chev b:nth-child(2){animation-delay:.18s}
+@keyframes chev{0%{opacity:0;translate:0 -6px}40%{opacity:1}100%{opacity:0;translate:0 8px}}
+html.rm .scroll-cue .chev b{animation:none;opacity:.8}
+.hero-meta .center,.rail{transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js:not(.rm) body:not(.locked) .hero-meta .center{opacity:0;transform:translateY(12px)}
+
+/* ---------- section navigator (same control as picoCTF) ---------- */
+:root{--gc:79,224,200;--text:#cfccdb}
+/* ---------- category navigator: bottom-left ---------- */
+.rail{
+  position:fixed;left:var(--gutter);bottom:24px;z-index:12;display:flex;align-items:center;gap:6px;
+  padding:6px;border:1px solid var(--line);border-radius:12px;background:rgba(7,8,16,.78);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease);
+}
+.rail.is-hidden{opacity:0;pointer-events:none;transform:translateY(10px)}
+.rail button{
+  all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:38px;min-width:38px;padding:0 10px;border-radius:8px;border:1px solid transparent;color:var(--ink);
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,border-color .2s;
+}
+.rail button:hover{background:rgba(255,255,255,.06);border-color:var(--line)}
+.rail button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.rail button:disabled{opacity:.3;cursor:default;background:none;border-color:transparent}
+.rail svg{width:15px;height:15px;flex:none}
+.rail .sep{width:1px;height:22px;background:var(--line)}
+.rail-now{display:flex;flex-direction:column;justify-content:center;width:204px;flex:none;padding:0 6px;line-height:1.25;overflow:hidden}
+.rail-now b{overflow:hidden;text-overflow:ellipsis}
+.rail-now small{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rail-now b{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.rail-now b i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;background:var(--c,var(--teal));font-style:normal}
+.rail .all[aria-expanded="true"]{background:rgba(79,224,200,.12);border-color:rgba(79,224,200,.4)}
+
+.rail-menu{
+  position:absolute;left:0;bottom:calc(100% + 8px);min-width:300px;margin:0;padding:6px;list-style:none;
+  border:1px solid var(--line-strong);border-radius:12px;background:rgba(9,9,18,.96);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.8);
+}
+.rail-menu[hidden]{display:none}
+.rail-menu a{
+  display:grid;grid-template-columns:24px 10px 1fr auto;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);
+}
+.rail-menu a:hover,.rail-menu a:focus{background:rgba(255,255,255,.06);color:var(--ink);outline:none}
+.rail-menu a[aria-current="true"]{background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--ink)}
+.rail-menu .n{color:var(--muted);font-size:10px}
+.rail-menu .d{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.rail-menu .s{color:var(--muted);font-size:9.5px}
+
+@media (max-width:860px){
+  .rail{left:0;right:0;bottom:0;border-radius:0;border-width:1px 0 0;padding:8px var(--gutter) calc(8px + env(safe-area-inset-bottom))}
+  .rail-now{flex:1;min-width:0;width:auto}
+  .rail-now b{overflow:hidden;text-overflow:ellipsis}
+  .rail .all span{display:none}
+  .rail-menu{left:var(--gutter);right:var(--gutter);min-width:0}
+}
+.js:not(.rm) body:not(.locked) .rail{opacity:0;pointer-events:none;transform:translateY(10px)}
+
+/* ---------- scrollbar: thin neon rail ---------- */
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{
+  background:
+    linear-gradient(90deg,transparent 5px,rgba(var(--gc),.14) 5px 6px,transparent 6px),
+    repeating-linear-gradient(180deg,transparent 0 38px,rgba(var(--gc),.22) 38px 39px),
+    #05060a;
+}
+::-webkit-scrollbar-thumb{
+  border:3px solid transparent;border-radius:8px;background-clip:padding-box;
+  background-color:rgba(var(--gc),.55);
+  background-image:linear-gradient(180deg,rgba(255,255,255,.35),transparent 40%,transparent 60%,rgba(0,0,0,.25));
+  box-shadow:inset 0 0 6px rgba(var(--gc),.9);
+}
+::-webkit-scrollbar-thumb:hover{background-color:rgba(var(--gc),.85)}
+::-webkit-scrollbar-corner{background:#05060a}
+@supports (-moz-appearance:none){html{scrollbar-width:thin;scrollbar-color:rgba(var(--gc),.6) #05060a}}
+
+/* ---------- glitch text ---------- */
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;left:0;top:0;width:100%;
+  opacity:0;pointer-events:none;
+}
+.glitch::before{color:var(--coral)}
+.glitch::after{color:var(--teal)}
+.glitch.is-glitching::before{animation:glitch-a .55s steps(2,end) both}
+.glitch.is-glitching::after{animation:glitch-b .55s steps(2,end) both}
+.glitch.is-glitching{animation:glitch-base .55s steps(2,end) both}
+@keyframes glitch-a{
+  0%{opacity:.9;transform:translate(-6px,0);clip-path:inset(10% 0 60% 0)}
+  30%{opacity:.9;transform:translate(5px,0);clip-path:inset(55% 0 20% 0)}
+  60%{opacity:.8;transform:translate(-3px,0);clip-path:inset(30% 0 45% 0)}
+  100%{opacity:0;transform:none;clip-path:inset(0 0 100% 0)}
+}
+@keyframes glitch-b{
+  0%{opacity:.9;transform:translate(6px,0);clip-path:inset(65% 0 5% 0)}
+  30%{opacity:.9;transform:translate(-5px,0);clip-path:inset(5% 0 70% 0)}
+  60%{opacity:.8;transform:translate(3px,0);clip-path:inset(40% 0 35% 0)}
+  100%{opacity:0;transform:none;clip-path:inset(0 0 100% 0)}
+}
+@keyframes glitch-base{0%,60%{opacity:.75}100%{opacity:1}}
+html.rm .glitch::before, html.rm .glitch::after{display:none}
+
+/* ---------- scroll tracks ---------- */
+.track{position:relative}
+.sticky{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none}
+/* project cards hang off the 3D helix and may sit outside the pinned box while it scrolls in */
+#work .sticky{overflow:visible}
+html.rm .track{height:auto!important;margin-top:0!important}
+html.rm .sticky{position:relative;height:auto;overflow:visible}
+
+/* ---------- 1. hero ---------- */
+.hero{
+  position:relative;height:100vh;height:100svh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 var(--gutter) 100px;
+}
+.hero-meta{
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:16px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+}
+.hero-meta .center{text-align:center;color:var(--ink)}
+.scroll-cue{display:inline-flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-cue i{
+  display:block;width:1px;height:38px;background:linear-gradient(var(--teal),transparent);
+  animation:cue 2.2s var(--ease) infinite;transform-origin:top;
+}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+html.rm .scroll-cue i{animation:none}
+@media (max-width:640px){
+  .hero-meta{grid-template-columns:1fr}
+  .hero-meta .center{order:-1;margin-bottom:12px}
+}
+
+/* static ZC coin when there is no 3D coin */
+.coin-fallback{
+  display:none;position:absolute;left:50%;top:44%;
+  width:min(56vw,300px);aspect-ratio:1;transform:translate(-50%,-50%);
+  border-radius:50%;border:4px solid var(--teal);
+  box-shadow:0 0 0 10px #05060a,0 0 0 11px var(--violet);
+  background:url("/MainPortfolioPage/favicon.svg") center/104% no-repeat;border:0;filter:grayscale(1);box-shadow:0 0 0 10px #05060a,0 0 0 11px #8a8a8a;
+}
+html.rm .coin-fallback, html.no-gl .coin-fallback{display:block}
+
+/* ---------- 2. intro ---------- */
+#intro{height:230vh;margin-top:-20vh;margin-top:-20svh}
+.intro-inner{
+  height:100%;max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center;align-content:center;column-gap:clamp(120px,15vw,220px);row-gap:44px;
+  padding:96px var(--gutter) 40px;
+}
+.intro-inner > *{pointer-events:auto}
+.intro-head{justify-self:center;text-align:center}
+.intro-head h1{
+  margin:0;
+  font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2.6rem,6.4vw,6.6rem);line-height:.92;letter-spacing:-.02em;text-transform:uppercase;
+}
+.intro-head h1 .glitch{display:block}
+.intro-body{max-width:440px;justify-self:start}
+.intro-body p{margin:0 0 26px;font-size:1.02rem;color:#cfccdb}
+.facts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.facts li{
+  display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+}
+.facts li span:first-child{color:var(--muted)}
+.facts li span:last-child{text-align:right}
+.intro-cta{grid-column:1 / -1;justify-self:center}
+.btn-line{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:13px 20px;border:1px solid var(--line-strong);border-radius:999px;background:#07091a;
+  transition:border-color .2s,background .2s;
+}
+.btn-line:hover{border-color:var(--teal);background:rgba(79,224,200,.08)}
+.btn-line .arr{transition:transform .25s var(--ease)}
+.btn-line:hover .arr{transform:translateX(4px)}
+
+.intro-inner{transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.js:not(.rm) #intro:not(.is-in) .intro-inner{opacity:0;transform:translateY(28px)}
+.js:not(.rm) #intro:not(.is-in) .intro-inner > *{pointer-events:none}
+
+@media (max-width:860px){
+  .intro-inner{grid-template-columns:1fr;align-content:center;row-gap:32px}
+  .intro-inner{row-gap:28px}
+  .intro-head{justify-self:center;text-align:center}
+  .intro-cta{justify-self:center}
+}
+
+/* ---------- 3. work / helix ---------- */
+/* The projects rise in over the tail of the intro instead of after it. */
+#work{margin-top:-64vh;margin-top:-64svh}
+.work-fade{opacity:var(--enter,1)}
+.work-head{
+  position:absolute;top:96px;left:var(--gutter);right:var(--gutter);z-index:300;
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+}
+.work-head h2{margin:0;font-size:11px;font-weight:500;color:var(--teal)}
+.counter{color:var(--muted)}
+.counter b{color:var(--ink);font-weight:500}
+
+.stage{position:absolute;inset:0}
+.ring{position:absolute;left:50%;top:50%;width:0;height:0}
+
+.card{
+  --w:min(680px,46vw);
+  --h:calc(var(--w) * .62);
+  --c1:var(--violet);--c2:var(--teal);
+  position:absolute;left:calc(var(--w) / -2);top:calc(var(--h) / -2);
+  width:var(--w);height:var(--h);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:22px 26px;border-radius:6px;
+  text-decoration:none;color:var(--ink);
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 90% at 85% 0%,color-mix(in srgb,var(--c1) 45%,transparent),transparent 60%),
+    radial-gradient(100% 80% at 0% 100%,color-mix(in srgb,var(--c2) 35%,transparent),transparent 60%),
+    #0c0c16;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.9);
+  pointer-events:auto;
+  will-change:transform,opacity;
+  transition:border-color .25s, box-shadow .25s;
+}
+/* corner brackets instead of rounded-everything */
+.card::before,.card::after{
+  content:"";position:absolute;width:16px;height:16px;border:1px solid var(--c2);pointer-events:none;
+}
+.card::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.card::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.card.is-active{border-color:rgba(255,255,255,.34);box-shadow:0 30px 70px -24px color-mix(in srgb,var(--c1) 55%,transparent)}
+a.card.is-active:hover{border-color:var(--c2)}
+.card-top,.card-bottom{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+}
+.card-top .tag{padding:4px 9px;border:1px solid rgba(255,255,255,.22);border-radius:999px}
+.card h3{
+  margin:0;font-family:var(--mono);font-weight:600;font-stretch:80%;
+  font-size:clamp(1.4rem,2.9vw,3rem);line-height:1;text-transform:uppercase;letter-spacing:-.01em;
+}
+.card p{margin:14px 0 0;font-size:clamp(.92rem,1.1vw,1.05rem);line-height:1.5;color:#d6d3e2;max-width:38ch}
+.card-bottom .go{color:var(--c2)}
+.card.is-dim{filter:grayscale(1) brightness(.5)!important}
+.ghost{cursor:pointer}
+
+/* placeholder / classified cards */
+.card.is-locked h3{color:#bdbacb}
+.redact{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.redact i{display:block;height:10px;background:rgba(236,233,245,.16);border-radius:1px}
+.redact i:nth-child(1){width:88%}.redact i:nth-child(2){width:64%}.redact i:nth-child(3){width:76%}
+
+/* filter + pager */
+.work-ui{
+  position:absolute;left:var(--gutter);bottom:100px;z-index:300;pointer-events:auto;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+}
+.work-ui .q{margin:0 0 12px;color:var(--ink)}
+.filters{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:2px}
+.filters button{
+  all:unset;cursor:pointer;color:var(--violet);padding:4px 0;display:inline-flex;gap:10px;
+  transition:color .2s,transform .2s var(--ease);
+}
+.filters button:hover{color:#fff;transform:translateX(3px)}
+.filters button[aria-pressed="true"]{color:var(--teal)}
+.filters button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.pager{display:flex;gap:8px}
+.pager button{
+  all:unset;cursor:pointer;padding:10px 16px;border:1px solid var(--line-strong);border-radius:999px;
+  background:rgba(5,6,10,.5);
+  transition:border-color .2s,background .2s;
+}
+.pager button:hover{border-color:var(--teal);background:rgba(79,224,200,.08)}
+.pager button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+@media (max-width:720px){
+  .card{--w:min(84vw,400px);--h:calc(var(--w) * .92);padding:18px 20px}
+  .card h3{font-size:clamp(1.5rem,7.4vw,2rem)}
+  .card p{font-size:.95rem;max-width:none}
+  .ring{top:47%}
+  .work-ui{
+    left:0;right:0;bottom:56px;padding:44px var(--gutter) 20px;
+    background:linear-gradient(transparent,rgba(9,6,18,.88) 38%);
+  }
+  .work-head{top:84px}
+  .work-ui .q{display:none}
+  .filters{flex-direction:row;flex-wrap:wrap;gap:4px 14px;margin-bottom:12px}
+}
+
+/* reduced motion: a plain grid */
+html.rm .stage{position:relative;padding:150px var(--gutter) 40px}
+html.rm .ring{
+  position:static;width:auto;height:auto;max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:20px;
+}
+html.rm .card{position:relative;left:auto;top:auto;width:auto;height:auto;min-height:240px;--w:auto}
+html.rm .card p{max-width:none}
+html.rm .work-ui{position:relative;left:auto;bottom:auto;padding:0 var(--gutter) 40px;max-width:1240px;margin:0 auto}
+html.rm .pager, html.rm .counter{display:none}
+
+/* ---------- 4. record ---------- */
+.record{padding:22vh var(--gutter) 16vh;position:relative}
+.record-head{text-align:center;margin:0 auto 72px;max-width:640px}
+.record-head h2{
+  margin:0;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2rem,4.4vw,3.6rem);line-height:1;text-transform:uppercase;letter-spacing:-.02em;
+}
+.timeline{
+  position:relative;list-style:none;margin:0 auto;padding:0 0 110px;max-width:1120px;
+  display:grid;grid-template-columns:1fr 1fr;column-gap:112px;row-gap:28px;
+}
+/* the spine, echoing the helix */
+.timeline::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);
+  background:linear-gradient(transparent,var(--violet) 12%,var(--teal) 50%,var(--coral) 88%,transparent);
+}
+.tl-item{position:relative;grid-column:1}
+.tl-item:nth-child(even){grid-column:2;transform:translateY(110px)}
+.tl-dot{
+  position:absolute;top:28px;right:-62px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--c,var(--teal));box-shadow:0 0 14px var(--c,var(--teal));
+}
+.tl-item:nth-child(even) .tl-dot{right:auto;left:-62px}
+.tl-item::after{
+  content:"";position:absolute;top:34px;right:-50px;width:40px;height:1px;background:var(--line-strong);
+}
+.tl-item:nth-child(even)::after{right:auto;left:-50px}
+.tl-card{
+  position:relative;padding:24px 26px;border-radius:6px;
+  background:
+    radial-gradient(120% 100% at 100% 0%,color-mix(in srgb,var(--c,var(--teal)) 16%,transparent),transparent 60%),
+    rgba(14,14,24,.72);
   border:1px solid var(--line);
-  border-radius:14px;
-  padding:22px 24px;
-  box-shadow:var(--shadow);
+}
+.tl-card::before{
+  content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;
+  border:1px solid var(--c,var(--teal));border-right:0;border-bottom:0;
+}
+.tl-meta{
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+}
+.tl-meta .kind{color:var(--c,var(--teal))}
+.tl-meta .date{color:var(--muted)}
+.tl-card h3{
+  margin:0;font-family:var(--mono);font-stretch:85%;font-weight:600;
+  font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.25;text-transform:uppercase;
+}
+.tl-card .sub{margin:6px 0 0;color:var(--muted);font-size:.92rem}
+.tl-card ul{margin:14px 0 0;padding-left:18px;color:#cfccdb;font-size:.93rem}
+.tl-card li{margin:5px 0}
+.tl-card li::marker{color:var(--c,var(--violet))}
+.tl-card .note{margin:12px 0 0;color:#cfccdb;font-size:.93rem}
+
+.skills{max-width:820px;margin:40px auto 0;text-align:center}
+.skills h3{margin:0 0 20px;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0;padding:0;list-style:none}
+.chips li{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:8px 13px;border:1px solid var(--line-strong);border-radius:999px;background:rgba(14,14,24,.6);
 }
 
-.skills-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media (max-width:640px){.skills-cert-grid{grid-template-columns:1fr}}
+/* scroll-in */
+.js:not(.rm) .reveal{opacity:0;translate:0 28px;transition:opacity .8s var(--ease),translate .9s var(--ease)}
+.js:not(.rm) .reveal.is-visible{opacity:1;translate:0 0}
 
-.skills-list{display:flex;flex-direction:column;gap:14px;font-size:.92rem}
-.skills-list .label{display:block;color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
-
-.cert{font-size:.94rem}
-.cert .name{font-weight:600}
-.cert .date{color:var(--muted);font-size:.82rem;display:block;margin-top:2px}
-.cert p{margin:8px 0 0;color:var(--muted);font-size:.88rem}
-
-/* Projects */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.project-card{
-  position:relative;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:24px;
-  box-shadow:var(--shadow);
-  display:flex;flex-direction:column;
-  transition:transform .15s;
-}
-.project-card:hover{transform:translateY(-3px)}
-.project-card h3{margin:0 0 8px;font-size:1.08rem;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.project-card p{margin:0 0 18px;color:var(--muted);font-size:.92rem;flex:1;padding-right:36px}
-.project-card a.card-link{
-  display:inline-flex;align-items:center;gap:6px;
-  color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;
-}
-.project-card a.card-link:hover{text-decoration:underline}
-.gh-link{
-  position:absolute;bottom:22px;right:22px;
-  display:inline-flex;align-items:center;justify-content:center;
-  width:30px;height:30px;border-radius:8px;flex:none;
-  border:1px solid var(--line);color:var(--muted);
-  transition:color .15s,border-color .15s;
-}
-.gh-link:hover{color:var(--accent);border-color:var(--accent)}
-.gh-link svg{width:15px;height:15px}
-.project-card.disabled{opacity:.65}
-.badge{
-  display:inline-block;font-size:.68rem;font-weight:700;
-  text-transform:uppercase;letter-spacing:.04em;
-  padding:3px 9px;border-radius:999px;
-  background:var(--bg);color:var(--muted);border:1px solid var(--line);
+@media (max-width:860px){
+  .timeline{grid-template-columns:1fr;padding:0 0 0 36px;row-gap:24px}
+  .timeline::before{left:6px;transform:none}
+  .tl-item, .tl-item:nth-child(even){grid-column:1;transform:none}
+  .tl-dot, .tl-item:nth-child(even) .tl-dot{left:-36px;right:auto}
+  .tl-item::after, .tl-item:nth-child(even)::after{display:none}
 }
 
-/* Entries */
-.entry{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:22px 26px;
-  box-shadow:var(--shadow);
-  margin-bottom:16px;
+/* ---------- 5. footer ---------- */
+@media (max-width:860px){.foot{padding-bottom:84px}}
+.foot{
+  position:relative;padding:18vh var(--gutter) 28px;overflow:hidden;text-align:center;
+  border-top:1px solid var(--line);
 }
-.entry:last-child{margin-bottom:0}
-.entry-head{
-  display:flex;justify-content:space-between;align-items:baseline;
-  gap:16px;flex-wrap:wrap;
+/* hex halftone texture */
+.foot::before{
+  content:"";position:absolute;inset:0;z-index:-1;opacity:.55;
+  background:
+    radial-gradient(circle,rgba(154,123,255,.55) 1.2px,transparent 1.8px) 0 0/14px 24px,
+    radial-gradient(circle,rgba(79,224,200,.45) 1.2px,transparent 1.8px) 7px 12px/14px 24px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 100%,#000 10%,transparent 70%);
+          mask-image:radial-gradient(120% 90% at 50% 100%,#000 10%,transparent 70%);
 }
-.entry-title{font-weight:700;font-size:1.05rem}
-.entry-sub{color:var(--muted);font-size:.92rem;margin-top:2px}
-.entry-date{color:var(--muted);font-size:.85rem;white-space:nowrap;font-weight:600}
-ul.bullets{margin:12px 0 0;padding-left:20px;font-size:.94rem}
-ul.bullets li{margin-bottom:6px}
-ul.bullets li:last-child{margin-bottom:0}
+.foot h2{
+  margin:0 0 26px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2rem,4.4vw,3.6rem);line-height:1;text-transform:uppercase;letter-spacing:-.02em;
+}
+.mail{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:var(--mono);font-size:clamp(.85rem,1.3vw,1.05rem);letter-spacing:.04em;
+  padding:14px 24px;border:1px solid rgba(79,224,200,.45);border-radius:999px;
+  box-shadow:0 0 24px -8px rgba(79,224,200,.5);
+  transition:background .2s,border-color .2s;
+}
+.mail:hover{background:rgba(79,224,200,.1);border-color:var(--teal)}
+.copy{
+  all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;vertical-align:middle;margin-left:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 18px;border:1px solid var(--line-strong);border-radius:999px;
+  transition:border-color .2s,background .2s,color .2s;
+}
+.copy:hover{border-color:var(--teal);background:rgba(79,224,200,.08)}
+.copy:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.copy.is-done{color:var(--teal);border-color:var(--teal)}
+@media (max-width:480px){.copy{margin:12px 0 0}}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.foot-grid{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:40px clamp(48px,8vw,120px);
+  margin:12vh auto 0;padding-top:32px;border-top:1px solid var(--line);max-width:900px;
+}
+.foot-grid h3{margin:0 0 12px;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.foot-grid ul{list-style:none;margin:0;padding:0}
+.foot-grid li{margin:8px 0}
+.foot-grid a{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:10px}
+.foot-grid a:hover{color:var(--teal)}
+.foot-grid svg{width:15px;height:15px;flex:none}
+.colophon{
+  display:flex;justify-content:center;gap:12px 32px;flex-wrap:wrap;margin-top:56px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+}
+.to-top{all:unset;cursor:pointer}
+.to-top:hover{color:var(--ink)}
+.to-top:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 
-footer{padding:36px 0 60px;color:var(--muted);font-size:.85rem;text-align:center}
+/* ---------- print: a clean one-column summary ---------- */
+@media print{
+  @page{margin:16mm}
+  :root{--ink:#000;--muted:#444;--line:#bbb;--line-strong:#888;--teal:#0b6b5f;--violet:#4b3a99;--coral:#a3283a;--amber:#7a5600}
+  html,body{background:#fff!important;color:#000}
+  #scene,.ring-back,.topfade,.brand,.nav,.skip,.hero,.work-ui,.counter,.foot::before,.copy,.to-top,.tl-dot,.timeline::before,.tl-item::after{display:none!important}
+  .track,.sticky,.stage,.ring{position:static!important;height:auto!important;margin:0!important;overflow:visible!important;opacity:1!important}
+  #intro .intro-inner{display:block;padding:0;opacity:1!important;transform:none!important}
+  .intro-inner > *{opacity:1!important;transform:none!important;filter:none!important}
+  .intro-head{text-align:left}
+  .intro-head h1{font-size:28pt;color:#000}
+  .intro-cta{display:none}
+  .glitch::before,.glitch::after{display:none}
+  .work-head{position:static;margin:24px 0 8px}
+  .ring{display:block;width:auto!important;left:auto;top:auto}
+  .work-fade{opacity:1!important}
+  .intro-body p,.facts li span:last-child{color:#111}
+  .work-head h2{font-size:12pt}
+  .card{
+    position:static!important;transform:none!important;opacity:1!important;filter:none!important;visibility:visible!important;
+    width:auto!important;height:auto!important;left:auto!important;top:auto!important;margin:0 0 10px;padding:10px 12px;background:none!important;color:#000;border:1px solid #bbb!important;box-shadow:none!important;
+    break-inside:avoid;
+  }
+  .card::before,.card::after{display:none}
+  .card.is-locked{display:none!important}
+  .card p{color:#222;max-width:none}
+  .card h3{font-size:14pt}
+  a.card[href]::after{content:" (zackcrawford.com" attr(href) ")";display:inline;position:static;border:0;width:auto;height:auto;font-size:9pt;color:#444}
+  .record{padding:16px 0}
+  .reveal{opacity:1!important;translate:none!important}
+  .timeline{display:block;padding:0}
+  .tl-item,.tl-item:nth-child(even){transform:none;margin:0 0 10px;break-inside:avoid}
+  .tl-card{background:none;border:1px solid #bbb}
+  .tl-card ul,.tl-card .note{color:#222}
+  .chips li{border-color:#888;background:none}
+  .foot{padding:16px 0;text-align:left;border-top:1px solid #bbb}
+  .foot h2{font-size:16pt}
+  .mail{border:0;box-shadow:none;padding:0}
+  .foot-grid{justify-content:flex-start;margin-top:12px}
+  .foot-grid a[href^="http"]::after{content:" " attr(href);font-size:9pt;color:#444;text-transform:none}
+}
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="container hero-inner">
-    <div>
-      <p class="eyebrow">Cybersecurity - University of Cincinnati</p>
-      <h1>Zack Crawford</h1>
-      <p class="tagline">B.S. Cybersecurity, Class of 2027 · Cleveland, OH</p>
-      <div class="contact-row">
-        <a href="mailto:ZACrawfordx@gmail.com" aria-label="Email" title="ZACrawfordx@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/crawfordz/" target="_blank" rel="noopener" aria-label="LinkedIn" title="linkedin.com/in/crawfordz">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.48 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.87c0-1.64-.03-3.75-2.29-3.75-2.29 0-2.64 1.79-2.64 3.63V23h-4V8z"/></svg>
-        </a>
-        <a href="https://github.com/ZackCrawford" target="_blank" rel="noopener" aria-label="GitHub" title="github.com/ZackCrawford">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
-        </a>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Inert copies of the cards on the far side of the ring, drawn under the helix. -->
+<div class="ring-back work-fade" id="ring-back" aria-hidden="true"><div class="ring" id="ring-back-inner"></div></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+<!-- thin tethers from each project card to its section of the strand -->
+<svg class="tethers" id="tethers" aria-hidden="true"></svg>
+
+<div class="topfade" aria-hidden="true"></div>
+
+<a class="brand" href="#top" aria-label="Zack Crawford, back to top">
+  <svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" fill="none" stroke="#4fe0c8" stroke-width="2"/>
+    <circle cx="32" cy="32" r="24" fill="none" stroke="#9a7bff" stroke-width="1" stroke-dasharray="2 3"/>
+    <path d="M20 21h18L20 43h18" fill="none" stroke="#ece9f5" stroke-width="3.2" stroke-linejoin="miter"/>
+    <path d="M47 24a9 9 0 1 0 0 16" fill="none" stroke="#ff6b7d" stroke-width="3.2"/>
+  </svg>
+  <span>ZACK CRAWFORD</span>
+</a>
+
+<nav class="nav" aria-label="Primary">
+  <a href="#work">Work</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="/resume">Resume</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="#contact">Contact</a>
+</nav>
+
+
+<nav class="rail" id="rail" aria-label="Page sections">
+  <button type="button" id="rail-top" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" id="rail-prev" aria-label="Previous section" title="Previous section">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="rail-now" aria-live="polite"><small id="rail-count">Section</small><b id="rail-name"></b></div>
+  <button type="button" id="rail-next" aria-label="Next section" title="Next section">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <span class="sep" aria-hidden="true"></span>
+  <button type="button" class="all" id="rail-all" aria-expanded="false" aria-controls="rail-menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>All sections</span>
+  </button>
+  <ul class="rail-menu" id="rail-menu" hidden></ul>
+</nav>
+
+<div class="site">
+<main id="main">
+
+  <!-- 1. Hero: the 3D coin lives on the canvas behind this -->
+  <section class="hero" id="top" aria-label="Introduction">
+    <div class="coin-fallback" role="img" aria-label="ZC monogram coin"></div>
+    <div class="hero-meta">
+      <div>Portfolio 2026<br>Cybersecurity, UC</div>
+      <div class="center"><span class="scroll-cue">Scroll to unlock<i></i><span class="chev" aria-hidden="true"><b></b><b></b></span></span></div>
+      <div></div>
+    </div>
+  </section>
+
+  <!-- 2. Intro: coin turns edge-on, then unzips into the helix -->
+  <section class="track" id="intro" aria-labelledby="intro-title">
+    <div class="sticky">
+      <div class="intro-inner">
+        <div class="intro-head">
+          <p class="eyebrow">Cybersecurity &middot; University of Cincinnati</p>
+          <h1 id="intro-title">
+            <span class="glitch" data-text="Zack">Zack</span>
+            <span class="glitch" data-text="Crawford">Crawford</span>
+          </h1>
+        </div>
+        <div class="intro-body">
+          <p>Cybersecurity student at the University of Cincinnati. This summer I wrote executive briefings on AI-era security risk for LEMA Collective. Outside of class I work through CTF challenges, review albums, and build the sites they live on.</p>
+          <ul class="facts">
+            <li><span>Degree</span><span>B.S. Cybersecurity, Dec. 2027</span></li>
+            <li><span>GPA</span><span>3.93</span></li>
+            <li><span>Certification</span><span>CompTIA Security+</span></li>
+            <li><span>Based</span><span>Cleveland, OH</span></li>
+          </ul>
+        </div>
+        <div class="intro-cta">
+          <a class="btn-line" href="/resume">View resume <span class="arr" aria-hidden="true">&rarr;</span></a>
+        </div>
       </div>
     </div>
-    <a class="resume-btn" href="/resume">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>
-      View Resume
-    </a>
-  </div>
-</header>
+  </section>
 
-<main>
-  <div class="container">
+  <!-- 3. Work: cards orbit the DNA helix -->
+  <section class="track" id="work" aria-labelledby="work-title">
+    <div class="sticky">
+      <div class="work-head work-fade">
+        <h2 id="work-title">Projects</h2>
+        <div class="counter" aria-live="polite"><b id="count-cur">01</b> of <span id="count-total">08</span></div>
+      </div>
 
-      <section id="projects">
-        <h2>Projects</h2>
-        <div class="projects-grid">
-          <div class="project-card">
-            <a class="gh-link" href="https://github.com/ZackCrawford/Album-Reviews-Website" target="_blank" rel="noopener" aria-label="GitHub repository" title="github.com/ZackCrawford/Album-Reviews-Website">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
-            </a>
-            <h3>Album Reviews Website</h3>
-            <p>Designed, built, and deployed a static, publicly hosted album-review platform with search and a custom Python pipeline for scoring, cover art, RSS, and email newsletters.</p>
-            <a class="card-link" href="/albums">View project →</a>
-          </div>
-          <div class="project-card">
-            <a class="gh-link" href="https://github.com/ZackCrawford/picoCTF-Solves" target="_blank" rel="noopener" aria-label="GitHub repository" title="github.com/ZackCrawford/picoCTF-Solves">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A10.99 10.99 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
-            </a>
-            <h3>picoCTF Solves</h3>
-            <p>A documented repository of picoCTF challenge solutions, focused on explaining reasoning and methodology.</p>
-            <a class="card-link" href="/picoctf">View project →</a>
-          </div>
-          <div class="project-card disabled">
-            <h3>Minecraft Mod</h3>
-            <p>Ongoing Minecraft mod project focused on immersive horror gameplay - custom entities, JSON/loot table work, modding. Not yet hosted online.</p>
-          </div>
+      <div class="stage work-fade">
+        <div class="ring" id="ring">
+
+          <a class="card" href="/picoctf" data-cat="ctf" style="--c1:#4fe0c8;--c2:#9a7bff">
+            <div class="card-top"><span>01</span><span class="tag">CTF</span></div>
+            <div>
+              <h3 class="glitch" data-text="picoCTF Solves">picoCTF Solves</h3>
+              <p>Documented picoCTF challenge solutions, focused on the reasoning and method behind each one.</p>
+            </div>
+            <div class="card-bottom"><span class="go">View project &rarr;</span><span>Live</span></div>
+          </a>
+
+          <a class="card" href="/albums" data-cat="web" style="--c1:#9a7bff;--c2:#ff6b7d">
+            <div class="card-top"><span>02</span><span class="tag">Web</span></div>
+            <div>
+              <h3 class="glitch" data-text="Album Reviews">Album Reviews</h3>
+              <p>A static album-review site with search, plus a Python pipeline for scoring, cover art, RSS, and newsletters.</p>
+            </div>
+            <div class="card-bottom"><span class="go">View project &rarr;</span><span>Live</span></div>
+          </a>
+
+          <article class="card" tabindex="0" data-cat="games" style="--c1:#ff6b7d;--c2:#ffc46b">
+            <div class="card-top"><span>03</span><span class="tag">Games</span></div>
+            <div>
+              <h3 class="glitch" data-text="Minecraft Mod">Minecraft Mod</h3>
+              <p>An immersive horror mod: custom entities, JSON and loot-table work. Not hosted online yet.</p>
+            </div>
+            <div class="card-bottom"><span>In progress</span><span>WIP</span></div>
+          </article>
+
+          <article class="card is-locked" tabindex="0" data-cat="security" style="--c1:#4fe0c8;--c2:#9a7bff">
+            <div class="card-top"><span>04</span><span class="tag">Security</span></div>
+            <div>
+              <h3 class="glitch" data-text="SOC Automation Lab">SOC Automation Lab</h3>
+              <p>Automating alert triage and response: ingesting alerts, enriching them, and opening cases without manual steps.</p>
+            </div>
+            <div class="card-bottom"><span>Planned</span><span>&#9632; In progress</span></div>
+          </article>
+
+          <article class="card is-locked" tabindex="0" data-cat="cloud" style="--c1:#9a7bff;--c2:#ffc46b">
+            <div class="card-top"><span>05</span><span class="tag">Cloud</span></div>
+            <div>
+              <h3 class="glitch" data-text="Cloud Security Lab">Cloud Security Lab</h3>
+              <p>Building and hardening a small cloud environment, from identity and logging to catching misconfigurations.</p>
+            </div>
+            <div class="card-bottom"><span>Planned</span><span>&#9632; In progress</span></div>
+          </article>
+
+          <article class="card is-locked" tabindex="0" data-cat="security" style="--c1:#ffc46b;--c2:#ff6b7d">
+            <div class="card-top"><span>06</span><span class="tag">Security</span></div>
+            <div>
+              <h3 class="glitch" data-text="Phishing Analysis Lab">Phishing Analysis Lab</h3>
+              <p>Taking apart suspicious emails, from headers and links to attachments, and writing up a verdict for each.</p>
+            </div>
+            <div class="card-bottom"><span>Planned</span><span>&#9632; In progress</span></div>
+          </article>
+
+          <article class="card is-locked" tabindex="0" data-cat="security" style="--c1:#ff6b7d;--c2:#4fe0c8">
+            <div class="card-top"><span>07</span><span class="tag">Security</span></div>
+            <div>
+              <h3 class="glitch" data-text="Active Directory Lab">Active Directory Lab</h3>
+              <p>A home Windows domain for practising how Active Directory is attacked, and how to defend it.</p>
+            </div>
+            <div class="card-bottom"><span>Planned</span><span>&#9632; In progress</span></div>
+          </article>
+
+          <article class="card is-locked" tabindex="0" data-cat="detection" style="--c1:#4fe0c8;--c2:#ffc46b">
+            <div class="card-top"><span>08</span><span class="tag">Detection</span></div>
+            <div>
+              <h3 class="glitch" data-text="SIEM Detection Lab">SIEM Detection Lab</h3>
+              <p>Writing and testing SIEM detection rules against simulated attacks, then tuning out the noise.</p>
+            </div>
+            <div class="card-bottom"><span>Planned</span><span>&#9632; In progress</span></div>
+          </article>
+
+          <a class="card" href="https://github.com/ZackCrawford" target="_blank" rel="noopener noreferrer" data-cat="misc" style="--c1:#9a7bff;--c2:#4fe0c8">
+            <div class="card-top"><span>09</span><span class="tag">Misc</span></div>
+            <div>
+              <h3 class="glitch" data-text="Other Projects">Other Projects</h3>
+              <p>Smaller builds, scripts, and experiments that don't need a page of their own.</p>
+            </div>
+            <div class="card-bottom"><span class="go">View on GitHub &rarr;</span><span>GitHub</span></div>
+          </a>
+
         </div>
-      </section>
+      </div>
 
-      <section id="experience">
-        <h2>Experience</h2>
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">LEMA Collective - Cybersecurity Intern</span>
-            <span class="entry-date">May 2026 – Aug. 2026</span>
-          </div>
-          <div class="entry-sub">Remote</div>
-          <ul class="bullets">
+      <div class="work-ui work-fade">
+        <div class="pager">
+          <button type="button" id="prev" aria-label="Previous project">&larr; Prev</button>
+          <button type="button" id="next" aria-label="Next project">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Record: a timeline along a spine -->
+  <section class="record" id="record" aria-labelledby="record-title">
+    <header class="record-head reveal">
+      <p class="eyebrow">Record</p>
+      <h2 id="record-title">Experience &amp; Education</h2>
+    </header>
+
+    <ol class="timeline">
+      <li class="tl-item reveal" style="--c:#9a7bff">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card">
+          <div class="tl-meta"><span class="kind">Education</span><span class="date">Expected Dec. 2027</span></div>
+          <h3>University of Cincinnati, CECH</h3>
+          <p class="sub">B.S. Cybersecurity &middot; GPA 3.93 &middot; Cincinnati, OH</p>
+          <p class="note">Computer and Network Forensics, Network Monitoring and IPS, System Analysis and Design, Special Topics in Cybersecurity.</p>
+        </div>
+      </li>
+      <li class="tl-item reveal" style="--c:#4fe0c8">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card">
+          <div class="tl-meta"><span class="kind">Certification</span><span class="date">Aug. 2026</span></div>
+          <h3>CompTIA Security+ SY0-701</h3>
+          <p class="note">Threat identification, secure architecture, IAM, risk management, cryptography and PKI.</p>
+        </div>
+      </li>
+      <li class="tl-item reveal" style="--c:#ff6b7d">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card">
+          <div class="tl-meta"><span class="kind">Experience</span><span class="date">May - Aug. 2026</span></div>
+          <h3>LEMA Collective &middot; Cybersecurity Intern</h3>
+          <p class="sub">Remote</p>
+          <ul>
             <li>Authored a nine-part executive briefing series on AI-era cybersecurity risk for a C-suite audience, translating technical incidents into business consequence and the decision each one forces.</li>
             <li>Built role-specific analyses mapping a single breach to seven executive seats, tying each lesson to a documented consequence for that role.</li>
-            <li>Ran multiple editorial review cycles with the firm's founder, converting feedback into structural standards applied consistently across the series.</li>
+            <li>Ran multiple editorial review cycles with the firm's founder, converting feedback into structural standards applied across the series.</li>
           </ul>
         </div>
-      </section>
+      </li>
+      <li class="tl-item reveal" style="--c:#ffc46b">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card">
+          <div class="tl-meta"><span class="kind">Education</span><span class="date">Dec. 2024</span></div>
+          <h3>Cuyahoga Community College, Western</h3>
+          <p class="sub">A.A.B. Cybersecurity &middot; GPA 3.3 &middot; Parma, OH</p>
+          <p class="note">OS Hardware for Cybersecurity, Advanced Network Security, Systems Defense, Network Security Fundamentals, Linux Administration.</p>
+        </div>
+      </li>
+      <li class="tl-item reveal" style="--c:#9a7bff">
+        <span class="tl-dot" aria-hidden="true"></span>
+        <div class="tl-card">
+          <div class="tl-meta"><span class="kind">Education</span><span class="date">May 2024</span></div>
+          <h3>North Royalton High School</h3>
+          <p class="sub">High School Diploma &middot; GPA 3.5 &middot; North Royalton, OH</p>
+          <p class="note">President's Award, National Honors Diploma; AP Macroeconomics, AP U.S. Government.</p>
+        </div>
+      </li>
+    </ol>
 
-      <section id="education">
-        <h2>Education</h2>
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">University of Cincinnati, CECH</span>
-            <span class="entry-date">Expected Dec. 2027</span>
-          </div>
-          <div class="entry-sub">B.S. Cybersecurity - GPA 3.93 - Cincinnati, OH</div>
-          <ul class="bullets">
-            <li>Relevant coursework: Computer and Network Forensics, Network Monitoring and IPS, System Analysis and Design, Special Topics in Cybersecurity</li>
-          </ul>
-        </div>
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">Cuyahoga County Community College, Western Campus</span>
-            <span class="entry-date">Dec. 2024</span>
-          </div>
-          <div class="entry-sub">Associate of Applied Business, Cybersecurity - GPA 3.3 - Parma, OH</div>
-          <ul class="bullets">
-            <li>Relevant coursework: OS Hardware for Cybersecurity, Advanced Network Security, Systems Defense, Network Security Fundamentals, Linux Administration</li>
-          </ul>
-        </div>
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">North Royalton High School</span>
-            <span class="entry-date">May 2024</span>
-          </div>
-          <div class="entry-sub">High School Diploma - GPA 3.5 - North Royalton, OH</div>
-          <ul class="bullets">
-            <li>President's Award, National Honors Diploma; AP Macroeconomics, AP U.S. Government</li>
-          </ul>
-        </div>
-      </section>
+    <div class="skills reveal">
+      <h3>Skills</h3>
+      <ul class="chips">
+        <li>Python</li><li>Linux</li><li>SQL</li><li>Ethical Hacking</li><li>Incident Response</li>
+        <li>Network Security</li><li>Penetration Testing</li><li>English (Native)</li><li>French (Novice)</li>
+      </ul>
+    </div>
+  </section>
 
-      <section id="skills">
-        <h2>Skills &amp; Certifications</h2>
-        <div class="skills-cert-grid">
-          <div class="panel">
-            <div class="skills-list">
-              <div>
-                <span class="label">Technical</span>
-                Python, Linux, SQL, Ethical Hacking, Incident Response, Network Security, Penetration Testing
-              </div>
-              <div>
-                <span class="label">Languages</span>
-                English (Native), French (Novice)
-              </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="cert">
-              <span class="name">CompTIA Security+ SY0-701</span>
-              <span class="date">Aug. 2026</span>
-              <p>Threat identification, secure architecture, IAM, risk management, cryptography/PKI.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-  </div>
 </main>
 
-<footer>© 2026 Zack Crawford</footer>
+<!-- 5. Footer -->
+<footer class="foot" id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2>Get in touch</h2>
+  <a class="mail" href="mailto:ZACrawfordx@gmail.com">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
+    ZACrawfordx@gmail.com
+  </a>
+  <button class="copy" type="button" id="copy-email" data-email="ZACrawfordx@gmail.com" aria-label="Copy email address">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="1"/><path d="M5 15V4a1 1 0 0 1 1-1h11"/></svg>
+    <span>Copy</span>
+  </button>
+  <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
 
+  <div class="foot-grid">
+    <div>
+      <h3>Elsewhere</h3>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/crawfordz/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn</a></li>
+        <li><a href="https://github.com/ZackCrawford" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3"/></svg>
+          GitHub</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Documents</h3>
+      <ul>
+        <li><a href="/resume">Resume</a></li>
+        <li><a href="/MainPortfolioPage/resume.pdf" download="Crawford_Zack_Resume.pdf">Resume (PDF)</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Policies</h3>
+      <ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/accessibility">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <span>&copy; 2026 Zack Crawford</span>
+    <span>Last updated Nov. 2026</span>
+    <button class="to-top" type="button" id="to-top">Back to top &uarr;</button>
+  </div>
+</footer>
+</div>
+
+<script type="module" src="/MainPortfolioPage/js/main.js?v=20261109n"></script>
 </body>
 </html>

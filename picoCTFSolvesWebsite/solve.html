@@ -3,202 +3,581 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>picoCTF Solves</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<title>picoCTF Solve - Zack Crawford</title>
+<meta name="description" content="A step-by-step picoCTF challenge solution by Zack Crawford, explaining the reasoning and method.">
+<link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://zackcrawford.com/picoctf/solve">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Zack Crawford">
+<meta property="og:title" content="picoCTF Solve - Zack Crawford">
+<meta property="og:description" content="A step-by-step picoCTF challenge solution by Zack Crawford, explaining the reasoning and method.">
+<meta property="og:url" content="https://zackcrawford.com/picoctf/solve">
+<meta property="og:image" content="https://zackcrawford.com/MainPortfolioPage/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Zack Crawford, cybersecurity portfolio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#05060a">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" integrity="sha384-wH75j6z1lH97ZOpMOInqhgKzFkAInZPPSPlZpYKYTOqsaizPvhQZmAtLcPKXpLyH" crossorigin="anonymous">
+<link rel="stylesheet" href="/picoctf/css/pico.css?v=20261108v">
+<script>
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("rm");
+  })();
+</script>
 <style>
-:root{
-  --bg:#0a0c10;
-  --surface:#11151b;
-  --surface-2:#161b22;
-  --border:#242b35;
-  --text:#c9d1d9;
-  --muted:#7d8590;
-  --accent:#39d98a;
-  --accent-ink:#04140c;
-  --easy:#3fb950;
-  --medium:#d29922;
-  --hard:#f85149;
-  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
-  --wrap:880px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:var(--mono);font-size:15px;line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:inherit}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+#hex{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+.page{padding:120px var(--gutter) 90px}
+.inner{max-width:820px;margin:0 auto}
 
-header{border-bottom:1px solid var(--border);padding:28px 0}
-.back{color:var(--muted);text-decoration:none;font-size:13px}
-.back:hover{color:var(--accent)}
+.crumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 24px;padding:0;list-style:none;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{color:var(--ink)}
+.crumbs li+li::before{content:"\2192";margin-right:8px;opacity:.6}
 
-main{padding:32px 0 70px}
-
-h1#title{font-size:1.7rem;font-weight:600;margin:16px 0 16px}
-
-.stats{
-  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;
+h1.title{
+  margin:0 0 18px;font-family:var(--mono);font-weight:500;font-stretch:80%;
+  font-size:clamp(2rem,5.4vw,3.8rem);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;
 }
-.stat{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--surface);border:1px solid var(--border);border-radius:6px;
-  padding:5px 10px;font-size:.82rem;color:var(--muted);
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 30px;padding:0;list-style:none}
+.chips li{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;border:1px solid var(--line-strong);
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:rgba(7,9,26,.6);
 }
-.stat .dot{width:7px;height:7px;border-radius:50%}
-.stat b{color:var(--text);font-weight:600}
+.chips b{color:var(--ink);font-weight:500}
+.chips .done{color:var(--teal);border-color:rgba(79,224,200,.45)}
 
-.callout{
-  background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);
-  border-radius:6px;padding:16px 18px;margin-bottom:20px;font-size:.94rem;
-}
-.callout p{margin:0 0 10px}
-.callout p:last-child{margin-bottom:0}
+.block{padding:20px 22px;margin:0 0 16px}
+.block h2{margin:0 0 12px;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c,var(--teal))}
+.block p{margin:0 0 10px;color:var(--text)}
+.block p:last-child{margin-bottom:0}
+.block code{font-family:var(--mono);font-size:.85em;background:rgba(236,233,245,.08);padding:1px 5px;border-radius:3px;word-break:break-word}
+.block blockquote{margin:0 0 10px;padding:0 0 0 14px;border-left:2px solid var(--line-strong);color:var(--text)}
+.block blockquote p{margin:0 0 6px}
 
-details.hints{
-  background:var(--surface);border:1px solid var(--border);border-radius:6px;
-  padding:12px 18px;margin-bottom:20px;
-}
-details.hints summary{cursor:pointer;font-weight:600;font-size:.88rem;color:var(--accent);user-select:none}
-details.hints ul{margin:12px 0 0;padding-left:20px;font-size:.9rem}
+details.hints{padding:16px 22px;margin:0 0 16px}
+details.hints summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);user-select:none}
+details.hints ul{margin:14px 0 0;padding-left:20px;color:var(--text)}
 details.hints li{margin-bottom:6px}
 
-.notes{
-  background:var(--surface-2);border:1px solid var(--border);border-radius:6px;
-  padding:14px 18px;margin-bottom:20px;font-size:.88rem;color:var(--muted);
-}
-.notes h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;color:var(--muted)}
-
-.flag-row{
-  display:flex;align-items:center;gap:10px;margin-bottom:26px;
-  background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;
-}
-.flag-row button{
-  font-family:var(--mono);font-size:.82rem;font-weight:600;
-  background:var(--accent);color:var(--accent-ink);border:none;border-radius:5px;
-  padding:6px 12px;cursor:pointer;
-}
-.flag-value{font-size:.9rem;filter:blur(6px);transition:filter .15s;user-select:none}
+.flag-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 22px;margin:0 0 30px}
+.flag-row .lab{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.flag-value{font-family:var(--mono);font-size:.9rem;filter:blur(6px);transition:filter .2s;user-select:none;word-break:break-all}
 .flag-value.revealed{filter:none;user-select:text}
-
-.solution{font-size:.95rem}
-.solution h2,.solution h3{
-  border-top:1px solid var(--border);margin:28px 0 12px;padding-top:20px;
-  font-size:1.02rem;color:var(--text);
+.flag-row button{
+  all:unset;cursor:pointer;margin-left:auto;padding:8px 14px;border:1px solid rgba(79,224,200,.5);border-radius:999px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);
 }
-.solution h2:first-child,.solution h3:first-child{border-top:none;margin-top:0;padding-top:0}
+.flag-row button:hover{background:rgba(79,224,200,.1)}
+.flag-row button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+.writeup-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:40px 0 18px;padding-top:24px;border-top:1px solid var(--line)}
+.writeup-head h2{margin:0;font-family:var(--mono);font-weight:500;font-stretch:80%;font-size:clamp(1.4rem,3vw,2rem);text-transform:uppercase}
+
+/* published write-up */
+.solution{color:var(--text);font-size:1rem}
+.solution h2,.solution h3{margin:30px 0 12px;font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.solution h2:first-child,.solution h3:first-child{margin-top:0}
 .solution p{margin:0 0 14px}
 .solution ul,.solution ol{margin:0 0 14px;padding-left:22px}
 .solution li{margin-bottom:5px}
-.solution blockquote{
-  margin:0 0 14px;padding:8px 14px;border-left:3px solid var(--border);
-  color:var(--muted);font-size:.9rem;
-}
-.solution code{
-  font-family:var(--mono);background:var(--surface-2);border-radius:4px;
-  padding:1px 5px;font-size:.86em;
-}
-.solution pre{
-  background:#0d1117;border:1px solid var(--border);border-radius:8px;
-  padding:14px 16px;overflow-x:auto;margin:0 0 16px;
-}
-.solution pre code{background:none;padding:0;font-size:.85rem;line-height:1.55}
-.solution hr{border:none;border-top:1px solid var(--border);margin:22px 0}
-.solution a{color:var(--accent);text-decoration:underline}
+.solution li::marker{color:var(--violet)}
+.solution blockquote{margin:0 0 14px;padding:8px 14px;border-left:2px solid var(--violet);color:var(--muted)}
+.solution code{font-family:var(--mono);background:rgba(236,233,245,.08);border-radius:3px;padding:1px 5px;font-size:.86em}
+.solution pre{background:#0b0d16;border:1px solid var(--line);border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 16px}
+.solution pre code{background:none;padding:0;font-size:.84rem;line-height:1.6}
+.solution hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+.solution a{color:var(--teal)}
+.solution table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:.9rem;display:block;overflow-x:auto}
+.solution th,.solution td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+.solution th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.solution img{max-width:100%;border-radius:6px}
 
-.unwritten{color:var(--muted);font-style:italic;padding:20px 0}
+/* placeholder write-up for challenges not solved yet */
+.locked-note{
+  display:flex;gap:12px;align-items:center;padding:14px 18px;margin:0 0 22px;border-radius:6px;
+  border:1px dashed rgba(255,196,107,.5);background:rgba(255,196,107,.06);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);
+}
+.placeholder{position:relative}
+.placeholder section{margin:0 0 26px}
+.placeholder h3{margin:0 0 10px;font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.placeholder p{margin:0 0 12px;color:rgba(207,204,219,.42);font-style:italic}
+.placeholder .bars{display:flex;flex-direction:column;gap:8px;margin:12px 0 0}
+.placeholder .bars i{display:block;height:10px;border-radius:2px;background:linear-gradient(90deg,rgba(236,233,245,.06),rgba(236,233,245,.14),rgba(236,233,245,.06));background-size:200% 100%;animation:shimmer 2.4s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+html.rm .placeholder .bars i{animation:none}
+.placeholder pre{margin:0;padding:14px 16px;border-radius:6px;border:1px dashed var(--line);font-family:var(--mono);font-size:.84rem;color:rgba(143,140,163,.6)}
 
-.references{margin-top:32px;border-top:1px solid var(--border);padding-top:20px}
-.references h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 10px}
+.references{margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+.references h2{margin:0 0 10px;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .references ul{margin:0;padding-left:20px}
-.references li{margin-bottom:6px;font-size:.88rem}
-.references a{color:var(--accent);text-decoration:none}
-.references a:hover{text-decoration:underline}
+.references li{margin-bottom:6px}
+.references a{color:var(--teal)}
+
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.pager a{text-decoration:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);max-width:48%}
+.pager a:hover{color:var(--ink)}
+.pager b{display:block;margin-top:4px;color:var(--ink);font-weight:500;font-size:12px}
+.pager .next{text-align:right;margin-left:auto}
 
 .not-found{padding:60px 0;text-align:center;color:var(--muted)}
+
+/* ---------- terminal: title bar, then a screen that opens beneath it ---------- */
+.term{--gcx:rgb(var(--gc));position:relative}
+.term-bar,.term-screen{background:rgba(8,8,16,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+body.solid-bg .term-bar,body.solid-bg .term-screen{background:#05060a;backdrop-filter:none}
+.term-bar{
+  position:relative;padding:20px 26px 18px;border:1px solid rgba(var(--gc),.55);
+  clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);
+  box-shadow:inset 0 0 40px -18px rgba(var(--gc),.6);
+}
+.term-bar::before{   /* neon underline the screen hangs from */
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gcx);box-shadow:0 0 16px var(--gcx);
+}
+.term-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+.term-status{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--gc),.9)}
+.term-status i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;background:var(--gcx);box-shadow:0 0 8px var(--gcx);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+.back-cat{
+  all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border-radius:999px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+  border:1px solid rgba(var(--gc),.55);background:rgba(var(--gc),.08);transition:background .2s;
+}
+.back-cat:hover{background:rgba(var(--gc),.18)}
+.back-cat:focus-visible{outline:2px solid var(--gcx);outline-offset:3px}
+.back-cat svg{width:14px;height:14px}
+.term-bar h1.title{margin:0 0 14px;font-size:clamp(1.8rem,4.4vw,3.2rem)}
+.term-bar .chips{margin:0}
+.term-screen{
+  position:relative;margin-top:-1px;padding:30px 26px 26px;border:1px solid rgba(var(--gc),.3);border-top:0;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+}
+.term-screen::before{   /* scanlines */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);
+}
+.term-scan{position:absolute;left:-1px;right:-1px;height:2px;top:0;pointer-events:none;opacity:0;
+  background:var(--gcx);box-shadow:0 0 18px 2px var(--gcx),0 0 60px 8px rgba(var(--gc),.35)}
+.term-body{position:relative}
+
+/* opening sequence */
+.js:not(.rm) .term-bar{animation:bar-in .5s cubic-bezier(.2,.7,.1,1) both}
+html.vt .term-bar{animation:none}
+@keyframes bar-in{from{opacity:0;transform:scaleX(.55)}}
+.js:not(.rm) .term:not(.filled) .term-body > *{opacity:0}
+.js:not(.rm) .term.filled .term-body > *{animation:fill-in .55s cubic-bezier(.2,.7,.1,1) both;animation-delay:calc(var(--i) * 70ms)}
+@keyframes fill-in{
+  0%{opacity:0;clip-path:inset(0 100% 0 0);transform:translateX(-6px)}
+  60%{opacity:1}
+  100%{opacity:1;clip-path:inset(0 0 0 0);transform:none}
+}
+/* closing sequence */
+.term.closing .term-body > *{opacity:0;transition:opacity .22s}
+
+/* background toggle: its own control, fixed bottom-right */
+.bgtoggle{
+  position:fixed;right:var(--gutter);bottom:22px;z-index:30;display:flex;align-items:center;gap:4px;padding:5px 5px 5px 14px;border-radius:999px;
+  border:1px solid rgba(var(--gc),.5);background:rgba(7,8,16,.88);box-shadow:0 0 22px -8px rgba(var(--gc),.7);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.bgtoggle span{margin-right:6px}
+.bgtoggle button{all:unset;cursor:pointer;padding:8px 13px;border-radius:999px;color:var(--text);transition:background .2s,color .2s}
+.bgtoggle button[aria-pressed="true"]{background:rgba(var(--gc),.22);color:var(--ink)}
+.bgtoggle button:focus-visible{outline:2px solid var(--gcx);outline-offset:2px}
+@media (max-width:560px){.bgtoggle{right:12px;bottom:12px}.bgtoggle span{display:none}.term-bar,.term-screen{padding-left:16px;padding-right:16px}}
 </style>
+<!-- browsers that support it load these pages in the background on hover -->
+<script type="speculationrules">{"prefetch": [{"where": {"href_matches": "/picoctf/solve*"}, "eagerness": "moderate"}]}</script>
+<!-- loaded before the body so pages draw complete on their first frame -->
+<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js" integrity="sha384-QsSpx6a0USazT7nK7w8qXDgpSAPhFsb2XtpoLFQ5+X2yFN6hvCKnwEzN8M5FWaJb" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp" crossorigin="anonymous"></script>
+<script src="/picoctf/data/picoctf-data.js?v=20261108v"></script>
+<script src="/picoctf/js/render.js?v=20261108v"></script>
+<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin="anonymous">
+<link rel="prefetch" href="/picoctf/js/particles.js?v=20261108v">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="hex" aria-hidden="true"></canvas>
+<div class="bgtoggle" role="group" aria-label="Background behind the write-up">
+  <span>Background</span>
+  <button type="button" data-bg="dots" aria-pressed="true">Dots</button>
+  <button type="button" data-bg="solid" aria-pressed="false">Solid</button>
+</div>
+<div class="topfade" aria-hidden="true"></div>
 
-<header>
-  <div class="wrap">
-    <a class="back" href="/picoctf">&larr; back to all solves</a>
-  </div>
-</header>
+<a class="brand" href="/" aria-label="Zack Crawford portfolio home" title="Portfolio home">
+  <svg viewBox="0 0 64 64" aria-hidden="true">
+    <circle cx="32" cy="32" r="30" fill="none" stroke="#4fe0c8" stroke-width="2"/>
+    <circle cx="32" cy="32" r="24" fill="none" stroke="#9a7bff" stroke-width="1" stroke-dasharray="2 3"/>
+    <path d="M20 21h18L20 43h18" fill="none" stroke="#ece9f5" stroke-width="3.2"/>
+    <path d="M47 24a9 9 0 1 0 0 16" fill="none" stroke="#ff6b7d" stroke-width="3.2"/>
+  </svg>
+</a>
+<nav class="nav" aria-label="Primary">
+  <a href="/">Portfolio</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="/picoctf" aria-current="page">picoCTF</a>
+  <span class="rule" aria-hidden="true"></span>
+  <a href="/#contact">Contact</a>
+</nav>
 
-<main class="wrap" id="content">
-  <p class="not-found">Loading&hellip;</p>
+<div class="site">
+<main id="main" class="page">
+  <div class="inner" id="content"><p class="not-found">Loading&hellip;</p></div>
 </main>
+<footer class="foot">
+  <span>&copy; 2026 Zack Crawford</span>
+  <a href="/privacy">Privacy</a>
+  <a href="/accessibility">Accessibility</a>
+</footer>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="/picoctf/data/picoctf-data.js"></script>
-<script src="/picoctf/js/render.js"></script>
+<script src="/picoctf/js/palette.js?v=20261108v"></script>
 <script>
 const params = new URLSearchParams(location.search);
 const slug = params.get("slug");
 const solve = SOLVES.find((s) => s.slug === slug);
 const content = document.getElementById("content");
 
+// Placeholder copy for challenges without a write-up. It's deliberately generic
+// filler: it says nothing about how the challenge is actually solved.
+const LOREM = [
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+];
+const bars = (widths) => `<div class="bars" aria-hidden="true">${widths.map((w) => `<i style="width:${w}%"></i>`).join("")}</div>`;
+function placeholderWriteup() {
+  return `
+    <div class="locked-note" role="note">&#9632; Write-up in progress &middot; the text below is placeholder only</div>
+    <div class="placeholder">
+      <section><h3>Overview</h3><p>${LOREM[0]}</p>${bars([92, 78])}</section>
+      <section><h3>Approach</h3><p>${LOREM[1]}</p>${bars([86, 64, 72])}</section>
+      <section><h3>Walkthrough</h3><p>${LOREM[2]}</p><pre aria-hidden="true">$ placeholder --command
+lorem ipsum dolor sit amet</pre></section>
+      <section><h3>Flag</h3><p>picoCTF{&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;}</p></section>
+    </div>`;
+}
+
 if (!solve) {
-  content.innerHTML = `<p class="not-found">No write-up found for "${escapeHtml(slug || "")}". <a href="/picoctf">Back to all solves</a>.</p>`;
+  content.innerHTML = `<p class="not-found">No write-up found for &ldquo;${escapeHtml(slug || "")}&rdquo;.<br><br>
+    <a class="btn-line" href="/picoctf">All categories <span class="arr" aria-hidden="true">&rarr;</span></a></p>`;
 } else {
   document.title = `${solve.title} - picoCTF Solves`;
+  // point the canonical link at this specific solve
+  document.querySelector('link[rel="canonical"]').href =
+    `https://zackcrawford.com/picoctf/solve?slug=${encodeURIComponent(solve.slug)}`;
+
+  const solved = isSolved(solve);
+  document.documentElement.style.setProperty("--gc", [1, 3, 5].map((i) => parseInt((CATEGORY_COLOR[solve.category] || "#4fe0c8").slice(i, i + 2), 16)).join(","));
+  const color = CATEGORY_COLOR[solve.category] || "#4fe0c8";
+  const dColor = (DIFFICULTY_META[solve.difficulty] || {}).color || "var(--muted)";
+  // neighbours in the same category and difficulty
+  const siblings = SOLVES.filter((s) => s.category === solve.category && s.difficulty === solve.difficulty);
+  const idx = siblings.indexOf(solve);
+  const prev = siblings[idx - 1], next = siblings[idx + 1];
 
   const hintsHtml = solve.hints.length
-    ? `<details class="hints"><summary>Show hints (${solve.hints.length})</summary>
-        <ul>${solve.hints.map((h) => `<li>${escapeHtml(h)}</li>`).join("")}</ul>
-      </details>`
+    ? `<details class="hints panel" style="--c:var(--amber)"><summary>Show hints (${solve.hints.length})</summary>
+        <ul>${solve.hints.map((h) => `<li>${escapeHtml(h)}</li>`).join("")}</ul></details>`
     : "";
-
-  const notesHtml = solve.notes
-    ? `<div class="notes">${renderMarkdown(solve.notes)}</div>`
-    : "";
-
-  const flagHtml = solve.flag
-    ? `<div class="flag-row">
-        <button id="reveal-btn" type="button">Reveal flag</button>
+  // keep each quoted hint line on its own line
+  const notesMd = (solve.notes || "").replace(/\n>/g, "\n>\n>");
+  const notesHtml = solve.notes ? `<div class="block panel" style="--c:var(--amber)"><h2>Notes</h2>${renderMarkdown(notesMd)}</div>` : "";
+  const flagHtml = solved && solve.flag
+    ? `<div class="flag-row panel"><span class="lab">Flag</span>
         <code class="flag-value" id="flag-value">${escapeHtml(solve.flag)}</code>
-      </div>`
+        <button id="reveal-btn" type="button" aria-controls="flag-value" aria-pressed="false">Reveal flag</button></div>`
     : "";
-
-  const solutionHtml = solve.solutionMd.trim()
-    ? `<div class="solution">${renderMarkdown(solve.solutionMd)}</div>`
-    : `<p class="unwritten">Write-up not yet published for this challenge.</p>`;
-
   const referencesHtml = solve.references.length
-    ? `<div class="references">
-        <h2>References</h2>
-        <ul>${solve.references.map((r) => `<li><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.text)}</a></li>`).join("")}</ul>
-      </div>`
+    ? `<div class="references"><h2>References</h2>
+        <ul>${solve.references.map((r) => /^https?:\/\//i.test(r.url || "")
+          ? `<li><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.text)}</a></li>`
+          : `<li>${escapeHtml(r.text)}</li>`).join("")}</ul></div>`
     : "";
+  const pagerLink = (s, cls, label) => s
+    ? `<a class="${cls}" href="/picoctf/solve?slug=${encodeURIComponent(s.slug)}" aria-keyshortcuts="${cls === "prev" ? "ArrowLeft" : "ArrowRight"}">${label}<b>${escapeHtml(s.title)}</b></a>` : "";
 
   content.innerHTML = `
-    <h1 id="title">${escapeHtml(solve.title)}</h1>
-    <div class="stats">
-      <span class="stat">${difficultyDot(solve.difficulty)}<b>${escapeHtml(solve.difficulty)}</b></span>
-      <span class="stat">category: <b>${escapeHtml(solve.category)}</b></span>
-      ${solve.event ? `<span class="stat">event: <b>${escapeHtml(solve.event)}</b></span>` : ""}
-      ${solve.author ? `<span class="stat">author: <b>${escapeHtml(solve.author)}</b></span>` : ""}
-    </div>
-    ${solve.description ? `<div class="callout">${renderMarkdown(solve.description)}</div>` : ""}
+    <h1 class="title" style="view-transition-name:vt-${solve.slug}"><span class="glitch" data-text="${escapeHtml(solve.title)}">${escapeHtml(solve.title)}</span></h1>
+    <ul class="chips">
+      <li><span class="dot" style="background:${dColor}"></span><b>${escapeHtml(solve.difficulty)}</b></li>
+      <li><span class="dot" style="background:${color}"></span>${escapeHtml(solve.category)}</li>
+      ${solve.event && solve.event !== "N/A" ? `<li>${escapeHtml(solve.event)}</li>` : ""}
+      ${solve.author ? `<li>By ${escapeHtml(solve.author)}</li>` : ""}
+      <li class="${solved ? "done" : ""}">${solved ? "&#10003; Write-up" : "&#9632; Locked"}</li>
+    </ul>
+    ${solve.description ? `<div class="block panel" style="--c:${color}"><h2>Challenge</h2>${renderMarkdown(solve.description)}</div>` : ""}
     ${hintsHtml}
     ${notesHtml}
     ${flagHtml}
-    ${solutionHtml}
+    <div class="writeup-head"><h2>Write-up</h2></div>
+    ${solved ? `<div class="solution">${renderMarkdown(solve.solutionMd)}</div>` : placeholderWriteup()}
     ${referencesHtml}
-  `;
+    <nav class="pager" aria-label="More ${escapeHtml(solve.difficulty)} ${escapeHtml(solve.category)} challenges">
+      ${pagerLink(prev, "prev", "&larr; Previous")}
+      ${next ? pagerLink(next, "next", "Next &rarr;") : `<a class="next" href="${categoryUrl(solve.category, solve.difficulty)}">Back to list<b>${escapeHtml(solve.category)}</b></a>`}
+    </nav>`;
+
+  // ---------- build the terminal: bar (title) + screen (everything else) ----------
+  const term = document.createElement("div");
+  term.className = "term";
+  const bar = document.createElement("header");
+  bar.className = "term-bar";
+  bar.innerHTML = `<div class="term-top">
+      <button type="button" class="back-cat" id="back-cat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to ${escapeHtml(solve.category)} <kbd class="k" aria-hidden="true">Esc</kbd>
+      </button>
+      <span class="term-status"><i aria-hidden="true"></i>${solved ? "Write-up decrypted" : "Write-up locked"}</span>
+    </div>`;
+  const screen = document.createElement("div");
+  screen.className = "term-screen";
+  screen.innerHTML = `<span class="term-scan" aria-hidden="true"></span><div class="term-body"></div>`;
+  const body = screen.querySelector(".term-body");
+  const nodes = Array.from(content.children);
+  nodes.forEach((n) => (n.matches("h1.title, ul.chips") ? bar : body).appendChild(n));
+  Array.from(body.children).forEach((n, i) => n.style.setProperty("--i", Math.min(i, 12)));
+  bar.style.viewTransitionName = `vt-card-${solve.slug}`;
+  term.append(bar, screen);
+  content.appendChild(term);
+  glitch(bar.querySelector(".glitch"), 120);
+
+  const rm = document.documentElement.classList.contains("rm");
+  // browsers that morph between pages (cross-document View Transitions)
+  const canMorph = "CSSViewTransitionRule" in window && !rm;
+  if (canMorph) document.documentElement.classList.add("vt");
+  const scan = screen.querySelector(".term-scan");
+  const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  // animate the screen's visible height from 0 down to the bottom of the viewport
+  function sweep(open, ms, done) {
+    const H = screen.offsetHeight;
+    const reach = Math.min(H, Math.max(160, innerHeight - screen.getBoundingClientRect().top + 30));
+    const t0 = performance.now();
+    scan.style.opacity = "1";
+    (function step(now) {
+      const p = Math.min(1, (now - t0) / ms), e = easeIO(open ? p : 1 - p), shown = e * reach;
+      screen.style.clipPath = `inset(0 0 ${Math.max(0, H - shown)}px 0)`;
+      scan.style.top = `${shown}px`;
+      if (p < 1) requestAnimationFrame(step);
+      else { scan.style.opacity = "0"; if (open) screen.style.clipPath = ""; done && done(); }
+    })(t0);
+  }
+  // decode effect on section headings as they fill in
+  function decode(el, delay) {
+    const final = el.textContent, chars = "!<>-_\\/[]{}=+*^?#01ABCDEF";
+    setTimeout(() => {
+      let f = 0;
+      const id = setInterval(() => {
+        f++;
+        el.textContent = final.split("").map((ch, i) => (i < f / 2 || ch === " " ? ch : chars[(Math.random() * chars.length) | 0])).join("");
+        if (f / 2 >= final.length) { clearInterval(id); el.textContent = final; }
+      }, 28);
+    }, delay);
+  }
+  if (rm) {
+    term.classList.add("open", "filled");
+  } else {
+    screen.style.clipPath = "inset(0 0 100% 0)";
+    setTimeout(() => sweep(true, 750, () => {
+      term.classList.add("filled");
+      body.querySelectorAll(":scope > .block > h2, :scope > .writeup-head h2, :scope > .references h2").forEach((h, i) => decode(h, 120 + i * 90));
+    }), 450);
+  }
+
+  // ---------- back out: collapse the screen, then zoom out to the category ----------
+  let leaving = false;
+  function leave() {
+    if (leaving) return;
+    leaving = true;
+    try { sessionStorage.setItem("pico-from-solve", "1"); } catch (e) { /* private mode */ }
+    let ref = null;
+    try { ref = document.referrer ? new URL(document.referrer) : null; } catch (e) { /* ignore */ }
+    const cameFromList = ref && ref.origin === location.origin && (ref.pathname === "/picoctf" || ref.pathname === "/picoctf/category");
+    const go = () => {
+      if (cameFromList && history.length > 1) history.back();
+      else location.href = categoryUrl(solve.category, solve.difficulty);
+    };
+    if (rm) return go();
+    // 1. the write-up fades and the page glides back to the header
+    term.classList.add("closing");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const t0 = performance.now();
+    (function waitTop() {
+      if (scrollY > 2 && performance.now() - t0 < 700) return requestAnimationFrame(waitTop);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      // 2. the screen collapses up into the header, which stays put
+      sweep(false, 520, () => {
+        screen.style.visibility = "hidden";
+        // 3. the header shrinks back into its card on the category page
+        setTimeout(go, canMorph ? 60 : 220);
+      });
+    })();
+  }
+  document.getElementById("back-cat").addEventListener("click", leave);
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !document.querySelector(".cmdk:not([hidden])")) leave();
+  });
+  addEventListener("pageshow", (e) => { if (e.persisted) { leaving = false; term.classList.remove("closing"); screen.style.clipPath = ""; screen.style.visibility = ""; } });
+
+  // left/right arrows step through the problems in this difficulty
+  document.addEventListener("keydown", (e) => {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || document.querySelector(".cmdk:not([hidden])")) return;
+    if (e.key === "ArrowLeft" && prev) location.href = `/picoctf/solve?slug=${encodeURIComponent(prev.slug)}`;
+    if (e.key === "ArrowRight") location.href = next ? `/picoctf/solve?slug=${encodeURIComponent(next.slug)}` : categoryUrl(solve.category, solve.difficulty);
+  });
 
   const revealBtn = document.getElementById("reveal-btn");
   if (revealBtn) {
     revealBtn.addEventListener("click", () => {
-      const el = document.getElementById("flag-value");
-      const revealed = el.classList.toggle("revealed");
+      const revealed = document.getElementById("flag-value").classList.toggle("revealed");
       revealBtn.textContent = revealed ? "Hide flag" : "Reveal flag";
+      revealBtn.setAttribute("aria-pressed", String(revealed));
     });
   }
 }
+</script>
+<script>
+(function () {
+  const btns = document.querySelectorAll(".bgtoggle button");
+  function set(mode) {
+    document.body.classList.toggle("solid-bg", mode === "solid");
+    btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.bg === mode)));
+    try { localStorage.setItem("pico-bg", mode); } catch (e) { /* private mode */ }
+  }
+  let saved = "dots";
+  try { saved = localStorage.getItem("pico-bg") || "dots"; } catch (e) { /* private mode */ }
+  set(saved);
+  btns.forEach((b) => b.addEventListener("click", () => set(b.dataset.bg)));
+})();
+</script>
+<script>
+// Background: a honeycomb of faint dots. Moving the pointer lights the nearest
+// hexagon edge in the category colour; it holds for 3.8s, then fades out slowly.
+(function () {
+  const cv = document.getElementById("hex"), g = cv.getContext("2d");
+  const L = 22;                                  // edge length (px)
+  const W = Math.sqrt(3) * L, ROW = 1.5 * L;     // pointy-top hex spacing
+  const HOLD = 3800, FADE = 2200;
+  const lit = new Map();                         // edge key -> { a, b, t }
+  let dots = null, dpr = 1, raf = 0;
+
+  const colour = () => (getComputedStyle(document.documentElement).getPropertyValue("--gc").trim() || "79,224,200");
+  const centre = (col, row) => [W * (col + (row & 1 ? 0.5 : 0)), ROW * row];
+  const corner = (c, i) => { const a = (Math.PI / 180) * (60 * i - 30); return [c[0] + L * Math.cos(a), c[1] + L * Math.sin(a)]; };
+
+  function drawDots() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+    dots = document.createElement("canvas");
+    dots.width = cv.width; dots.height = cv.height;
+    const d = dots.getContext("2d");
+    d.scale(dpr, dpr);
+    const seen = new Set();
+    for (let row = -1; row * ROW < innerHeight + L; row++) {
+      for (let col = -1; col * W < innerWidth + W; col++) {
+        const c = centre(col, row);
+        for (let i = 0; i < 6; i++) {
+          const p = corner(c, i), key = Math.round(p[0]) + "," + Math.round(p[1]);
+          if (seen.has(key)) continue;
+          seen.add(key);
+          // brighter toward the top right, never gone entirely
+          const f = Math.max(0, 1 - Math.hypot(p[0] / innerWidth - 0.85, p[1] / innerHeight) / 1.25);
+          d.fillStyle = (i & 1 ? "rgba(79,224,200," : "rgba(154,123,255,") + (0.16 + 0.42 * f).toFixed(3) + ")";
+          d.beginPath(); d.arc(p[0], p[1], 1.25, 0, Math.PI * 2); d.fill();
+        }
+      }
+    }
+    paint(performance.now());
+  }
+
+  // the hexagon edge closest to a point
+  function nearestEdge(x, y) {
+    let best = null, bd = Infinity;
+    const r0 = Math.round(y / ROW);
+    for (let row = r0 - 1; row <= r0 + 1; row++) {
+      const c0 = Math.round(x / W - (row & 1 ? 0.5 : 0));
+      for (let col = c0 - 1; col <= c0 + 1; col++) {
+        const c = centre(col, row), d = Math.hypot(x - c[0], y - c[1]);
+        if (d < bd) { bd = d; best = c; }
+      }
+    }
+    // edge midpoints of a pointy-top hex sit at 0, 60, 120... degrees
+    let ang = Math.atan2(y - best[1], x - best[0]) * 180 / Math.PI;
+    const i = ((Math.round(ang / 60) % 6) + 6) % 6;
+    const a = corner(best, i), b = corner(best, i + 1);
+    return { key: Math.round(a[0] + b[0]) + "," + Math.round(a[1] + b[1]), a, b };
+  }
+
+  function light(x, y, now) {
+    const e = nearestEdge(x, y);
+    const cur = lit.get(e.key);
+    if (cur) cur.t = now; else lit.set(e.key, { a: e.a, b: e.b, t: now });
+  }
+
+  function paint(now) {
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, cv.width, cv.height);
+    if (dots) g.drawImage(dots, 0, 0);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const rgb = colour();
+    g.lineCap = "round";
+    // edges behind the write-up stay much dimmer so the text keeps priority
+    const box = document.querySelector(".term");
+    const r = box ? box.getBoundingClientRect() : null;
+    const behind = document.body.classList.contains("solid-bg") ? 0 : 0.28;
+    for (const [k, e] of lit) {
+      const age = now - e.t;
+      const a = age < HOLD ? 1 : 1 - (age - HOLD) / FADE;
+      if (a <= 0) { lit.delete(k); continue; }
+      const mx = (e.a[0] + e.b[0]) / 2, my = (e.a[1] + e.b[1]) / 2;
+      const inside = r && mx > r.left - 6 && mx < r.right + 6 && my > r.top - 6 && my < r.bottom + 6;
+      const s = a * a * (3 - 2 * a) * (inside ? behind : 1);   // ease the fade
+      g.shadowColor = `rgba(${rgb},${0.9 * s})`;
+      g.shadowBlur = 12;
+      g.strokeStyle = `rgba(${rgb},${0.85 * s})`;
+      g.lineWidth = 1.6;
+      g.beginPath(); g.moveTo(e.a[0], e.a[1]); g.lineTo(e.b[0], e.b[1]); g.stroke();
+      g.shadowBlur = 0;
+      g.fillStyle = `rgba(255,255,255,${0.7 * s})`;
+      for (const p of [e.a, e.b]) { g.beginPath(); g.arc(p[0], p[1], 1.6, 0, Math.PI * 2); g.fill(); }
+    }
+  }
+
+  addEventListener("scroll", () => { if (!raf && lit.size) raf = requestAnimationFrame(loop); }, { passive: true });
+  function loop(now) {
+    paint(now);
+    raf = lit.size ? requestAnimationFrame(loop) : 0;
+  }
+
+  let last = null;
+  addEventListener("pointermove", (e) => {
+    const now = performance.now(), x = e.clientX, y = e.clientY;
+    // fill in the path between events so fast movements leave no gaps
+    if (last) {
+      const n = Math.min(40, Math.ceil(Math.hypot(x - last[0], y - last[1]) / (L * 0.5)));
+      for (let i = 1; i <= n; i++) light(last[0] + (x - last[0]) * i / n, last[1] + (y - last[1]) * i / n, now);
+    } else light(x, y, now);
+    last = [x, y];
+    if (!raf) raf = requestAnimationFrame(loop);
+  }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => { last = null; });
+  addEventListener("resize", drawDots);
+  drawDots();
+})();
 </script>
 </body>
 </html>
