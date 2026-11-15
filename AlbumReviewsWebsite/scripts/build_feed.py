@@ -23,8 +23,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-# Fill this in once the site has a live URL (e.g. GitHub Pages).
-SITE_URL = "https://album-reviews-website.vercel.app/albums"
+# The album site's public address; draft_email.py has its own copy.
+SITE_URL = "https://zackcrawford.com/albums"
 
 FEED_TITLE = "Ridez — Album Reviews"
 FEED_DESC = "Track-by-track album reviews, newest first."
@@ -48,7 +48,7 @@ def rfc822(date_str: str) -> str:
 
 
 def item_xml(r: dict) -> str:
-    link = f"{SITE_URL}/review.html?album={r['slug']}"
+    link = f"{SITE_URL}/review/{r['slug']}"
     title = f"{r['artist']} – {r['title']} ({r['finalScore']}/10)"
     desc = f"Score: {r['finalScore']}/10 ({r['percent']}%, {r['scoredTracks']} tracks scored)."
     if r.get("finalWords"):
@@ -66,10 +66,6 @@ def item_xml(r: dict) -> str:
 
 
 def main():
-    if SITE_URL == "YOUR_SITE_URL":
-        print("! SITE_URL isn't set yet - links in the feed will be broken until "
-              "you edit the constant at the top of this script.")
-
     reviews = load_reviews(Path("data/reviews-data.js"))
     reviews.sort(key=lambda r: r["reviewed"], reverse=True)
 
@@ -81,7 +77,7 @@ def main():
         '<rss version="2.0">\n'
         "<channel>\n"
         f"  <title>{escape(FEED_TITLE)}</title>\n"
-        f"  <link>{escape(SITE_URL)}/reviews.html</link>\n"
+        f"  <link>{escape(SITE_URL)}</link>\n"
         f"  <description>{escape(FEED_DESC)}</description>\n"
         "  <language>en-us</language>\n"
         f"  <lastBuildDate>{now}</lastBuildDate>\n"

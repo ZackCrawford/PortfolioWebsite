@@ -1,8 +1,8 @@
 # Album review website
 
-A static site for personal album reviews. No build step, no framework, no
-package manager. Open `reviews.html` in a browser and it runs. Hosted from
-this folder (GitHub Pages compatible).
+A static site for personal album reviews, served at `zackcrawford.com/albums`
+as part of the portfolio's single Vercel project. No build step, no framework,
+no package manager.
 
 The source of truth for review content is a folder of Word documents. A Python
 script parses them into a JS data file that the pages read.
@@ -11,136 +11,208 @@ script parses them into a JS data file that the pages read.
 
 ## Run it
 
+Run every script from inside `AlbumReviewsWebsite/` - they read and write
+`data/`, `covers/`, `review/` and `feed.xml` relative to the current directory.
+All are Python standard library only: no pip installs, no API keys (except
+`draft_email.py`, below).
+
 ```bash
 python scripts/parse_reviews.py reviews      # .docx files -> data/reviews-data.js
 python scripts/fetch_covers.py               # download missing album art -> covers/
+python scripts/build_pages.py                # per-review pages + sitemap review URLs
+python scripts/build_feed.py                 # feed.xml
 ```
 
-Run both from the repo root — the scripts write to `data/` and `covers/` relative
-to the current directory, not to the script's own location.
+**After adding a review:** run all four, in that order. **After editing
+`review.html`:** run `build_pages.py` (the per-review pages are copies of it).
 
 Adding or editing one review doesn't need a full rescan. `--only` reparses just
-the named file(s) and merges the result into the existing data file; every
-other review already in it is carried over exactly as-is, untouched:
+the named file(s) and merges the result into the existing data file:
 
 ```bash
 python scripts/parse_reviews.py reviews --only "Madvillainy Album Review.docx"
 ```
 
-Both use only the Python standard library. No pip installs, no API keys.
-After running either, hard-refresh the browser (Ctrl+F5) — browsers cache `.js`
-aggressively.
-
-To draft (never auto-send) an announcement email for a review, once it's in
-`data/reviews-data.js`:
+To draft (never auto-send) an announcement email for a review:
 
 ```bash
 python scripts/draft_email.py <slug>
 ```
 
-Needs `BUTTONDOWN_API_KEY` set in the environment - never commit the key
-itself. See "Email notifications" below for the full picture.
+Needs `BUTTONDOWN_API_KEY` set in the environment - never commit the key.
 
-To regenerate `feed.xml` after adding or editing a review:
-
-```bash
-python scripts/build_feed.py
-```
+To preview locally with the real URLs, run `python3 serve.py` from the repo
+root (it applies the `vercel.json` rewrites; plain `http.server` can't).
 
 ---
 
 ## Files
 
-### Generated — never edit by hand
+### Generated - never edit by hand
 
 | File | Notes |
 |---|---|
-| `data/reviews-data.js` | Rewritten from scratch on every parser run. Any manual edit is destroyed. ~4,400 lines for 28 reviews. |
-| `covers/<slug>.jpg` | Downloaded art. `fetch_covers.py` skips any file that already exists, so manually-placed images always win. |
-| `feed.xml` | RSS, rewritten from scratch by `build_feed.py`. Any manual edit is destroyed. |
+| `data/reviews-data.js` | Rewritten from scratch on every parser run. |
+| `covers/<slug>.jpg` | Downloaded art. `fetch_covers.py` skips files that exist, so manually placed images win. |
+| `review/<slug>.html` | One static page per review, written by `build_pages.py` from `review.html`, served at `/albums/review/<slug>` (rewrite in `vercel.json`). Its `<head>` carries the album's title, description, cover as `og:image`, and schema.org `Review` JSON-LD, so link previews and search engines see the real review without running JS. |
+| `feed.xml` | RSS, rewritten by `build_feed.py`. |
 
-### Hand-written data — the parser never touches these
+### Hand-written data - no script touches these
 
 | File | Notes |
 |---|---|
-| `data/about-data.js` | Encyclopedic background per album, keyed by slug. All 29 filled in. |
+| `data/about-data.js` | Encyclopedic background per album, keyed by slug. |
 | `data/genre-overrides.json` | Per-album genre tab corrections, keyed by slug. Overrides pattern matching entirely. |
-| `data/queue.js` | 107 albums planned for review. Shows as the "On deck" strip. |
+| `data/queue.js` | Albums planned for review ("On deck"), each with artist, title and release year. Delete a line once its review is up. |
+| `data/album-themes.js` | Per-album colours for the review page (see "Review page colours"). Goodbye & Good Riddance and Swagger are pinned by hand. |
 
 ### Code
 
 | File | Notes |
 |---|---|
-| `scripts/parse_reviews.py` | Reads `.docx` as a zip + XML directly. **No pandoc** — that dependency was removed deliberately. |
-| `scripts/fetch_covers.py` | iTunes Search API. Artist-constrained search first, then general, then title-only. |
-| `scripts/draft_email.py` | Creates a Buttondown draft for one review by slug. Never sends — see "Email notifications" below. |
-| `scripts/build_feed.py` | Generates `feed.xml` from `reviews-data.js`, newest `reviewed` date first. |
-| `reviews.html` | Front page: genre tabs, featured + latest grids, On deck strip. |
-| `review.html` | One template for every review. Reads `?album=<slug>`. |
-| `all.html` | Browse page: 9 sorts, genre/score/decade/text filters. |
-| `subscribe.html` | Email sign-up (all reviews or specific On Deck albums) and album requests. Reached via the mail icon in the header on the other pages. |
-| `stats.html` | Score distribution, genre breakdown, and albums-by-decade, computed live from `reviews-data.js`. Reused `sc-bar`/`sc-*` classes from `score.js` for the score chart instead of a new palette. |
+| `reviews.html` | Front page: genre tabs, two featured cards, latest grid (always whole rows, "More" adds rows), slim On deck bar. Content is 1180px wide so the latest reviews show without scrolling. |
+| `review.html` | Template for every review; the static pages are copies. Reads `window.REVIEW_SLUG` or `?album=<slug>`. |
+| `all.html` | Browse: 9 sorts, genre/score/decade/text filters, Random. |
+| `stats.html` | One scrolling page computed from `reviews-data.js`: headline numbers; cover chart (each album's cover stacked in its whole-score column, tier-coloured baseline, hover/focus tooltip); genre and decade bar lists with album count and average (genre rows open Browse filtered); highest/lowest five. |
+| `subscribe.html` | Email sign-up (every review, or specific On deck albums via a searchable checklist) and album requests (`#request`). |
+| `css/liner.css` | Shared palette + accent-heading rule for the four list pages, loaded after each page's own `<style>`. |
 | `js/score.js` | **Shared** score colour tiers + `window.scoreClass()`. Load before anything that colours a score. |
-| `js/search.js` | Fuzzy search. Self-injects its own styles. Needs a button with `data-search-toggle`. |
-| `js/theme.js` | Light/dark toggle. Only wires up the button - see the Style section for how the theme itself is defined. Needs a button with `data-theme-toggle`. |
+| `js/search.js` | Header fuzzy search over reviews. Self-injects its styles. Needs a button with `data-search-toggle`. |
+| `js/ondeck-search.js` | Forgiving search over the queue: case, accents and punctuation ignored, `$` = s, `&` = and, partial words, small typos, year or decade. Strong matches crowd out typo-level near misses; if nothing matches every word, the closest come back marked `loose`. |
+| `js/album-theme.js` | Per-album colour engine: `themeFromPixels()`, `applyTheme()`, `themeFromImage()`. |
+| `scripts/parse_reviews.py` | Reads `.docx` as zip + XML directly (no pandoc). |
+| `scripts/fetch_covers.py` | iTunes Search API: artist-constrained search, then general, then title-only. |
+| `scripts/build_pages.py` | Writes `review/<slug>.html` and refreshes the review URLs in `../sitemap.xml`. |
+| `scripts/build_feed.py` | Generates `feed.xml`, newest `reviewed` date first. |
+| `scripts/draft_email.py` | Creates a Buttondown draft for one review. Never sends. |
+
+---
+
+## Look and feel
+
+**List pages** (front, browse, stats, subscribe) share a "liner notes" look:
+warm black, off-white type, one vermilion accent, solid panels, 3px corners,
+square covers; the album art supplies the colour. `css/liner.css` owns the
+palette. The variable names `--violet` / `--violet-deep` are historical; read
+them as "accent". Section headings and small labels are in the accent colour.
+Deliberately different from the portfolio front page.
+
+**Score tiers** (`js/score.js`) use the standard review-site progression:
+red (< 5.5) -> orange -> yellow -> light green -> green (8.8+), with a solid
+green label for 9.7+. `.sc-pill` is the badge (search, browse, stats lists),
+`.sc-text` the bare number (front-page cards), `.sc-bar` the meter fill.
+
+**Fonts:** Bricolage Grotesque (headings, artist names), Newsreader (album
+titles, scores, prose), Instrument Sans (UI).
+
+**Copy is minimal.** Titles, labels and buttons only; no taglines or
+explanatory sentences under headings.
+
+**Light mode is parked.** The toggle and its CSS were removed until the site is
+finished; the old `js/theme.js` is in git history. The review page still
+supports a hand-set light album theme (see below).
+
+---
+
+## Review page colours
+
+Every review page is coloured from its album. `data/album-themes.js` holds one
+line per album:
+
+- `surface` - the cover's main colour. Grey/black = neutral page; a real
+  colour = page tinted with it (kept vivid, never muddy). Dark grey -> black
+  page; light grey ("silver", e.g. Madvillainy) -> graphite page.
+- `accent` - scores, meters, links, cover outline. Always kept bright.
+- `glow` - background light colours.
+- `mode` - `"dark"`. **White is never a page colour** (too bright): near-white
+  areas are skipped and a white cover takes its next colour (Rebel -> black,
+  Crybaby -> graphite, Don't Be Dumb -> red). A hand-set `"light"` still works
+  and uses a soft paper tone, never pure white.
+
+`js/album-theme.js` is the single implementation. `themeFromPixels()` picks
+the surface by area (k-means), letting a colour family win when its shades add
+up (camo greens, sepia), and finds the accent from small vivid patches on their
+own (Madvillainy's orange corner). `applyTheme()` derives every shade with
+contrast checks, sets `--a-*` / `--g*` and the `themed` class on `<html>`; the
+`:root.themed` CSS block maps those onto the page palette. The animated Vanta
+cells follow the page colour (grey on neutral pages).
+
+The theme is applied by a script in `<head>`, before the first paint, and the
+page's built-in defaults are neutral, so nothing flashes. An album missing from
+`album-themes.js` is themed from its cover in the browser once the image loads
+(browsers that block canvas reads keep the neutral default). To seed a new
+line, run `themeFromPixels()` over the cover the same way; keep pinned lines.
+
+**Reading:** one centred 820px column; the review body sits on a near-solid
+panel; Vanta at 40% opacity; prose uses `text-wrap: pretty`. A neutral
+placeholder outline shows until the review renders. Reading-progress bar under
+the masthead, back-to-top button after a screen of scrolling.
+
+**Back button** returns to the exact album page you came from via
+`history.back()` (keeps genre tab, filters, scroll) and falls back to `/albums`.
+
+---
+
+## Behaviour worth knowing
+
+- **Back keeps your place.** The front page's "More" count and every Browse
+  filter are saved in the page's own history entry (`history.replaceState`,
+  not browser storage), so Back from a review redraws the same list and the
+  browser restores the scroll position. Writes are wrapped in try/catch
+  because Safari throttles rapid history writes.
+- **Cards reveal once.** Cards rise in (and front-page scores count up) the
+  first time they scroll into view, then stay. Albums already seen (a genre
+  switch, "More" or a filter redraws the grid) and cards above the screen get
+  `.no-anim` and appear instantly. The count-up waits ~550ms so it plays after
+  the card is legible.
+- **On deck** (front page) is one slim bar: count, search, "See all". A
+  spinner shows while typing; results appear ~1.2s after the last keystroke
+  (Enter = now, Esc clears) in a small scrolling panel. No match links to
+  `/albums/subscribe#request`. The subscribe checklist filters as you type
+  with the same matcher; ticked albums stay ticked while hidden.
+- **Genre tabs** (`reviews.html`): `.tab-indicator` is a real element moved
+  behind the active tab by `moveTabIndicator()`; `#tab-content` slides via
+  toggled classes with a `setTimeout` swap so `render()` can run mid-animation.
+  (`document.startViewTransition()` was tried for this and silently did
+  nothing in Chromium; budget time to find out why before relying on it.)
+- **Cover tilt** on `reviews.html` and `all.html` uses one delegated
+  `mousemove` listener so it survives grid re-renders.
+- **Sticky footer:** `body` is a flex column with `footer{margin-top:auto}`.
+  Side effect: a direct child centred with `margin:0 auto` shrinks to its
+  content, so full-width wrappers need `width:100%` (see `subscribe.html`).
+- **Reduced motion** is respected everywhere; JS-driven inline effects check
+  `matchMedia` themselves since the global CSS rule can't reach them.
+- **Review URLs** are `/albums/review/<slug>` everywhere (cards, search,
+  random, feed, emails, sitemap). `review.html?album=<slug>` still works.
 
 ---
 
 ## Email notifications
 
-Visitors sign up on `subscribe.html`, either for every new review or for
-specific On Deck albums. There's no backend of ours involved — the sign-up
-form posts straight to Buttondown, and the request-an-album box posts
-straight to Formspree. Two placeholders in `subscribe.html` need real values
-before either works: `YOUR_BUTTONDOWN_USERNAME` and `YOUR_FORMSPREE_ID`.
+Sign-up posts straight to Buttondown and album requests to Formspree; no
+backend of ours. Two placeholders in `subscribe.html` need real values before
+either works: `YOUR_BUTTONDOWN_USERNAME` and `YOUR_FORMSPREE_ID` (both services
+must also be allowed in the CSP in `../vercel.json`).
 
-Buttondown tags subscribers as they sign up:
-- `all-reviews` — wants every new review
-- `album-<slug>` — wants just that one (slug matches the real review slug
-  once it's written, since both use the same rule - see Conventions)
+Buttondown tags subscribers: `all-reviews` (every review) or `album-<slug>`
+(one album; the slug matches the eventual review's slug, same rule). A request
+made through the free-text box tags `album-<slug>` from whatever was typed, so
+check that tag in Buttondown before sending for an album that wasn't queued.
 
-Requesting an album (the free-text box, separate from sign-up) records the
-request via Formspree, then offers a popup asking for an email to be notified
-when it's posted. If given, that also tags the person `album-<slug>`, but the
-slug is generated from whatever they typed, not a queued title - if the
-review's eventual title doesn't slugify to the same thing, that tag won't
-match. Worth a manual check in Buttondown before sending, for a request that
-didn't already exist in `queue.js` when they signed up.
-
-Sending is **manual, by design**. `scripts/draft_email.py <slug>` creates a
-draft in Buttondown via their API - it can't accidentally send anything,
-since Buttondown defaults new emails to draft status. Open the draft
-yourself, edit if you like, then pick the audience before sending: "Everyone"
-or "Custom -> Tag" for `all-reviews` and/or `album-<slug>`. This step is
-manual because Buttondown's API dropped tag-scoped sending in 2024 - the
-dashboard's audience picker is the only reliable way to target just the
-people who asked for a specific album.
-
-Before using `draft_email.py`, set `SITE_URL` at the top of the file to the
-site's real address, and set `BUTTONDOWN_API_KEY` in your environment (get
-one from Buttondown's settings - never commit it).
+Sending is **manual, by design**. `draft_email.py <slug>` only creates a draft;
+pick the audience in Buttondown's dashboard ("Everyone" or "Custom -> Tag"),
+because their API dropped tag-scoped sending in 2024. `SITE_URL` in
+`draft_email.py` and `build_feed.py` is `https://zackcrawford.com/albums`;
+the two constants aren't shared, so update both if the URL changes.
 
 ---
 
 ## RSS feed
 
-`feed.xml` is generated by `scripts/build_feed.py` from `data/reviews-data.js`,
-one `<item>` per review, sorted by `reviewed` date (newest first, same field
-the front-page "recently reviewed" sort uses). Re-run the script whenever
-reviews change - nothing regenerates it automatically.
-
-There's deliberately no visible RSS icon in the header - clicking one just
-dumps raw XML on a visitor who has no idea what it means, and most sites don't
-expose a feed that way for exactly that reason. Discovery is a `<link
-rel="alternate" type="application/rss+xml">` in `<head>` instead: invisible on
-the page, but every feed reader auto-detects it the moment someone pastes the
-site's URL in. It's duplicated across all five pages - add a sixth and it
-needs the tag too.
-
-Like `draft_email.py`, it has a `SITE_URL` placeholder at the top that has to
-be set to the site's real address before the `<link>`/`<guid>` URLs inside the
-feed actually resolve to anything. The two constants aren't shared - update
-both files if the URL changes.
+`feed.xml` has one `<item>` per review, newest `reviewed` date first. Nothing
+regenerates it automatically. There's deliberately no visible RSS icon; a
+`<link rel="alternate" type="application/rss+xml">` in each page's `<head>`
+lets feed readers auto-detect it. A new page needs that tag too.
 
 ---
 
@@ -171,55 +243,42 @@ star and an "over 10" pill.
 ## Conventions
 
 **Slugs** are generated from the album title: lowercase, non-alphanumerics to
-hyphens. `Madvillainy` → `madvillainy`. Everything keys off this — cover
-filenames, `about-data.js`, `genre-overrides.json`, `review.html?album=`.
+hyphens. `Madvillainy` -> `madvillainy`. Everything keys off this: cover
+filenames, `about-data.js`, `genre-overrides.json`, `album-themes.js`, the
+review URL.
 
 **Genres are multi-valued.** Each review has a `tabs` array; an album appears
 under every genre it matches. `tab` is the first entry, used for the card label
-and the review page's genre link. Rule order in `TAB_RULES` matters — Hip-hop
+and the review page's genre link. Rule order in `TAB_RULES` matters: Hip-hop
 before Alternative before Rock, because "alternative hip hop" and "alternative
-rock" both contain overlapping words.
+rock" share words.
 
-**Score colour tiers** live only in `score.js`. Six bands from grey through
-indigo, violet, magenta, to diamond blue at 9.7+. Two forms:
-- `.sc-pill` — filled badge with glow. Used in search results and `all.html`.
-- `.sc-text` — bare coloured number, **no glow**. Used on front-page cards.
-  The glow was removed here because a blurred shadow behind small text reads
-  as a smudged box.
+**Card badges** (`reviews.html`, `flagsFor()`) stack independently:
+- `Top-rated` - `finalScore >= 9.0`.
+- `Best new` - released this year *and* `finalScore >= 8.5`.
+- `Most recent review` - the single latest `reviewed` date (ties go to the
+  first in `REVIEWS` order, which is sorted by artist).
 
-**Card badges** (`reviews.html` only, in `flagsFor()`) stack independently -
-a card can carry more than one at once:
-- `Top-rated` — `finalScore >= 9.0`. No year requirement.
-- `Best new` — released in the current year (`yearOf(r) === THIS_YEAR`) *and*
-  `finalScore >= 8.5`. Both conditions required - a great album from a past
-  year doesn't count, and a mediocre one from this year doesn't either.
-- `Most recent review` — exactly one album, whichever has the latest
-  `reviewed` date. Ties (common - see the `reviewed` gotcha above) go to
-  whichever comes first in `REVIEWS` array order, which is sorted by artist.
-
-`all.html`'s "Best new album" filter chip uses the same rule as `Best new`
-above (`state.best`) - keep the two in sync if either changes.
+`all.html`'s "Best new album" chip uses the same rule as `Best new` - keep them
+in sync.
 
 ---
 
 ## Gotchas
 
 - **Re-run the parser after changing genre rules or overrides.** Tabs are baked
-  into `reviews-data.js`; nothing changes until you regenerate.
-- **`.json` won't load over `file://`** due to CORS. That's why the data files
-  are `.js` with a `const` — the site works by double-clicking the HTML.
-- **No localStorage/sessionStorage**, with one deliberate exception: the light/
-  dark theme toggle uses `sessionStorage` (see `js/theme.js`), wrapped in
-  try/catch so it degrades to the dark default rather than throwing in
-  contexts where storage is blocked. Don't add storage anywhere else - this
-  was a conscious tradeoff for that one feature, not a lifted restriction.
-- **`reviewed` dates are approximate.** The `.docx` files have no Word
-  metadata (Google Docs exports), so the parser falls back to file mtime.
-  Bulk-copying the folder resets them and breaks "recently reviewed" sort.
-- **The parser audits, it doesn't block.** `[check]` lines are advisory —
-  the data file is written regardless. Flags cover typos in best/worst lists,
-  track count mismatches, unfilled template placeholders, and score
-  contradictions between the track list and the best/worst tables.
+  into `reviews-data.js`.
+- **`.json` won't load over `file://`** (CORS), which is why data files are
+  `.js` with a `const`.
+- **No localStorage/sessionStorage.** Page state that must survive Back lives
+  in `history.state`.
+- **`reviewed` dates are approximate.** The `.docx` files (Google Docs exports)
+  have no Word metadata, so the parser falls back to file mtime. Bulk-copying
+  the folder resets them and breaks "recently reviewed".
+- **The parser audits, it doesn't block.** `[check]` lines are advisory.
+- **Per-review pages are copies.** Editing `review.html` without re-running
+  `build_pages.py` leaves the live `/albums/review/<slug>` pages on the old
+  version.
 
 ---
 
@@ -248,111 +307,3 @@ Section headings are matched loosely (case and punctuation insensitive). Track
 lines accept `:`, `-`, or a tab before the score. If the "Track by Track"
 heading is missing entirely, the parser scans the whole document as a fallback
 and warns.
-
----
-
-## Style
-
-Dark theme, royal purple accent. Fonts: Bricolage Grotesque (headings, artist
-names), Newsreader (album titles, scores, prose), Instrument Sans (UI).
-CSS variables at the top of each HTML file — `--paper`, `--haze`, `--line`,
-`--violet`, `--violet-deep`, `--ink`, `--muted`.
-
-Album covers are square, `object-fit: cover`, inside a 2px purple outlined box.
-Missing covers remove the `<img>` via `onerror` and leave the outline showing —
-that's intentional, not a bug.
-
-**Light theme** is dark's opposite number, not a separate design. Same six
-variables, overridden under a `:root[data-theme="light"]` block placed right
-after `:root{}` in the `<style>` of every page - `--violet` stays identical in
-both themes; only `--paper`, `--haze`, `--line`, `--violet-deep`, `--ink` and
-`--muted` change. `js/theme.js` only toggles the `data-theme` attribute (and
-remembers it in `sessionStorage` - see the storage gotcha below); the actual
-colors live in that CSS block, duplicated across `reviews.html`, `review.html`,
-`all.html`, `subscribe.html` and `stats.html`. Change the palette in one, change
-it in all five.
-
-A handful of colors are hardcoded hex rather than variables - mostly
-decorative borders (`.cover`'s purple outline, `--outline`) that read fine on
-either background and were left alone - but a few are foreground *text* tuned
-only for the dark background (e.g. review.html's over-10 star/pill colors,
-`.hint.error`) and need their own `:root[data-theme="light"] ...{color:...}`
-override next to the dark rule. If you add a new hardcoded text color, check
-it against white too, not just black.
-
-Every page sets its `data-theme` attribute via a tiny inline `<script>` at the
-very top of `<head>`, before the `<style>` block - this runs before first
-paint, so there's no flash of the wrong theme. Don't move it after the
-stylesheet or defer it.
-
----
-
-## Motion & glass
-
-A "Liquid Glass"-style pass sits on top of the base design - frosted panels,
-a drifting ambient glow, and a handful of interactive touches. All of it is
-duplicated across every page's own `<style>`/`<script>`, same as the theme
-palette - change one, change all five (`all.html` has no footer/track list,
-so a couple of pieces don't apply there).
-
-**Ambient background** (`.bg-glow`) is a fixed, oversized (160%) layer behind
-everything, `z-index:-1`, holding a fine SVG noise texture plus three radial
-gradients, with `filter:blur(50px)` for softness. It orbits slowly via
-`@keyframes bg-drift` - twelve evenly-spaced points tracing an ellipse, not a
-handful of far-apart stops, because interpolating between only 2-3 points
-made it visibly jerk at each direction change. `body` itself stays a flat
-`var(--paper)` - the glow is a separate element specifically so it can be
-transform-animated without fighting body's own background.
-
-**Glass panels** (stat tiles, chart cards, the request modal, the tab
-indicator, score pills) all use the same recipe: a translucent background
-+ `backdrop-filter: blur() saturate()` + `box-shadow: inset 0 1px 0 rgba(255,255,255,…)`
-for a top-edge highlight. This *only* reads as glass because `.bg-glow` gives
-it something with texture to blur - backdrop-filter on a flat color is a
-no-op, which is why the noise layer exists at all, not just the gradients.
-
-**Sticky footer**: `body{min-height:100vh;display:flex;flex-direction:column}`
-plus `footer{margin-top:auto}`, on every page that has a footer. Without it,
-a page shorter than the viewport (e.g. `subscribe.html`) leaves the footer
-floating above the bottom edge instead of flush with it.
-
-**Genre tab switching** (`reviews.html` only) is two effects layered
-together, both plain CSS/JS - no View Transitions API. It was tried first and
-silently failed to animate for unknown reasons even on a fully-current
-Chromium build (both cross-document `@view-transition{navigation:auto}` and
-same-document `document.startViewTransition()` produced zero visible effect,
-with no thrown error to debug from) - if revisiting that API, budget time to
-figure out *why* it didn't fire before relying on it again.
-- `.tab-indicator` is a real element positioned via JS (`moveTabIndicator()`,
-  using `offsetLeft/offsetTop/offsetWidth/offsetHeight`) behind whichever tab
-  is active, animated with a plain CSS `transition` on `transform`/`width`/
-  `height`. The active tab's own background goes transparent so the
-  indicator shows through it.
-- `#tab-content` (wraps the featured/latest grids and the load-more button,
-  but *not* the On Deck strip) slides via toggled classes
-  (`tc-out-fwd`/`tc-out-back` then `tc-in-fwd`/`tc-in-back`) with a manual
-  `setTimeout` swap in between, not a single CSS transition - `render()` has
-  to actually run mid-animation to swap the content. Direction is decided by
-  comparing the clicked genre's index in `GENRES` against the previous one.
-
-**Cover tilt**: a cursor-driven 3D tilt on album art (`reviews.html` and
-`all.html`), delegated via a single `mousemove` listener on `document` rather
-than per-card listeners, specifically so it keeps working after `render()`/
-`apply()` replace the grid's DOM on every genre switch, sort, or filter
-change without needing to re-attach anything.
-
-**Scroll-reveal**: cards start at `opacity:0`, and an `IntersectionObserver`
-toggles a `.in-view` class every time a card crosses the viewport edge in
-either direction (not a one-shot reveal - scrolling back up hides them again
-so scrolling back down re-plays it). The score number's count-up
-(`animateScore()`, `reviews.html` only) is driven by the same observer
-callback, but starts on its own ~550ms delay - counting during the card's own
-fade-in made the number essentially done by the time the card was legible
-enough to read it.
-
-All of the above respects `prefers-reduced-motion: reduce`: CSS transitions/
-animations are already caught by the site-wide `*{transition:none!important;
-animation:none!important}` rule, but anything driven by inline JS styles
-(cover tilt, the theme-toggle icon morph) checks `matchMedia(...)` itself
-before running, since that global CSS rule can't reach into JS-set inline
-styles.

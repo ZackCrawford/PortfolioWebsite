@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>(function(){try{if(sessionStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
 <title>2Pacalypse Now — review</title>
 <meta name="description" content="A full album review by Zack Crawford: score, track-by-track notes, and verdict.">
 <link rel="icon" href="/MainPortfolioPage/favicon.svg" type="image/svg+xml">
@@ -24,31 +24,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#0a0810;
-  --haze:#17102b;
-  --line:#2c2150;
-  --violet:#7c3aed;
-  --violet-deep:#a56dff;
-  --outline:#9d4edd;
-  --ink:#f1ebff;
-  --muted:#a394c4;
+  /* neutral defaults; the album's own colours replace these (applied in <head>) */
+  --paper:#0e0e0d;
+  --haze:#171715;
+  --line:#2c2b28;
+  --violet:#d6d9dd;
+  --violet-deep:#e4e6e9;
+  --outline:#3a3934;
+  --violet-soft:#e4e6e9;   /* highlight text: stars, link hover */
+  --violet-pale:#eceef0;   /* over-10 track title/score */
+  --violet-pill:#d6d9dd;   /* pill + meter-glow fill (dark text sits on it) */
+  --ink:#f2efe9;
+  --muted:#a9a498;
   --wrap:1400px;
+  --read:820px;
   --r:10px;
 }
-:root[data-theme="light"]{
-  --paper:#faf8fc;
-  --haze:#f1ecf9;
-  --line:#ddd3ef;
-  --violet-deep:#6d28d9;
-  --ink:#1e1730;
-  --muted:#6b6478;
-}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;background:var(--paper)}
 body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.bg-glow{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;pointer-events:none;filter:blur(50px);animation:bg-drift 22s linear infinite;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,rgba(124,58,237,.38),transparent 40%),radial-gradient(circle at 85% 10%,rgba(217,70,239,.26),transparent 38%),radial-gradient(circle at 60% 95%,rgba(34,211,238,.18),transparent 42%)}
-#vanta-bg{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;filter:blur(48px);opacity:.75}
-:root[data-theme="light"] .bg-glow{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,rgba(124,58,237,.16),transparent 40%),radial-gradient(circle at 85% 10%,rgba(217,70,239,.12),transparent 38%),radial-gradient(circle at 60% 95%,rgba(34,211,238,.12),transparent 42%)}
+.bg-glow{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;pointer-events:none;filter:blur(50px);animation:bg-drift 22s linear infinite;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,rgba(255,255,255,.06),transparent 40%),radial-gradient(circle at 85% 10%,rgba(255,255,255,.04),transparent 38%)}
+#vanta-bg{position:fixed;top:-30%;left:-30%;width:160%;height:160%;z-index:-1;filter:blur(48px);opacity:.4}
 @keyframes bg-drift{
   0%     {transform:translate(16%,0%)}
   8.33%  {transform:translate(13.86%,6.5%)}
@@ -68,18 +64,14 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:2px}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* A review reads top to bottom, so the album header and every section share one
+   centred reading column. */
+.head-inner,main.wrap{max-width:var(--read)}
 
 /* masthead */
-.masthead{position:sticky;top:0;z-index:20;background:rgba(10,8,16,.88);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid var(--line)}
-:root[data-theme="light"] .masthead{background:rgba(250,248,252,.88)}
+.masthead{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border-bottom:1px solid var(--line)}
 .masthead-inner{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;height:60px}
-.wordmark{justify-self:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.03em;font-variation-settings:"wdth" 78;color:var(--violet-deep)}
 .mast-tools{justify-self:end;display:flex;align-items:center;gap:24px}
-.theme-toggle-left{justify-self:start}
-.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--muted)}
-.back:hover{color:var(--ink)}
-.back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
 .icon-btn{width:34px;height:34px;display:grid;place-items:center;background:none;border:1px solid var(--line);border-radius:50%;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .28s cubic-bezier(.34,1.56,.64,1)}
 .icon-btn:hover{background:var(--haze);border-color:var(--violet);transform:scale(1.18) rotate(-4deg)}
 .icon-btn:active{transform:scale(.85)}
@@ -89,16 +81,15 @@ button{font:inherit;color:inherit}
 
 /* album header */
 .head{border-bottom:1px solid var(--line);background:var(--haze)}
-.head-inner{display:grid;grid-template-columns:220px 1fr;gap:36px;padding:44px 0 40px;align-items:start}
+.head-inner{display:grid;grid-template-columns:220px 1fr;gap:36px;padding:44px 24px 40px;align-items:start}
 .cover{aspect-ratio:1;border:2px solid var(--outline);border-radius:var(--r);background:transparent}
 .cover img{width:100%;height:100%;object-fit:cover;display:block;border-radius:calc(var(--r) - 2px)}
 .eyebrow{font-family:"Newsreader",serif;font-style:italic;font-size:16px;color:var(--violet-deep);margin:0 0 8px}
-.album-title{font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:800;font-size:clamp(34px,5.4vw,56px);line-height:.98;letter-spacing:-.03em;margin:0 0 10px}
+.album-title{font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:800;font-size:clamp(34px,5.4vw,56px);line-height:.98;letter-spacing:-.03em;margin:0 0 10px;text-wrap:balance}
 .artist{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:22px;letter-spacing:-.01em;margin:0 0 6px}
 .facts{font-size:14px;color:var(--muted);margin:0 0 22px}
 .facts a.genre-link{color:var(--violet-deep);border-bottom:1px solid transparent;transition:border-color .18s ease,color .18s ease}
-.facts a.genre-link:hover{border-bottom-color:var(--violet-deep);color:#c79bff}
-:root[data-theme="light"] .facts a.genre-link:hover{color:#9333ea}
+.facts a.genre-link:hover{border-bottom-color:var(--violet-deep);color:var(--violet-soft)}
 .scoreline{display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap;padding-top:6px;border-top:1px solid var(--line)}
 .bigscore{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:52px;line-height:1;color:var(--ink)}
 .bigscore small{font-size:22px;color:var(--muted);font-weight:500}
@@ -111,8 +102,8 @@ button{font:inherit;color:inherit}
 .eyebrow-h{font-family:"Bricolage Grotesque",sans-serif;font-variation-settings:"wdth" 82;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin:0 0 22px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 
 /* about */
-.about-body{font-family:"Newsreader",serif;font-size:18px;line-height:1.7;color:var(--ink);max-width:66ch;margin:0 0 26px}
-.about-body p{margin:0 0 16px}
+.about-body{font-family:"Newsreader",serif;font-size:19px;line-height:1.7;color:var(--ink);margin:0 0 26px}
+.about-body p{margin:0 0 16px;text-wrap:pretty}
 .about-body p:last-child{margin-bottom:0}
 .quickfacts{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .qf{background:var(--haze);padding:14px 18px}
@@ -129,18 +120,15 @@ button{font:inherit;color:inherit}
 .track-score small{color:var(--muted);font-size:14px;font-weight:400}
 .track-meter{height:3px;background:var(--line);border-radius:2px;margin:10px 0 0 38px;overflow:hidden}
 .track-meter b{display:block;height:100%;background:var(--violet);border-radius:2px}
-.track-note{margin:10px 0 0 38px;color:var(--muted);font-size:14.5px;line-height:1.55}
+.track-note{margin:10px 0 0 38px;color:var(--muted);font-size:15px;line-height:1.6;text-wrap:pretty}
 
 /* over-10 treatment */
-.over-pill{display:inline-flex;align-items:center;gap:4px;margin-left:10px;font-family:"Bricolage Grotesque",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a0e2e;background:#c79bff;padding:2px 9px;border-radius:999px;vertical-align:3px}
-.track.over .track-title{color:#d9bbff}
-.track.over .track-score{color:#d9bbff}
+.over-pill{display:inline-flex;align-items:center;gap:4px;margin-left:10px;font-family:"Bricolage Grotesque",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a0e2e;background:var(--violet-pill);padding:2px 9px;border-radius:999px;vertical-align:3px}
+.track.over .track-title{color:var(--violet-pale)}
+.track.over .track-score{color:var(--violet-pale)}
 .track.over .track-meter{background:transparent}
-.track.over .track-meter b{background:linear-gradient(90deg,var(--violet) 0%,#c79bff 100%);box-shadow:0 0 10px rgba(199,155,255,.65)}
-:root[data-theme="light"] .track.over .track-title,
-:root[data-theme="light"] .track.over .track-score{color:#8b2fc9}
-.s-star{color:#c79bff}
-:root[data-theme="light"] .s-star{color:#9333ea}
+.track.over .track-meter b{background:linear-gradient(90deg,var(--violet) 0%,var(--violet-pill) 100%);box-shadow:0 0 10px color-mix(in srgb,var(--violet-pill) 65%,transparent)}
+.s-star{color:var(--violet-soft)}
 
 /* tally */
 .method{font-size:13.5px;color:var(--muted);margin:0 0 18px;font-style:italic;font-family:"Newsreader",serif}
@@ -149,7 +137,7 @@ button{font:inherit;color:inherit}
 .tally-row:first-child{border-top:0}
 .tally-row .k{color:var(--muted)}
 .tally-row .v{text-align:right}
-.tally-row.final{background:rgba(124,58,237,.14)}
+.tally-row.final{background:color-mix(in srgb,var(--violet) 14%,transparent)}
 .tally-row.final .k{color:var(--ink);font-weight:600}
 .tally-row.final .v{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;color:var(--violet-deep)}
 
@@ -165,7 +153,7 @@ button{font:inherit;color:inherit}
 .bw-card li .s{font-family:"Newsreader",serif;font-weight:600;color:var(--violet-deep);font-variant-numeric:tabular-nums}
 
 /* final words */
-.final-words{font-family:"Newsreader",serif;font-size:19px;line-height:1.7;color:var(--ink);max-width:64ch}
+.final-words{font-family:"Newsreader",serif;font-size:19px;line-height:1.7;color:var(--ink);text-wrap:pretty}
 
 footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;font-size:13px;color:var(--muted);margin-top:auto}
 .foot-inner{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
@@ -180,12 +168,13 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
   .bw{grid-template-columns:1fr}
   .quickfacts{grid-template-columns:1fr}
   .wrap{padding:0 16px}
+  .head-inner{padding:28px 16px 32px}
 }
 
 /* unscored interlude tracks */
 .track.na .track-title{color:var(--muted);font-weight:400}
 .track.na .track-score{color:var(--muted);font-size:14px;font-style:italic}
-.bonus-tag{display:inline-block;margin-left:9px;font-family:"Instrument Sans",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1a0e2e;background:#9d4edd;padding:2px 9px;border-radius:999px;vertical-align:2px}
+.bonus-tag{display:inline-block;margin-left:9px;font-family:"Instrument Sans",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1a0e2e;background:var(--outline);padding:2px 9px;border-radius:999px;vertical-align:2px}
 .na-tag{display:inline-block;margin-left:9px;font-family:"Instrument Sans",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:2px 8px;border-radius:999px;vertical-align:2px}
 
 /* empty / error state */
@@ -206,36 +195,135 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* ---------- reading surface ----------
+   The review text sits on a near-solid panel so the animated background stays
+   a frame around the page instead of moving behind the words. */
+main.wrap.sheet{
+  background:color-mix(in srgb,var(--paper) 93%,transparent);
+  border:1px solid var(--line);border-radius:16px;
+  margin:28px auto 56px;padding:8px 32px 16px;
+  box-shadow:0 30px 80px -40px rgba(0,0,0,.7);
+}
+.head{background:color-mix(in srgb,var(--haze) 94%,transparent)}
+@media (max-width:720px){
+  main.wrap.sheet{margin:0;border-radius:0;border-width:0;padding:4px 16px 16px;box-shadow:none}
+}
+
+/* ---------- back button ---------- */
+.back-btn{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:7px 14px 7px 10px;
+  font-size:14px;font-weight:600;color:var(--ink);background:color-mix(in srgb,var(--paper) 60%,transparent);
+  border:1px solid var(--line);border-radius:999px;transition:border-color .18s ease,background .18s ease}
+.back-btn:hover{border-color:var(--violet);background:var(--paper)}
+.back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s ease}
+.back-btn:hover svg{transform:translateX(-3px)}
+.head-top{grid-column:1 / -1;margin-bottom:-14px}
+
+/* reading progress (under the masthead) and back-to-top */
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--violet);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+.to-top{position:fixed;right:20px;bottom:20px;z-index:30;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--haze);border:1px solid var(--line);color:var(--ink);cursor:pointer;
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease,border-color .18s ease}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{border-color:var(--violet)}
+.to-top svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+@media (max-width:720px){.to-top{right:14px;bottom:14px}}
+
+/* loading placeholder (replaced as soon as the review renders) */
+.skel-head{background:var(--haze);border-bottom:1px solid var(--line)}
+.skel-cover{aspect-ratio:1;border-radius:var(--r);background:var(--line)}
+.skel-lines,.skel-body{display:flex;flex-direction:column;gap:14px}
+.skel-lines{padding-top:20px}
+.skel-body{padding:48px 24px}
+.skel i,.skel b{display:block;height:14px;width:100%;border-radius:4px;background:var(--line)}
+.skel b{height:44px}
+.skel .wrap{max-width:var(--read)}
+@media (prefers-reduced-motion:no-preference){
+  .skel i,.skel b,.skel-cover{animation:skel-pulse 1.2s ease-in-out infinite alternate}
+}
+@keyframes skel-pulse{from{opacity:.55}to{opacity:1}}
+
+.skip{position:absolute;left:12px;top:-60px;z-index:50;padding:8px 14px;border-radius:8px;background:var(--violet);color:#fff;font-weight:600}
+.skip:focus{top:12px}
+
+/* ---------- per-album colour theme (set by applyTheme() from data/album-themes.js) ---------- */
+:root.themed{--violet:var(--a);--violet-deep:var(--a-text);--outline:var(--a);--violet-soft:var(--a-soft);--violet-pale:var(--a-soft);--violet-pill:var(--a-pill);--paper:var(--a-paper);--haze:var(--a-haze);--line:var(--a-line);--muted:var(--a-muted);--ink:var(--a-ink)}
+:root.themed .bg-glow{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),radial-gradient(circle at 20% 15%,color-mix(in srgb,var(--g1) 34%,transparent),transparent 40%),radial-gradient(circle at 85% 10%,color-mix(in srgb,var(--g2) 24%,transparent),transparent 38%),radial-gradient(circle at 60% 95%,color-mix(in srgb,var(--g3) 18%,transparent),transparent 42%)}
+:root.themed[data-theme="light"] .bg-glow{background:radial-gradient(circle at 20% 15%,color-mix(in srgb,var(--g1) 14%,transparent),transparent 40%),radial-gradient(circle at 85% 10%,color-mix(in srgb,var(--g2) 10%,transparent),transparent 38%),radial-gradient(circle at 60% 95%,color-mix(in srgb,var(--g3) 10%,transparent),transparent 42%)}
+
+/* shared masthead: ZC coin home link + site nav (identical on all five album pages) */
+.brand-coin{grid-column:2;justify-self:center;display:grid;place-items:center;width:38px;height:38px;color:var(--ink);border-radius:50%;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.brand-coin svg{width:100%;height:100%}
+.brand-coin:hover{transform:rotate(-14deg) scale(1.08)}
+.mast-tools{grid-column:3;justify-self:end;display:flex;align-items:center;gap:22px}
+.nav-link{position:relative;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--muted);padding:6px 0;transition:color .18s ease}
+.nav-link:hover{color:var(--ink)}
+.nav-link svg{display:none;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6}
+.nav-link[aria-current="page"]{color:var(--violet-deep)}
+.nav-link[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--violet)}
+@media (max-width:720px){
+  .masthead-inner{grid-template-columns:auto 1fr;gap:12px}
+  .brand-coin{grid-column:1;justify-self:start;width:34px;height:34px}
+  .mast-tools{grid-column:2}
+  .mast-tools{gap:6px}
+  .nav-link{width:34px;height:34px;justify-content:center;padding:0;border:1px solid var(--line);border-radius:50%}
+  .nav-link span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .nav-link svg{display:block}
+  .nav-link[aria-current="page"]{border-color:var(--violet);background:var(--haze)}
+  .nav-link[aria-current="page"]::after{display:none}
+}
 </style>
+<script src="/albums/data/album-themes.js"></script>
+<script src="/albums/js/album-theme.js"></script>
+<script>
+  // Colour the page for its album before anything is drawn (no flash of the
+  // default palette). Albums without a saved theme get theirs from the cover later.
+  (function () {
+    var slug = window.REVIEW_SLUG || new URLSearchParams(location.search).get("album");
+    var t = slug && window.ALBUM_THEMES && ALBUM_THEMES[slug];
+    if (t && window.AlbumTheme) AlbumTheme.applyTheme(t);
+  })();
+</script>
 </head>
 <body>
+<a class="skip" href="#review">Skip to the review</a>
 <div class="bg-glow" aria-hidden="true"></div>
 <div id="vanta-bg" aria-hidden="true"></div>
 
 <header class="masthead">
   <div class="wrap masthead-inner">
-    <button class="icon-btn theme-toggle-left" aria-label="Switch to light theme" data-theme-toggle>
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
-    </button>
-    <a href="/albums" class="wordmark">Ridez</a>
-    <div class="mast-tools">
-      <a href="/albums" class="back">
-        <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg>All reviews
-      </a>
+    <a href="/" class="brand-coin" aria-label="Zack Crawford, back to the portfolio home page" title="Back to portfolio">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="#4fe0c8" stroke-width="2"/>
+        <circle cx="32" cy="32" r="24" fill="none" stroke="#9a7bff" stroke-width="1" stroke-dasharray="2 3"/>
+        <path d="M20 21h18L20 43h18" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="miter"/>
+        <path d="M47 24a9 9 0 1 0 0 16" fill="none" stroke="#ff6b7d" stroke-width="3.2"/>
+      </svg>
+    </a>
+    <nav class="mast-tools" aria-label="Album reviews">
+      <a class="nav-link" href="/albums"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><span>Reviews</span></a>
+      <a class="nav-link" href="/albums/all"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg><span>Browse</span></a>
+      <a class="nav-link" href="/albums/stats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Stats</span></a>
+      <a class="nav-link" href="/albums/subscribe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg><span>Subscribe</span></a>
       <button class="icon-btn" aria-label="Search" data-search-toggle>
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       </button>
-      <a class="icon-btn" href="/albums/subscribe" aria-label="Sign up for new review emails">
-        <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
-      </a>
-      <a class="icon-btn" href="/albums/stats" aria-label="Stats">
-        <svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>
-      </a>
-    </div>
+    </nav>
   </div>
 </header>
 
-<div id="page"></div>
+<div id="page" aria-busy="true">
+  <div class="skel" aria-hidden="true">
+    <div class="skel-head"><div class="wrap head-inner">
+      <div class="skel-cover"></div>
+      <div class="skel-lines"><i style="width:30%"></i><b style="width:70%"></b><i style="width:45%"></i><i style="width:55%"></i></div>
+    </div></div>
+    <div class="wrap skel-body"><i></i><i></i><i style="width:80%"></i><i></i><i style="width:60%"></i></div>
+  </div>
+</div>
+<button class="to-top" type="button" aria-label="Back to top" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+</button>
 
 <footer>
   <div class="wrap foot-inner">
@@ -247,7 +335,6 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 <script src="/albums/data/reviews-data.js"></script>
 <script src="/albums/data/about-data.js"></script>
 <script src="/albums/js/search.js" defer></script>
-<script src="/albums/js/theme.js" defer></script>
 <script>
 
 // Covers are optional. Try .jpg, then a few other extensions, then give up and
@@ -298,6 +385,59 @@ function bwList(items){
   }).join("") + `</ol>`;
 }
 
+/* ---------- back button ----------
+   Returns to the exact page you came from (same genre tab, filters and scroll
+   position) when that was another album page; otherwise links to all reviews. */
+function backInfo(){
+  let ref = null;
+  try { ref = document.referrer ? new URL(document.referrer) : null; } catch (e) {}
+  if (ref && ref.origin === location.origin && /^\/albums(\/|$)/.test(ref.pathname)) {
+    const p = ref.pathname.replace(/\.html$/, "");
+    const label = /\/review$/.test(p) ? "Back"
+      : /\/all$/.test(p) ? "Back to browse"
+      : /\/stats$/.test(p) ? "Back to stats"
+      : /\/subscribe$/.test(p) ? "Back to subscribe"
+      : "Back to reviews";
+    return { href: ref.href, label, history: history.length > 1 };
+  }
+  return { href: "/albums", label: "All reviews", history: false };
+}
+function backButtonHTML(){
+  const b = backInfo();
+  return `<a class="back-btn" href="${esc(b.href)}"${b.history ? ' data-history="1"' : ""}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>${esc(b.label)}</a>`;
+}
+// reading progress + back to top
+(function(){
+  const bar = document.createElement("div");
+  bar.className = "progress"; bar.setAttribute("aria-hidden", "true");
+  document.querySelector(".masthead").appendChild(bar);
+  const top = document.querySelector(".to-top");
+  top.hidden = false;
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+    top.classList.toggle("show", scrollY > innerHeight * .8);
+  };
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update);
+  top.addEventListener("click", () => {
+    scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+    document.getElementById("review")?.focus({ preventScroll: true });
+  });
+  update();
+})();
+
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest(".back-btn[data-history]");
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+  e.preventDefault();
+  history.back();
+});
+
 function render(r){
   const adj = r.adjustment;
   const adjText = `${adj >= 0 ? "+" : ""}${adj.toFixed(2)}%` +
@@ -347,19 +487,20 @@ function render(r){
   document.title = `${r.title} \u2014 review`;
   // point the canonical link at this specific review
   document.querySelector('link[rel="canonical"]').href =
-    `https://zackcrawford.com/albums/review?album=${encodeURIComponent(r.slug)}`;
+    `https://zackcrawford.com/albums/review/${encodeURIComponent(r.slug)}`;
 
   return `
   <section class="head">
     <div class="wrap head-inner">
-      <div class="cover"><img src="/albums/covers/${encodeURIComponent(r.slug)}.jpg"
+      <div class="head-top">${backButtonHTML()}</div>
+      <div class="cover"><img id="cover-img" src="/albums/covers/${encodeURIComponent(r.slug)}.jpg"
         alt="${esc(r.title)} cover art" data-tries="png,jpeg,webp"
         onerror="coverFallback(this)"></div>
       <div>
         <p class="eyebrow">Album review</p>
         <h1 class="album-title">${esc(r.title)}</h1>
         <p class="artist">${esc(r.artist)}</p>
-        <p class="facts">${esc(r.year)} &nbsp;&bull;&nbsp; <a class="genre-link" href="reviews.html?genre=${
+        <p class="facts">${esc(r.year)} &nbsp;&bull;&nbsp; <a class="genre-link" href="/albums?genre=${
           encodeURIComponent(r.tab)}" title="See all ${esc(r.tab)} reviews">${esc(r.genre)}</a> &nbsp;&bull;&nbsp; ${r.listedTracks} tracks</p>
         <div class="scoreline">
           <div class="bigscore">${r.finalScore}<small> / 10</small></div>
@@ -369,7 +510,7 @@ function render(r){
     </div>
   </section>
 
-  <main class="wrap">
+  <main class="wrap sheet" id="review" tabindex="-1">
     ${aboutSection}
 
     <section class="section">
@@ -397,16 +538,26 @@ function render(r){
 }
 
 (function(){
-  const slug = new URLSearchParams(location.search).get("album");
+  // static per-review pages (review/<slug>.html) set REVIEW_SLUG; review.html?album= still works
+  const slug = window.REVIEW_SLUG || new URLSearchParams(location.search).get("album");
   const list = (typeof REVIEWS !== "undefined") ? REVIEWS : [];
   const r = list.find(x => x.slug === slug) || (!slug ? list[0] : null);
+  // theme first, so the page never paints in the wrong colours
+  const preset = r && typeof ALBUM_THEMES !== "undefined" ? ALBUM_THEMES[r.slug] : null;
+  if (preset) AlbumTheme.applyTheme(preset);
 
+  document.getElementById("page").removeAttribute("aria-busy");
   document.getElementById("page").innerHTML = r ? render(r) : `
     <div class="wrap notfound">
       <h1>Review not found</h1>
       <p>No review matches &ldquo;${esc(slug)}&rdquo;.</p>
       <a href="/albums">&larr; Back to all reviews</a>
     </div>`;
+  if (r && !preset) {
+    const img = document.getElementById("cover-img");
+    const go = () => AlbumTheme.applyTheme(AlbumTheme.themeFromImage(img));
+    if (img) { if (img.complete && img.naturalWidth) go(); else img.addEventListener("load", go, { once: true }); }
+  }
 })();
 </script>
 
@@ -414,11 +565,9 @@ function render(r){
 <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.cells.min.js" integrity="sha384-D6Vi74NVmijKQf1pli4I6bI+2tgDqRYLXsmZyVTkgToClCy0td6CwjcovDvODoUu" crossorigin="anonymous"></script>
 <script>
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && window.VANTA) {
-    var vantaDark  = { color1: 0x4a00a7, color2: 0x250055 };
-    var vantaLight = { color1: 0xf7f3e8, color2: 0xfdfcf7 };
-    var vantaIsLight = () => document.documentElement.getAttribute("data-theme") === "light";
+    var vantaColors = window.ALBUM_VANTA || { color1: 0x2a2a2a, color2: 0x0e0e0d };
 
-    var vantaEffect = VANTA.CELLS({
+    var vantaEffect = window.vantaEffect = VANTA.CELLS({
       el: "#vanta-bg",
       mouseControls: true,
       touchControls: true,
@@ -428,12 +577,8 @@ function render(r){
       scale: 1.00,
       size: 1.5,
       speed: 1,
-      ...(vantaIsLight() ? vantaLight : vantaDark)
+      ...vantaColors
     });
-
-    new MutationObserver(() => {
-      vantaEffect.setOptions(vantaIsLight() ? vantaLight : vantaDark);
-    }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   }
 </script>
 </body>

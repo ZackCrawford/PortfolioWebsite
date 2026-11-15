@@ -36,9 +36,8 @@ from pathlib import Path
 
 API_BASE = "https://api.buttondown.com/v1"
 
-# Fill this in once the site has a live URL (e.g. GitHub Pages), so drafted
-# emails link somewhere real.
-SITE_URL = "https://album-reviews-website.vercel.app/albums"
+# The album site's public address; build_feed.py has its own copy.
+SITE_URL = "https://zackcrawford.com/albums"
 
 # How every drafted email signs off - change to whatever you go by publicly.
 SIGNOFF = "— Ridez"
@@ -69,7 +68,7 @@ def build_email(r: dict) -> dict:
         lines += ["", r["finalWords"]]
     lines += [
         "",
-        f"Full track-by-track breakdown: {SITE_URL}/review.html?album={r['slug']}",
+        f"Full track-by-track breakdown: {SITE_URL}/review/{r['slug']}",
         "",
         SIGNOFF,
     ]

@@ -261,7 +261,7 @@ html.rm .rail{position:sticky;bottom:12px;transform:none;opacity:1;pointer-event
 <script type="speculationrules">{"prefetch": [{"where": {"href_matches": "/picoctf/category*"}, "eagerness": "moderate"}]}</script>
 <!-- loaded before the body so pages draw complete on their first frame -->
 <script src="/picoctf/data/picoctf-data.js?v=20261108v"></script>
-<script src="/picoctf/js/render.js?v=20261108v"></script>
+<script src="/picoctf/js/render.js?v=20261115a"></script>
 <script src="/picoctf/js/catview.js?v=20261108v"></script>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin="anonymous">
 <link rel="modulepreload" href="/picoctf/js/particles.js?v=20261108v">
@@ -878,6 +878,17 @@ if (reduced) {
   });
 
   const frame = (ms) => {
+    // No WebGL (e.g. LibreWolf disables it by default): no particles to animate,
+    // so stop the per-frame loop and only react when the page actually scrolls.
+    // readScroll eases the background glow, so run it for ~1s after each scroll.
+    if (root.classList.contains("no-gl") && !warp) {
+      let left = 0;
+      const tick = () => { readScroll(); if (--left > 0) requestAnimationFrame(tick); };
+      const kick = () => { const idle = left <= 0; left = 60; if (idle) requestAnimationFrame(tick); };
+      addEventListener("scroll", kick, { passive: true });
+      kick();
+      return;
+    }
     state.time = ms / 1000;
     const dt = Math.min(0.1, (ms - lastMs) / 1000); lastMs = ms;
     if (warp) {

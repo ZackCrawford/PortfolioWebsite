@@ -60,7 +60,7 @@ html.rm .vignette{display:none}
 <script type="speculationrules">{"prefetch": [{"where": {"href_matches": "/picoctf/solve*"}, "eagerness": "moderate"}]}</script>
 <!-- loaded before the body so pages draw complete on their first frame -->
 <script src="/picoctf/data/picoctf-data.js?v=20261108v"></script>
-<script src="/picoctf/js/render.js?v=20261108v"></script>
+<script src="/picoctf/js/render.js?v=20261115a"></script>
 <script src="/picoctf/js/catview.js?v=20261108v"></script>
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin="anonymous">
 <link rel="modulepreload" href="/picoctf/js/particles.js?v=20261108v">
@@ -257,6 +257,7 @@ if (!reduced && category) {
     if (cloud) cloud.resize();
   });
   const frame = (ms) => {
+    if (root.classList.contains("no-gl")) return;   // no WebGL: nothing to animate
     state.time = ms / 1000;
     // slowly turn the surrounding shape
     state.spin = state.time * 0.05;

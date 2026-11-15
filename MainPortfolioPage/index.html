@@ -69,7 +69,6 @@
   --violet:#9a7bff;
   --teal:#4fe0c8;
   --coral:#ff6b7d;
-  --amber:#ffc46b;
   --mono:"Martian Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --gutter:clamp(16px,4vw,48px);
@@ -169,7 +168,6 @@ html.rm .scroll-cue .chev b{animation:none;opacity:.8}
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   transition:opacity .4s var(--ease),transform .4s var(--ease);
 }
-.rail.is-hidden{opacity:0;pointer-events:none;transform:translateY(10px)}
 .rail button{
   all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
   height:38px;min-width:38px;padding:0 10px;border-radius:8px;border:1px solid transparent;color:var(--ink);
@@ -399,29 +397,16 @@ a.card.is-active:hover{border-color:var(--c2)}
 }
 .card p{margin:14px 0 0;font-size:clamp(.92rem,1.1vw,1.05rem);line-height:1.5;color:#d6d3e2;max-width:38ch}
 .card-bottom .go{color:var(--c2)}
-.card.is-dim{filter:grayscale(1) brightness(.5)!important}
 .ghost{cursor:pointer}
 
 /* placeholder / classified cards */
 .card.is-locked h3{color:#bdbacb}
-.redact{display:flex;flex-direction:column;gap:8px;margin-top:14px}
-.redact i{display:block;height:10px;background:rgba(236,233,245,.16);border-radius:1px}
-.redact i:nth-child(1){width:88%}.redact i:nth-child(2){width:64%}.redact i:nth-child(3){width:76%}
 
 /* filter + pager */
 .work-ui{
   position:absolute;left:var(--gutter);bottom:100px;z-index:300;pointer-events:auto;
   font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
 }
-.work-ui .q{margin:0 0 12px;color:var(--ink)}
-.filters{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:2px}
-.filters button{
-  all:unset;cursor:pointer;color:var(--violet);padding:4px 0;display:inline-flex;gap:10px;
-  transition:color .2s,transform .2s var(--ease);
-}
-.filters button:hover{color:#fff;transform:translateX(3px)}
-.filters button[aria-pressed="true"]{color:var(--teal)}
-.filters button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 .pager{display:flex;gap:8px}
 .pager button{
   all:unset;cursor:pointer;padding:10px 16px;border:1px solid var(--line-strong);border-radius:999px;
@@ -436,13 +421,10 @@ a.card.is-active:hover{border-color:var(--c2)}
   .card h3{font-size:clamp(1.5rem,7.4vw,2rem)}
   .card p{font-size:.95rem;max-width:none}
   .ring{top:47%}
-  .work-ui{
-    left:0;right:0;bottom:56px;padding:44px var(--gutter) 20px;
-    background:linear-gradient(transparent,rgba(9,6,18,.88) 38%);
-  }
+  /* phones scroll through the projects by swiping; the Prev/Next pager (and its
+     dark backing strip) only cut the cards off from the section navigator */
+  .work-ui{display:none}
   .work-head{top:84px}
-  .work-ui .q{display:none}
-  .filters{flex-direction:row;flex-wrap:wrap;gap:4px 14px;margin-bottom:12px}
 }
 
 /* reduced motion: a plain grid */
@@ -589,7 +571,7 @@ html.rm .pager, html.rm .counter{display:none}
 /* ---------- print: a clean one-column summary ---------- */
 @media print{
   @page{margin:16mm}
-  :root{--ink:#000;--muted:#444;--line:#bbb;--line-strong:#888;--teal:#0b6b5f;--violet:#4b3a99;--coral:#a3283a;--amber:#7a5600}
+  :root{--ink:#000;--muted:#444;--line:#bbb;--line-strong:#888;--teal:#0b6b5f;--violet:#4b3a99;--coral:#a3283a;}
   html,body{background:#fff!important;color:#000}
   #scene,.ring-back,.topfade,.brand,.nav,.skip,.hero,.work-ui,.counter,.foot::before,.copy,.to-top,.tl-dot,.timeline::before,.tl-item::after{display:none!important}
   .track,.sticky,.stage,.ring{position:static!important;height:auto!important;margin:0!important;overflow:visible!important;opacity:1!important}
@@ -943,6 +925,6 @@ html.rm .pager, html.rm .counter{display:none}
 </footer>
 </div>
 
-<script type="module" src="/MainPortfolioPage/js/main.js?v=20261109n"></script>
+<script type="module" src="/MainPortfolioPage/js/main.js?v=20261115c"></script>
 </body>
 </html>
