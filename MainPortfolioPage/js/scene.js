@@ -618,10 +618,13 @@ export async function createScene(canvas) {
     camera.updateProjectionMatrix();
     const scale = (renderer.getPixelRatio() * h) / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
     pointMats.forEach((m) => { m.uniforms.uScale.value = scale; });
-    // keep the helix and coin a sensible size on narrow screens
+    // keep the helix and coin a sensible size on narrow screens. The helix only
+    // narrows: its height stays 1:1 because the camera descends CARD.SP per card
+    // in world units, which keeps each card centred on its anchor and spaced
+    // further apart than a phone card is tall.
     const fit = clamp(w / h / 0.9, 0.62, 1);
     coin.scale.setScalar(fit);
-    helix.scale.setScalar(fit);
+    helix.scale.set(fit, 1, fit);
     coin.userData.fit = fit;
   }
   resize();

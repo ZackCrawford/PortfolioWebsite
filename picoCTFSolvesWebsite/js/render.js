@@ -44,11 +44,6 @@ function escapeHtml(s) {
   }[c]));
 }
 
-function difficultyDot(difficulty) {
-  const meta = DIFFICULTY_META[difficulty] || { color: "var(--muted)" };
-  return `<span class="dot" style="background:${meta.color}"></span>`;
-}
-
 // category -> difficulty -> [solves], difficulties/categories always
 // present (even empty) so "no challenges yet" tiers render consistently.
 function groupSolves(solves) {

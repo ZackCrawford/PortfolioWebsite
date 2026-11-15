@@ -9,6 +9,7 @@
     { "source": "/albums/stats", "destination": "/AlbumReviewsWebsite/stats.html" },
     { "source": "/albums/subscribe", "destination": "/AlbumReviewsWebsite/subscribe.html" },
     { "source": "/albums/review", "destination": "/AlbumReviewsWebsite/review.html" },
+    { "source": "/albums/review/([a-z0-9-]+)", "destination": "/AlbumReviewsWebsite/review/$1.html" },
     { "source": "/albums/(.*)", "destination": "/AlbumReviewsWebsite/$1" },
     { "source": "/picoctf", "destination": "/picoCTFSolvesWebsite/index.html" },
     { "source": "/picoctf/solve", "destination": "/picoCTFSolvesWebsite/solve.html" },

@@ -117,7 +117,7 @@
     ".search-results{list-style:none;margin:10px 0 0;padding:0;max-height:60vh;overflow-y:auto}",
     ".search-results li{margin:0}",
     ".search-results a{display:flex;gap:11px;align-items:center;padding:9px;border-radius:8px;text-decoration:none}",
-    ".search-results a:hover,.search-results a.active{background:rgba(124,58,237,.22)}",
+    ".search-results a:hover,.search-results a.active{background:color-mix(in srgb,var(--violet,#7c3aed) 22%,transparent)}",
     ".search-thumb{width:42px;height:42px;flex:0 0 auto;border:1px solid var(--outline,#9d4edd);",
     "border-radius:5px;overflow:hidden;background:transparent}",
     ".search-thumb img{width:100%;height:100%;object-fit:cover;display:block}",
@@ -184,7 +184,7 @@
     }
     list.innerHTML = current.map(function (x, i) {
       var r = x.r;
-      return '<li role="option"><a href="review.html?album=' + encodeURIComponent(r.slug) + '"' +
+      return '<li role="option"><a href="/albums/review/' + encodeURIComponent(r.slug) + '"' +
         ' data-i="' + i + '">' +
         '<span class="search-thumb"><img src="covers/' + encodeURIComponent(r.slug) + '.jpg"' +
         ' alt="" loading="lazy" onerror="this.remove()"></span>' +

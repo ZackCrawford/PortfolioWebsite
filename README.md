@@ -122,10 +122,9 @@ category order and colours update automatically.
 
 </div>
 
-Static - no framework, no build step, no server. Open
-[`AlbumReviewsWebsite/reviews.html`](AlbumReviewsWebsite/reviews.html) in a
-browser and it runs. The source of truth is a folder of Word documents; a
-Python script parses them into the JS data the pages read.
+Static - no framework, no build step, no server. The source of truth is a
+folder of Word documents; a Python script parses them into the JS data the
+pages read.
 
 ### Features
 
@@ -133,24 +132,25 @@ Python script parses them into the JS data the pages read.
 - **Genre tabs** - each review can appear under multiple genres
 - **Fuzzy search** - typo- and spacing-tolerant album lookup
 - **Sort & filter** - by genre, score, decade, or free text
-- **On Deck** - a queue of albums planned for review
+- **Album colours** - every review page takes its colours from the album's cover art, with text kept readable
+- **On deck** - a searchable queue of albums planned for review, typo-tolerant
 - **Card badges** - Top-rated, Best new, and Most recent review, computed live from the data
 - **Email sign-up** - get notified for every new review, or just specific albums; request an album to be reviewed
-- **Stats page** - score distribution, genre breakdown, and albums by decade, all computed live
+- **Stats page** - every album's cover stacked by score, genre and decade breakdowns, highest and lowest
+- **Link previews** - each review has its own page with title, cover and Review structured data
+- **Back keeps your place** - returning from a review restores the list, filters and scroll position
 - **Random review** - one click to a random album from the browse page
-- **Light/dark theme toggle** - dark by default; the choice persists for the browsing session
 - **RSS feed** - a no-email way to follow along, one entry per review
-- **"Liquid Glass" motion** - frosted glass panels, a drifting ambient glow, a morphing genre-tab indicator with sliding content, cursor-tilted cover art, and scroll-reveal on the grids
 
 ### Pages
 
 | Page | What it does |
 |---|---|
-| [`reviews.html`](AlbumReviewsWebsite/reviews.html) | Front page - genre tabs, featured + latest grids, On Deck strip |
-| [`review.html`](AlbumReviewsWebsite/review.html) | One template for every review, track-by-track scores and notes |
+| [`reviews.html`](AlbumReviewsWebsite/reviews.html) | Front page - genre tabs, featured + latest grids, On deck search |
+| [`review.html`](AlbumReviewsWebsite/review.html) | Template for every review (copied to `review/<slug>.html` by `build_pages.py`) |
 | [`all.html`](AlbumReviewsWebsite/all.html) | Browse all reviews - sort and filter by genre, score, decade, text |
 | [`subscribe.html`](AlbumReviewsWebsite/subscribe.html) | Email sign-up (all reviews or specific albums) and album requests |
-| [`stats.html`](AlbumReviewsWebsite/stats.html) | Score distribution, genre breakdown, and albums by decade |
+| [`stats.html`](AlbumReviewsWebsite/stats.html) | Cover chart by score, genres, decades, highest and lowest |
 
 ### The scoring method
 
@@ -163,13 +163,14 @@ so a 15-track album with 2 interludes is scored out of 130, not 150.
 
 ### Running it locally
 
-The site itself needs nothing - just open an HTML file. Regenerating data
-needs Python 3 (standard library only, no installs). Run these from inside
-`AlbumReviewsWebsite/`:
+Preview the whole site with `python3 serve.py` from the repo root (it applies
+the `vercel.json` rewrites). Regenerating data needs Python 3 (standard library
+only, no installs). Run these from inside `AlbumReviewsWebsite/`:
 
 ```bash
 python scripts/parse_reviews.py reviews      # .docx reviews -> data/reviews-data.js
 python scripts/fetch_covers.py               # download missing album art -> covers/
+python scripts/build_pages.py                # one page per review + sitemap entries
 ```
 
 Adding or editing just one review doesn't need a full rescan - `--only` reparses
@@ -199,12 +200,14 @@ reviews.html, review.html, all.html,
 subscribe.html, stats.html             site pages
 feed.xml                               generated RSS feed
 data/                                  generated + hand-written data (reviews, about text, genre overrides, queue)
-js/                                    shared scripts (score colouring, fuzzy search, theme toggle)
-scripts/                               Python tooling (parser, cover art fetcher, email drafts, RSS feed)
+review/                                generated page per review (link previews)
+css/liner.css                          shared palette for the list pages
+js/                                    shared scripts (score colouring, search, On deck search, album colours)
+scripts/                               Python tooling (parser, cover art, review pages, email drafts, RSS feed)
 reviews/                               source .docx files, one per album
 covers/                                downloaded album art
 ```
 
 See <a href="AlbumReviewsWebsite/CLAUDE.md"><code>AlbumReviewsWebsite/CLAUDE.md</code></a>
 for the full internal conventions - slug rules, the document format the
-parser expects, styling variables, and known gotchas.
+parser expects, album colours, and known gotchas.

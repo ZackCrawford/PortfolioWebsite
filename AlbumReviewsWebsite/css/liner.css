@@ -1,0 +1,26 @@
+/* Liner notes: the shared look for the album list pages (front page, browse,
+   stats, subscribe), loaded after each page's own <style>.
+
+   The covers are the colour; the interface stays out of their way: warm black,
+   off-white type, one vermilion accent, solid surfaces, small square corners.
+
+   This file owns the colour palette. The variable names (--violet,
+   --violet-deep) are kept so every page rule that uses them follows along;
+   read them as "accent". */
+:root{
+  --paper:#0e0e0d;
+  --haze:#171715;
+  --line:#2c2b28;
+  --violet:#ff5a36;        /* accent: vermilion */
+  --violet-deep:#ff7b5c;   /* accent as text on dark */
+  --outline:#3a3934;
+  --ink:#f2efe9;
+  --muted:#a9a498;
+  --on-accent:#160b07;     /* text placed on the accent (white on vermilion is too faint) */
+}
+body{background:var(--paper)}
+::selection{background:var(--violet);color:var(--on-accent)}
+
+/* the accent on words: section headings and small labels carry the vermilion */
+.section-head h2,.od-bar h2,.section h2,.block h2,.lbl,.figure span{color:var(--violet-deep)}
+.figure span a{color:var(--ink)}

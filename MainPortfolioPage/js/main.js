@@ -1,4 +1,4 @@
-// Scroll choreography for the front page: project ring, filters, glitches,
+// Scroll choreography for the front page: project ring, glitches,
 // background shifts, and the hand-off to the WebGL scene (scene.js).
 
 const root = document.documentElement;
@@ -70,31 +70,11 @@ function scrollToCard(i) {
   window.scrollTo({ top: cardScrollTop(i), behavior: reduced ? "auto" : "smooth" });
 }
 
-/* ---------- filters ---------- */
-let filter = "all";
-const matches = (card) => filter === "all" || card.dataset.cat === filter;
-
-document.querySelectorAll(".filters button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    filter = btn.dataset.filter;
-    document.querySelectorAll(".filters button").forEach((b) =>
-      b.setAttribute("aria-pressed", String(b === btn))
-    );
-    cards.forEach((c, i) => {
-      c.classList.toggle("is-dim", !matches(c));
-      ghosts[i].classList.toggle("is-dim", !matches(c));
-    });
-    const first = cards.findIndex(matches);
-    if (first >= 0 && !reduced) scrollToCard(first);
-  });
-});
-
 /* ---------- pager ---------- */
 let active = 0;
 function step(dir) {
-  for (let i = active + dir; i >= 0 && i < N; i += dir) {
-    if (matches(cards[i])) return scrollToCard(i);
-  }
+  const i = active + dir;
+  if (i >= 0 && i < N) scrollToCard(i);
 }
 document.getElementById("prev").addEventListener("click", () => step(-1));
 document.getElementById("next").addEventListener("click", () => step(1));
@@ -177,7 +157,7 @@ function layoutLimbs(f, stickyTop) {
     } else if (cos < -0.05 && document.activeElement !== card) {
       ghost.style.transform = transform;
       ghost.style.visibility = "";
-      ghost.style.filter = card.classList.contains("is-dim") ? "" : `blur(${(1.2 - cos * 0.4).toFixed(2)}px) brightness(${(0.5 + 0.2 * (1 + cos)).toFixed(3)})`;
+      ghost.style.filter = `blur(${(1.2 - cos * 0.4).toFixed(2)}px) brightness(${(0.5 + 0.2 * (1 + cos)).toFixed(3)})`;
       ghost.style.zIndex = String(Math.round(cos * 100) + 100);
       ghost.style.opacity = vis.toFixed(3);
       card.style.visibility = "hidden";
@@ -186,7 +166,7 @@ function layoutLimbs(f, stickyTop) {
       card.style.visibility = "";
       // the stage scrolls with the page until it pins; cancel that so cards stay on the helix
       card.style.transform = `translateY(${(-stickyTop).toFixed(1)}px) ` + transform;
-      card.style.filter = card.classList.contains("is-dim") || cos > 0.95 ? ""
+      card.style.filter = cos > 0.95 ? ""
         : `blur(${((1 - cos) * 1.2).toFixed(2)}px) brightness(${(0.62 + 0.38 * smooth(cos, 0, 0.95)).toFixed(3)})`;
       card.style.zIndex = String(Math.round(cos * 100) + 100);
       card.style.opacity = vis.toFixed(3);
@@ -229,7 +209,7 @@ function layoutRing(f, stickyTop) {
     } else if (behind && document.activeElement !== card) {
       ghost.style.transform = transform;
       ghost.style.visibility = "";
-      ghost.style.filter = card.classList.contains("is-dim") ? "" : `blur(${(1.2 - cos * 0.4).toFixed(2)}px) brightness(${(0.5 + 0.2 * (1 + cos)).toFixed(3)})`;
+      ghost.style.filter = `${root.classList.contains("no-gl") ? "" : `blur(${(1.2 - cos * 0.4).toFixed(2)}px) `}brightness(${(0.5 + 0.2 * (1 + cos)).toFixed(3)})`;
       ghost.style.zIndex = String(Math.round(cos * 100) + 100);
       ghost.style.opacity = vis.toFixed(3);
       card.style.visibility = "hidden";
@@ -237,8 +217,11 @@ function layoutRing(f, stickyTop) {
       ghost.style.visibility = "hidden";
       card.style.visibility = "";
       card.style.transform = transform;
-      card.style.filter = card.classList.contains("is-dim") || cos > 0.95 ? ""
-        : `blur(${((1 - cos) * 1.2).toFixed(2)}px) brightness(${(0.62 + 0.38 * smooth(cos, 0, 0.95)).toFixed(3)})`;
+      // blur is costly to repaint every scroll step without the GPU path, so the
+      // no-WebGL fallback dims side cards with brightness alone
+      const noBlur = root.classList.contains("no-gl");
+      card.style.filter = cos > 0.95 ? ""
+        : `${noBlur ? "" : `blur(${((1 - cos) * 1.2).toFixed(2)}px) `}brightness(${(0.62 + 0.38 * smooth(cos, 0, 0.95)).toFixed(3)})`;
       card.style.zIndex = String(Math.round(cos * 100) + 100);
       card.style.opacity = vis.toFixed(3);
     }
@@ -423,7 +406,7 @@ if (reduced) {
   const canvas = document.getElementById("scene");
 
   // version tag: bump with scene.js so browsers never run a stale copy
-  import("./scene.js?v=20261109n")
+  import("./scene.js?v=20261115c")
     .then((m) => m.createScene(canvas))
     .then((s) => { scene = s; })
     .catch((err) => {
@@ -484,6 +467,20 @@ if (reduced) {
   }
 
   const frame = (ms) => {
+    // No WebGL (e.g. LibreWolf disables it by default): nothing animates on its
+    // own, so stop the per-frame loop and only re-layout when the page scrolls.
+    if (root.classList.contains("no-gl")) {
+      let queued = false;
+      const onScroll = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; readScroll(); });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      readScroll();
+      return;
+    }
     state.time = ms / 1000;
     readScroll();
     if (scene) { scene.update(state); layoutLimbs(state.cardF, state.stickyTop || 0); drawTethers(); }
