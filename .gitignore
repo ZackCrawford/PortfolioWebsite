@@ -4,3 +4,6 @@ WebsiteIdea.mp4
 ParticleMovementIdea.mp4
 /CLAUDE.md
 aoty-list*.html
+
+# review source documents: kept locally, the site only needs data/reviews-data.js
+AlbumReviewsWebsite/reviews/*.docx

@@ -242,15 +242,13 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
     <div class="section-inner">
       <h2>Get notified</h2>
 
-      <form id="signup-form" action="https://buttondown.com/api/emails/embed-subscribe/YOUR_BUTTONDOWN_USERNAME" method="post" target="_blank">
+      <form id="signup-form" action="https://buttondown.com/api/emails/embed-subscribe/RidezAlbumReviews" method="post" target="_blank" rel="noopener">
         <input type="hidden" name="embed" value="1">
 
         <div class="choice" role="group" aria-label="Notification scope">
           <button type="button" class="choice-btn" id="choice-all" aria-pressed="true">Every new review</button>
           <button type="button" class="choice-btn" id="choice-specific" aria-pressed="false">Specific albums</button>
         </div>
-
-        <input type="hidden" name="tag" value="all-reviews" id="tag-all">
 
         <div class="album-search" id="album-search" hidden>
           <label class="sr" for="album-q">Search albums on deck</label>
@@ -263,8 +261,12 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
           <input type="email" name="email" id="signup-email" placeholder="you@example.com" required maxlength="254" autocomplete="email">
         </div>
 
+        <!-- spam trap: hidden from people, filled in by bots; Formspree drops anything that sets it -->
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label>Leave this empty <input type="text" id="signup-gotcha" tabindex="-1" autocomplete="off"></label>
+        </div>
         <button type="submit" class="submit">Sign Up</button>
-        <p class="hint" id="signup-hint">You'll get an email for every new review.</p>
+        <p class="hint" id="signup-hint" role="status" aria-live="polite">You'll get an email for every new review.</p>
       </form>
     </div>
   </section>
@@ -274,7 +276,7 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
       <h2>Request an album</h2>
       <p class="lede">Something you want reviewed?</p>
 
-      <form id="request-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="post">
+      <form id="request-form" action="https://formspree.io/f/xqpqqdlj" method="post">
         <div class="field">
           <label class="sr" for="request-album">Artist and album</label>
           <input type="text" name="album" id="request-album" placeholder="Artist – Album title" required maxlength="160" autocomplete="off">
@@ -284,7 +286,7 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
           <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         </div>
         <button type="submit" class="submit">Request</button>
-        <p class="hint error" id="request-error" hidden>Something went wrong. Try again.</p>
+        <p class="hint error" id="request-error" role="status" aria-live="polite" hidden>Something went wrong. Try again.</p>
       </form>
     </div>
   </section>
@@ -294,7 +296,7 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 <div class="modal-overlay" id="request-modal" hidden>
   <div class="modal">
     <p class="modal-title" id="modal-title">Thanks, it's on the list.</p>
-    <p class="modal-body" id="modal-body">Want an email when it's up?</p>
+    <p class="modal-body" id="modal-body" role="status" aria-live="polite">Want an email when it's up?</p>
     <div class="modal-row" id="modal-row">
       <label class="sr" for="modal-email">Email address</label>
       <input type="email" id="modal-email" placeholder="you@example.com" maxlength="254">
@@ -303,7 +305,6 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
     <button type="button" id="modal-skip" class="modal-skip">No thanks</button>
   </div>
 </div>
-<iframe name="silent-target" style="display:none" aria-hidden="true" title="background form target"></iframe>
 
 <footer>
   <div class="wrap foot-inner">
@@ -317,12 +318,6 @@ footer{border-top:1px solid var(--line);background:var(--haze);padding:30px 0;fo
 <script src="/albums/data/reviews-data.js"></script>
 <script src="/albums/js/search.js" defer></script>
 <script>
-// Same slug rule as scripts/parse_reviews.py, so a tag here matches the
-// review's real slug once it's written.
-function slugify(title) {
-  return String(title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "untitled";
-}
-
 const esc = s => String(s == null ? "" : s)
   .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
@@ -335,9 +330,8 @@ const esc = s => String(s == null ? "" : s)
     document.getElementById("choice-specific").disabled = true;
   } else {
     list.innerHTML = q.map(function (a) {
-      var slug = slugify(a.title);
       return '<label class="album-row" data-i="' + q.indexOf(a) + '">' +
-        '<input type="checkbox" name="tag" value="album-' + slug + '" disabled>' +
+        '<input type="checkbox" value="' + esc(a.title + " - " + a.artist) + '" disabled>' +
         '<b>' + esc(a.title) + '</b><span>' + esc(a.artist) + '</span>' +
         (a.year ? '<span class="yr">' + esc(a.year) + '</span>' : '') +
         '</label>';
@@ -346,7 +340,6 @@ const esc = s => String(s == null ? "" : s)
 
   var btnAll = document.getElementById("choice-all");
   var btnSpecific = document.getElementById("choice-specific");
-  var tagAll = document.getElementById("tag-all");
   var hint = document.getElementById("signup-hint");
   var checkboxes = list.querySelectorAll('input[type="checkbox"]');
 
@@ -376,26 +369,46 @@ const esc = s => String(s == null ? "" : s)
     btnSpecific.setAttribute("aria-pressed", String(specific));
     list.hidden = !specific;
     search.hidden = !specific || !q.length;
-    tagAll.disabled = specific;
     checkboxes.forEach(function (cb) { cb.disabled = !specific; });
     hint.textContent = specific
-      ? "You'll only get an email for the albums you check above."
+      ? "You'll get an email when the albums you check are reviewed."
       : "You'll get an email for every new review.";
+    hint.classList.remove("error");
   }
 
   btnAll.addEventListener("click", function () { setMode(false); });
   btnSpecific.addEventListener("click", function () { setMode(true); });
 
-  document.getElementById("signup-form").addEventListener("submit", function (e) {
+  // "Every new review" posts to Buttondown as a normal form. "Specific albums"
+  // goes to Formspree instead (Buttondown's free plan can't record which albums
+  // someone wants): the owner gets an email listing them and writes back when
+  // those reviews are up.
+  var form = document.getElementById("signup-form");
+  form.addEventListener("submit", function (e) {
+    var specific = btnSpecific.getAttribute("aria-pressed") === "true";
+    var picked = Array.prototype.filter.call(checkboxes, function (cb) { return cb.checked; })
+      .map(function (cb) { return cb.value; });
+    function warn(msg) { e.preventDefault(); hint.classList.add("error"); hint.textContent = msg; }
+    if (specific && !picked.length) return warn("Pick at least one album, or switch to \"Every new review.\"");
     var blocked = allowSubmit("ar-signup");
-    if (blocked) { e.preventDefault(); alert(blocked); return; }
-    if (btnSpecific.getAttribute("aria-pressed") === "true") {
-      var anyChecked = Array.prototype.some.call(checkboxes, function (cb) { return cb.checked; });
-      if (!anyChecked) {
-        e.preventDefault();
-        alert("Pick at least one album, or switch to \"Every new review.\"");
-      }
-    }
+    if (blocked) return warn(blocked);
+    if (!specific) return;
+
+    e.preventDefault();
+    var btn = form.querySelector("button[type=submit]");
+    btn.disabled = true;
+    sendNotify(document.getElementById("signup-email").value.trim(), picked, document.getElementById("signup-gotcha").value)
+      .then(function () {
+        form.reset();
+        checkboxes.forEach(function (cb) { cb.checked = false; });
+        hint.classList.remove("error");
+        hint.textContent = "Done. You'll get an email when " + (picked.length === 1 ? "it's" : "they're") + " reviewed.";
+      })
+      .catch(function () {
+        hint.classList.add("error");
+        hint.textContent = "Something went wrong. Try again.";
+      })
+      .then(function () { btn.disabled = false; });
   });
 })();
 
@@ -404,11 +417,28 @@ const esc = s => String(s == null ? "" : s)
 function allowSubmit(key) {
   var now = Date.now(), MIN_GAP = 20000, MAX_PER_HOUR = 5, list = [];
   try { list = JSON.parse(localStorage.getItem(key) || "[]").filter(function (t) { return now - t < 3600000; }); } catch (e) { list = []; }
-  if (list.length && now - list[list.length - 1] < MIN_GAP) return "Wait a few seconds and try again.";
+  if (list.length && now - list[list.length - 1] < MIN_GAP) {
+    var wait = Math.ceil((MIN_GAP - (now - list[list.length - 1])) / 1000);
+    return "Please wait " + wait + " second" + (wait === 1 ? "" : "s") + " before sending again.";
+  }
   if (list.length >= MAX_PER_HOUR) return "Too many requests. Try again later.";
   list.push(now);
   try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) { /* storage blocked: allow */ }
   return "";
+}
+
+// ---- "tell me when these are reviewed": one Formspree submission per sign-up ----
+function sendNotify(email, albums, gotcha) {
+  var data = new FormData();
+  data.append("email", email);
+  data.append("albums", albums.join("\n"));
+  // the subject names up to three albums; the full list is in the body
+  data.append("_subject", "Notify when reviewed: " + albums.slice(0, 3).join(", ") +
+    (albums.length > 3 ? " +" + (albums.length - 3) + " more" : ""));
+  if (gotcha) data.append("_gotcha", gotcha);
+  return fetch(document.getElementById("request-form").action, {
+    method: "POST", body: data, headers: { "Accept": "application/json" },
+  }).then(function (res) { if (!res.ok) throw new Error("bad response"); });
 }
 
 // ---- request an album: record it, then optionally offer email notify ----
@@ -435,21 +465,6 @@ function allowSubmit(key) {
   }
   function closeModal() { modal.hidden = true; }
 
-  // A real, unseen <form> POST - not fetch - so no CORS issue, same as
-  // Buttondown's own recommended embed pattern.
-  function submitSilently(action, fields) {
-    var f = document.createElement("form");
-    f.action = action; f.method = "post"; f.target = "silent-target"; f.style.display = "none";
-    Object.keys(fields).forEach(function (key) {
-      var input = document.createElement("input");
-      input.name = key; input.value = fields[key];
-      f.appendChild(input);
-    });
-    document.body.appendChild(f);
-    f.submit();
-    setTimeout(function () { f.remove(); }, 1000);
-  }
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     errorMsg.hidden = true;
@@ -474,15 +489,16 @@ function allowSubmit(key) {
   document.getElementById("modal-notify").addEventListener("click", function () {
     var email = modalEmail.value.trim();
     if (!email || !modalEmail.checkValidity()) { modalEmail.focus(); return; }
-    if (allowSubmit("ar-notify")) { modalBody.textContent = "Please wait a moment before trying again."; return; }
-    var slug = slugify(pendingAlbum);
-    submitSilently("https://buttondown.com/api/emails/embed-subscribe/YOUR_BUTTONDOWN_USERNAME", {
-      email: email, embed: "1", tag: "album-" + slug,
-    });
-    modalTitle.textContent = "Nice — you're all set.";
-    modalBody.textContent = "You'll get an email when it's up.";
-    modalRow.hidden = true;
-    modalSkip.textContent = "Close";
+    var blocked = allowSubmit("ar-notify");
+    if (blocked) { modalBody.textContent = blocked; return; }
+    sendNotify(email, [pendingAlbum])
+      .then(function () {
+        modalTitle.textContent = "You're all set.";
+        modalBody.textContent = "You'll get an email when it's up.";
+        modalRow.hidden = true;
+        modalSkip.textContent = "Close";
+      })
+      .catch(function () { modalBody.textContent = "Something went wrong. Try again."; });
   });
 })();
 </script>

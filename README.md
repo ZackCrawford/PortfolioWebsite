@@ -122,9 +122,9 @@ category order and colours update automatically.
 
 </div>
 
-Static - no framework, no build step, no server. The source of truth is a
-folder of Word documents; a Python script parses them into the JS data the
-pages read.
+Static - no framework, no build step, no server. Reviews are written as Word
+documents, kept locally (not in the repo); a Python script parses them into
+`data/reviews-data.js`, which is what the pages read.
 
 ### Features
 
@@ -204,7 +204,7 @@ review/                                generated page per review (link previews)
 css/liner.css                          shared palette for the list pages
 js/                                    shared scripts (score colouring, search, On deck search, album colours)
 scripts/                               Python tooling (parser, cover art, review pages, email drafts, RSS feed)
-reviews/                               source .docx files, one per album
+reviews/                               source .docx files (local only, not in the repo)
 covers/                                downloaded album art
 ```
 

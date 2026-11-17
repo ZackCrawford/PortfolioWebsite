@@ -4,8 +4,11 @@ A static site for personal album reviews, served at `zackcrawford.com/albums`
 as part of the portfolio's single Vercel project. No build step, no framework,
 no package manager.
 
-The source of truth for review content is a folder of Word documents. A Python
-script parses them into a JS data file that the pages read.
+Reviews are written as Word documents in `reviews/`. Those files are
+**git-ignored and live only on the owner's machine**: the parser turns them into
+`data/reviews-data.js`, and that committed file is what the site uses. A full
+re-parse needs every `.docx` present locally, so back the folder up; for a
+single new review use `--only`, which merges into the existing data.
 
 ---
 
@@ -74,7 +77,7 @@ root (it applies the `vercel.json` rewrites; plain `http.server` can't).
 | `review.html` | Template for every review; the static pages are copies. Reads `window.REVIEW_SLUG` or `?album=<slug>`. |
 | `all.html` | Browse: 9 sorts, genre/score/decade/text filters, Random. |
 | `stats.html` | One scrolling page computed from `reviews-data.js`: headline numbers; cover chart (each album's cover stacked in its whole-score column, tier-coloured baseline, hover/focus tooltip); genre and decade bar lists with album count and average (genre rows open Browse filtered); highest/lowest five. |
-| `subscribe.html` | Email sign-up (every review, or specific On deck albums via a searchable checklist) and album requests (`#request`). |
+| `subscribe.html` | Sign-up: every review (Buttondown) or specific On deck albums via a searchable checklist (Formspree); album requests (`#request`, Formspree). |
 | `css/liner.css` | Shared palette + accent-heading rule for the four list pages, loaded after each page's own `<style>`. |
 | `js/score.js` | **Shared** score colour tiers + `window.scoreClass()`. Load before anything that colours a score. |
 | `js/search.js` | Header fuzzy search over reviews. Self-injects its styles. Needs a button with `data-search-toggle`. |
@@ -189,21 +192,31 @@ the masthead, back-to-top button after a screen of scrolling.
 
 ## Email notifications
 
-Sign-up posts straight to Buttondown and album requests to Formspree; no
-backend of ours. Two placeholders in `subscribe.html` need real values before
-either works: `YOUR_BUTTONDOWN_USERNAME` and `YOUR_FORMSPREE_ID` (both services
-must also be allowed in the CSP in `../vercel.json`).
+No backend of ours. Both services use `albums@zackcrawford.com`, a Cloudflare
+Email Routing address that forwards to the owner's Gmail.
 
-Buttondown tags subscribers: `all-reviews` (every review) or `album-<slug>`
-(one album; the slug matches the eventual review's slug, same rule). A request
-made through the free-text box tags `album-<slug>` from whatever was typed, so
-check that tag in Buttondown before sending for an album that wasn't queued.
+- **Every new review** -> the sign-up form posts to Buttondown (newsletter
+  `RidezAlbumReviews`, free plan). Buttondown handles double opt-in, the
+  welcome email and unsubscribes, and emails the owner about new subscribers.
+- **Specific albums** and the "Want an email when it's up?" popup after a
+  request -> Formspree (form `xqpqqdlj`), via `sendNotify()`. Buttondown's free
+  plan drops subscriber tags, so it can't record per-album interest. Each
+  submission emails the owner (subject "Notify when reviewed: …", the person's
+  address as reply-to); when that review is up, the owner replies to them.
+- **Request an album** -> the same Formspree form (`album` field).
 
-Sending is **manual, by design**. `draft_email.py <slug>` only creates a draft;
-pick the audience in Buttondown's dashboard ("Everyone" or "Custom -> Tag"),
-because their API dropped tag-scoped sending in 2024. `SITE_URL` in
-`draft_email.py` and `build_feed.py` is `https://zackcrawford.com/albums`;
-the two constants aren't shared, so update both if the URL changes.
+The CSP in `../vercel.json` allows `form-action` to Buttondown and Formspree and
+`connect-src` to Formspree (the fetch calls). A per-browser limit
+(`allowSubmit()`, timestamps in localStorage: one submission per 20 s, five an
+hour) blunts double-submits and casual spam before either service sees it, and
+both forms carry a hidden `_gotcha` honeypot that Formspree uses to drop bots
+(the sign-up form's has no `name`, so it never reaches Buttondown).
+
+Sending a new-review email is **manual**. `draft_email.py <slug>` creates a
+Buttondown draft (never sends; needs `BUTTONDOWN_API_KEY` in the environment);
+send it to everyone from Buttondown's dashboard. `SITE_URL` in
+`draft_email.py` and `build_feed.py` is `https://zackcrawford.com/albums`; the
+two constants aren't shared, so update both if the URL changes.
 
 ---
 
@@ -270,8 +283,8 @@ in sync.
   into `reviews-data.js`.
 - **`.json` won't load over `file://`** (CORS), which is why data files are
   `.js` with a `const`.
-- **No localStorage/sessionStorage.** Page state that must survive Back lives
-  in `history.state`.
+- **No storage for page state.** State that must survive Back lives in
+  `history.state`. The only localStorage use is the forms' submission limiter.
 - **`reviewed` dates are approximate.** The `.docx` files (Google Docs exports)
   have no Word metadata, so the parser falls back to file mtime. Bulk-copying
   the folder resets them and breaks "recently reviewed".
