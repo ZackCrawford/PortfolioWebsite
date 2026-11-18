@@ -67,7 +67,6 @@ const QUEUE = [
   { artist: "Metro Boomin"                     , title: "HEROES & VILLAINS", year: "2022" },
   { artist: "billy woods"                      , title: "Hiding Places", year: "2019" },
   { artist: "Bob Dylan"                        , title: "Highway 61 Revisited", year: "1965" },
-  { artist: "billy woods"                      , title: "History Will Absolve Me", year: "2012" },
   { artist: "YNW Melly"                        , title: "I AM YOU", year: "2018" },
   { artist: "JPEGMAFIA"                        , title: "I LAY DOWN MY LIFE FOR YOU", year: "2024" },
   { artist: "King Crimson"                     , title: "In The Court Of The Crimson King", year: "1969" },

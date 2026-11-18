@@ -42,4 +42,5 @@ const ALBUM_THEMES = {
   "who-really-cares": { surface: "#080102", accent: "#c81776", glow: ["#080102", "#c81776", "#183f93"], mode: "dark" },  // Who Really Cares
   "chromakopia": { surface: "#bdbaa2", accent: "#bdbaa2", glow: ["#bdbaa2", "#bdbaa2", "#bdbaa2"], mode: "dark" },  // CHROMAKOPIA
   "the-joshua-tree": { surface: "#070706", accent: "#d6d9dd", glow: ["#070706", "#d6d9dd", "#070706"], mode: "dark" },  // The Joshua Tree
+  "history-will-absolve-me": { surface: "#4a4a4a", accent: "#d6d9dd", glow: ["#4a4a4a", "#d6d9dd", "#4a4a4a"], mode: "dark" },  // History Will Absolve Me
 };

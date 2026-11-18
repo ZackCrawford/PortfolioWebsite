@@ -906,6 +906,188 @@ const REVIEWS = [
     "reviewed": "2026-07-23"
   },
   {
+    "slug": "history-will-absolve-me",
+    "title": "History Will Absolve Me",
+    "artist": "billy woods",
+    "year": "2012",
+    "genre": "Experimental Hip Hop",
+    "tab": "Hip-hop",
+    "tabs": [
+      "Hip-hop",
+      "Experimental"
+    ],
+    "listedTracks": 18,
+    "scoredTracks": 18,
+    "rawPoints": 168.0,
+    "bonusPoints": 0,
+    "potentialPoints": 180,
+    "percent": 93.33,
+    "finalScore": 9.6,
+    "adjustment": 2.67,
+    "adjustmentNote": "+2.67 Historical theme and continued references to central plot devices.",
+    "tracks": [
+      {
+        "n": 1,
+        "title": "A Mis Enemigos (High Tide)",
+        "score": 9,
+        "bonus": 0,
+        "note": "Imagery o' plenty. The type of lyricism I enjoy. It doesn't require the incessant use of similes or metaphors. Ties to Apartheid and the album cover of the 2nd Zimbabwean president, known for the 'failed' revolution. Interesting, considering that the quote 'History will absolve me' comes from Fidel Castro."
+      },
+      {
+        "n": 2,
+        "title": "Crocodile Tears",
+        "score": 9.5,
+        "bonus": 0,
+        "note": "The first half of the verse sounded off. Lyricism is there, but it wasn't pleasant. The second half of the first verse corrected it. Dear God, Penny wise, pound foolish. Bring the mountain to Mohammed, move pounds stupid is one of the best lines I've heard in a while. So many blended sounds. A metal-ish base with an electro synth tie."
+      },
+      {
+        "n": 3,
+        "title": "The Man Who Would Be King",
+        "score": 10.5,
+        "bonus": 0,
+        "note": "So many references to literature and historical significance for the attitude towards others and the colonization of Africa. Inclusion of the \"white man's burden\""
+      },
+      {
+        "n": 4,
+        "title": "Ca$h 4 Gold",
+        "score": 8,
+        "bonus": 0,
+        "note": "A tell on the state of life for many now. I can't wrap my head around the meaning of gold in this context since it doesn't seem like he is talking about the women in a positive light."
+      },
+      {
+        "n": 5,
+        "title": "Body of Work",
+        "score": 8,
+        "bonus": 0,
+        "note": "Nina Simone's part sounds like a sample opportunity."
+      },
+      {
+        "n": 6,
+        "title": "The Foreigner",
+        "score": 8.5,
+        "bonus": 0,
+        "note": "Incredible rhyme scheme. Ties to historical events during the Vietnam War. Always a history lesson with billy woods"
+      },
+      {
+        "n": 7,
+        "title": "Bill Cosby",
+        "score": 10,
+        "bonus": 0,
+        "note": "Rather short but amazing imagery for the family and represents so many households around the US, especially in black households."
+      },
+      {
+        "n": 8,
+        "title": "Freedmen's Bureau",
+        "score": 11,
+        "bonus": 0,
+        "note": "Easily my favorite by content so far. Even I have a problem with the mag-dumps being treated as defense when they clearly aren't."
+      },
+      {
+        "n": 9,
+        "title": "Blue Dream",
+        "score": 10,
+        "bonus": 0,
+        "note": "L'wren coming in after that sample was heavenly. Existentialism."
+      },
+      {
+        "n": 10,
+        "title": "DMCA",
+        "score": 7,
+        "bonus": 0,
+        "note": "A lot of anger comes through in this one. A tell on the change to licensing and the monetization of IPs."
+      },
+      {
+        "n": 11,
+        "title": "Pompeii",
+        "score": 12,
+        "bonus": 0,
+        "note": "I love the entirety of this. The call for the war crimes of a nation and the fact they rarely see justice and claim they were only following orders. Then the comparison to a kid who deals drugs in a similar fashion."
+      },
+      {
+        "n": 12,
+        "title": "Duck Hunt",
+        "score": 11,
+        "bonus": 0,
+        "note": "I love that billy woods has the ability to call out Christian rap, which I can imagine can easily be taken the wrong way immediately. The likeness of someone entering a jungle to preach just like colonizers. The attitude of using this medium to praise something has always rubbed me the wrong way as well. Artists like NF. A first look that I feel is truly Woods talking about himself, not just a story in the first person."
+      },
+      {
+        "n": 13,
+        "title": "Nigerian Email",
+        "score": 7.5,
+        "bonus": 0,
+        "note": "A really long instrumental in the middle."
+      },
+      {
+        "n": 14,
+        "title": "Pump up the Volume",
+        "score": 12,
+        "bonus": 0,
+        "note": "L'Wren acts as a 'pumped-up volume' of all the luxuries over the original song/message. All you want to do is dance and think of the high life. Excellent structure and historical callout for the murder of students, such as the Kent State massacre. The beat is perfect, with the ghostly sound of voices."
+      },
+      {
+        "n": 15,
+        "title": "Frozen Sunlight",
+        "score": 7.5,
+        "bonus": 0,
+        "note": "This song and a few others differ from the Spotify release and the online song list. More upbeat, but this isn't the jazz trumpet sound I like."
+      },
+      {
+        "n": 16,
+        "title": "Sour Grapes",
+        "score": 7.5,
+        "bonus": 0,
+        "note": "Rather laid-back in sound but not in tone."
+      },
+      {
+        "n": 17,
+        "title": "Human Resources",
+        "score": 9,
+        "bonus": 0,
+        "note": "Another call to Solomon's mines. A look into the future and humanity's place. Intelligent satellites watch everything, almost understanding Ted Kaczynski's motives."
+      },
+      {
+        "n": 18,
+        "title": "The Wake",
+        "score": 10,
+        "bonus": 0,
+        "note": "An amazing conclusion to an amazing album. A wake being something you go to when someone is lost to view them for the last time."
+      }
+    ],
+    "best": [
+      {
+        "title": "Pompeii",
+        "score": 12
+      },
+      {
+        "title": "Pump up the Volume",
+        "score": 12
+      },
+      {
+        "title": "Duck Hunt",
+        "score": 11
+      }
+    ],
+    "worst": [
+      {
+        "title": "DMCA",
+        "score": 7
+      },
+      {
+        "title": "Frozen Sunlight",
+        "score": 7.5
+      },
+      {
+        "title": "Nigerian Email",
+        "score": 7.5
+      }
+    ],
+    "finalWords": "An incredible album with the historical significance to make me educate myself on figures like William Tolbert and literature like King Solomon's Mines. The references to the racist trope of the \"white man's burden\" and the destruction of all of Africa from colonization. An unconventional, non-melody-based sound that makes it feel more like experimental hip-hop beats but with spoken-word lyrics.",
+    "about": [],
+    "facts": {},
+    "sourceFile": "History Will Absolve Me Album Review.docx",
+    "reviewed": "2026-10-15"
+  },
+  {
     "slug": "ta13oo",
     "title": "Ta13oo",
     "artist": "Denzel Curry",
